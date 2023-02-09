@@ -227,7 +227,7 @@ components:
         - endTime
       properties:
         frequency:
-          title: Service verification frequency
+          title: Service verification frequency in minutes
           type: integer
           format: int64
           default : 5
