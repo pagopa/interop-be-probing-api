@@ -30,7 +30,7 @@ paths:
         - Read
       operationId: getEserviceStatus
       responses:
-        '200':
+        '204':
           description: >-
             The e-service is up and running
         '500':                  
