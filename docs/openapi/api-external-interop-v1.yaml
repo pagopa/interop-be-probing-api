@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: 'E-Service Monitor PDND API specifications'
+  title: 'E-Service Monitor Interop API specifications'
   version: 1.0.0
   x-summary: 'E-Service Monitor APIs'
   description: >- 
