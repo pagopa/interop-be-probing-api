@@ -16,12 +16,12 @@ servers:
 - url: 'https://to-define/'
   description: Development environment
 tags:
-  - name: Read
+  - name: EServices
     description: >-
-      Read data operations.
-  - name: Write
+      Operations on EServices registry
+  - name: Probing
     description: >-
-      Insert/update data operations.
+      Operations on probing settings
 
 paths:
    "/eservices/{eserviceId}/versions/{versionId}/updateStatus":
