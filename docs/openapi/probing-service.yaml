@@ -16,7 +16,7 @@ servers:
 - url: 'https://to-define/'
   description: Development environment
 tags:
-  - name: Read
+  - name: InteropProbing
     description: >-
       Read data operations.
 
