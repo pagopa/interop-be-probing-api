@@ -24,7 +24,7 @@ tags:
       Operations on probing settings
 
 paths:
-   "/eservices/{eserviceId}/versions/{versionId}/updateStatus":
+   "/eservices/{eserviceId}/versions/{versionId}/updateState":
     post:
       summary: Updates the status of an e-service.
       description: >-
