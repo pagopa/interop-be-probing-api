@@ -49,7 +49,7 @@ paths:
             format: uuid
       requestBody:
         content:
-          application/json-patch+json:
+          application/json:
             schema:
                 $ref: "#/components/schemas/ChangeEServiceStatusDTO"
       responses:
