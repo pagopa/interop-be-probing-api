@@ -27,7 +27,7 @@ paths:
       description: >-
         Checks an e-service status
       tags:
-        - Read
+        - InteropProbing
       operationId: getEserviceStatus
       responses:
         '204':
