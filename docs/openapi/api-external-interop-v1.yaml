@@ -10,7 +10,7 @@ info:
     name: contactToDefinePagoPa
     email: toDefinePagoPa@pagopa.it
   license:
-    name: PDND's licence
+    name: Interop's licence
     url: 'https://to-define/'
 servers:
 - url: 'https://to-define/'
@@ -193,18 +193,18 @@ components:
     ChangeProbingStateDTO:
       type: object
       required:
-        - action
+        - probingState
       properties:
-        action:
-          $ref: '#/components/schemas/Action'
+        probingState:
+          $ref: '#/components/schemas/ProbingState'
           
     ChangeEServiceStateDTO:
       type: object
       required:
-        - state
+        - eServiceState
       properties:
-        state:
-          $ref: '#/components/schemas/State'
+        eServiceState:
+          $ref: '#/components/schemas/EServiceState'
           
     ChangeProbingFrequencyDTO:
       type: object
@@ -228,13 +228,13 @@ components:
           type: string
           format: time
           
-    Action:
+    ProbingState:
       type: string
       enum:
         - ENABLE 
         - DISABLE
         
-    State:
+    EServiceState:
       type: string
       enum:
         - ACTIVE 

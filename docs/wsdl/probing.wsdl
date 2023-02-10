@@ -10,7 +10,7 @@
 			<xsd:element name="response">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="status">
+						<xsd:element minOccurs="0" name="status">
 							<xsd:annotation>
 								<xsd:documentation>Http Status</xsd:documentation>
 							</xsd:annotation>
