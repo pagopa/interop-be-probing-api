@@ -10,7 +10,7 @@ info:
     name: contactToDefinePagoPa
     email: toDefinePagoPa@pagopa.it
   license:
-    name: PDND's licence
+    name: Interop's licence
     url: 'https://to-define/'
 servers:
 - url: 'https://to-define/'
