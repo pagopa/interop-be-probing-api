@@ -20,7 +20,7 @@
 								</xsd:restriction>
 							</xsd:simpleType>
 						</xsd:element>
-						<xsd:element name="descrizione">
+						<xsd:element name="description">
 							<xsd:annotation>
 								<xsd:documentation>Error status description</xsd:documentation>
 							</xsd:annotation>
