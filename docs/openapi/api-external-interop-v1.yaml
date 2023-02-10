@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   x-summary: 'E-Service Monitor APIs'
   description: >- 
-    OpenAPI specification for E-Service Monitor's services exposed for the PDND platform
+    OpenAPI specification for E-Service Monitor's services exposed for the Interop platform
   termsOfService: https://www.e-serviceurl-example.com/terms
   contact:
     name: contactToDefinePagoPa
