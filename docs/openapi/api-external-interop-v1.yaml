@@ -31,7 +31,7 @@ paths:
         Updates the state of the e-service identified by its id and version id.
       tags:
         - Write
-      operationId: updateStateService
+      operationId: updateEserviceState
       parameters:
         - name: eserviceId
           in: path
