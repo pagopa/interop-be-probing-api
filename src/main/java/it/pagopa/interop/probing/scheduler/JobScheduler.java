@@ -26,18 +26,31 @@ import it.pagopa.interop.probing.job.BucketReaderJob;
 public class JobScheduler {
 
 	/** The Constant INTEROP_JOB_GROUP. */
-	private static final String INTEROP_JOB_GROUP = "interop-job-group";
-	
+	private static final String INTEROP_JOB_GROUP_KEY = "interop-job-group";
+
+	private static final String BUCKET_READER_JOB_KEY = "BUCKET_READER_JOB";
+
+	/** The Constant RETRY_INITIAL_INTERVAL_SECS_KEY. */
+	private static final String RETRY_INITIAL_INTERVAL_SECS_KEY = "RETRY_INITIAL_INTERVAL_SECS";
+
 	/** The scheduler. */
 	private final Scheduler scheduler;
 
 	/** The cron expression notify. */
-	@Value("${scheduler.bucketReader.cron-expression}")
-	private String cronExpressionNotify;
-	
+	@Value("${scheduler.bucketReader.daily-minutes}")
+	private int dailyMin;
+
+	/** The daily hour. */
+	@Value("${scheduler.bucketReader.daily-hours}")
+	private int dailyHour;
+
 	/** The is active notify job. */
 	@Value("${scheduler.bucketReader.active}")
 	private boolean isActiveNotifyJob;
+
+	/** The retry interval secs. */
+	@Value("${scheduler.bucketReader.retry-initial-interval}")
+	private int retryIntervalSecs;
 
 	/**
 	 * Instantiates a new job scheduler.
@@ -64,31 +77,33 @@ public class JobScheduler {
 	 * @throws SchedulerException the scheduler exception
 	 */
 	public void scheduleRecoverBucketReader() throws SchedulerException {
-		JobKey jobKey = JobKey.jobKey("ProbingBucketReader", INTEROP_JOB_GROUP);
-		scheduleJob(jobKey, cronExpressionNotify, BucketReaderJob.class);
+		JobKey jobKey = JobKey.jobKey(BUCKET_READER_JOB_KEY, INTEROP_JOB_GROUP_KEY);
+		scheduleJob(jobKey, BucketReaderJob.class);
 	}
 
 	/**
 	 * Schedule job.
 	 *
-	 * @param jobKey the job key
-	 * @param cronExpression the cron expression
+	 * @param jobKey   the job key
 	 * @param jobClass the job class
-	 * @throws SchedulerException the scheduler exception
 	 */
-	private void scheduleJob(JobKey jobKey, String cronExpression, Class<? extends Job> jobClass)
-			throws SchedulerException {
-		for (Trigger trigger : scheduler.getTriggersOfJob(jobKey)) {
-			scheduler.unscheduleJob(trigger.getKey());
+	private void scheduleJob(JobKey jobKey, Class<? extends Job> jobClass) {
+		try {
+			for (Trigger trigger : scheduler.getTriggersOfJob(jobKey)) {
+				scheduler.unscheduleJob(trigger.getKey());
+			}
+			JobDetail job = JobBuilder.newJob(jobClass).withIdentity(jobKey)
+					.usingJobData(RETRY_INITIAL_INTERVAL_SECS_KEY, retryIntervalSecs).build();
+//			Trigger trigger = TriggerBuilder.newTrigger()
+//					.withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(dailyHour, dailyMin)).build();
+			/* TEST */
+			Trigger trigger = TriggerBuilder.newTrigger().withSchedule(
+					CronScheduleBuilder.cronSchedule("0 /1 * ? * *").inTimeZone(TimeZone.getTimeZone("Europe/Rome")))
+					.build();
+
+			scheduler.scheduleJob(job, trigger);
+		} catch (SchedulerException e) {
+			e.printStackTrace();
 		}
-
-		JobDetail job = JobBuilder.newJob(jobClass).withIdentity(jobKey).build();
-
-		Trigger trigger = TriggerBuilder.newTrigger().withSchedule(
-				CronScheduleBuilder.cronSchedule(cronExpression).inTimeZone(TimeZone.getTimeZone("Europe/Rome")))
-				.build();
-
-		scheduler.scheduleJob(job, trigger);
 	}
-
 }
