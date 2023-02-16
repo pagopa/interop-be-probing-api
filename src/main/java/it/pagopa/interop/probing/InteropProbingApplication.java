@@ -11,7 +11,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * The Class InteropProbingApplication.
  */
 @SpringBootApplication
-@EnableScheduling
 public class InteropProbingApplication {
 
 	/**

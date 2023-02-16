@@ -17,6 +17,12 @@ import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ *  The Constant log.
+ *
+ * @see JobFailureHandlingEvent
+ */
+
 /** The Constant log. */
 @Slf4j
 @Component

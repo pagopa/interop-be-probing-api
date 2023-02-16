@@ -16,6 +16,7 @@ import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import it.pagopa.interop.probing.job.BucketReaderJob;
 
@@ -100,7 +101,7 @@ public class JobScheduler {
 			Trigger trigger = TriggerBuilder.newTrigger().withSchedule(
 					CronScheduleBuilder.cronSchedule("0 /1 * ? * *").inTimeZone(TimeZone.getTimeZone("Europe/Rome")))
 					.build();
-
+			
 			scheduler.scheduleJob(job, trigger);
 		} catch (SchedulerException e) {
 			e.printStackTrace();

@@ -35,6 +35,6 @@ public class ServicesReceiver {
 	@SqsListener(value = "${amazon.sqs.end-point.services-queue}", deletionPolicy = SqsMessageDeletionPolicy.ON_SUCCESS)
 	public void receiveStringMessage(final String message) throws NoSuchAlgorithmException, IOException {
 		EserviceDTO service = mapper.readValue(message, EserviceDTO.class);
-		System.out.println(service.getEserviceId());
+		log.info(service.getEserviceId());
 		}
 	}
