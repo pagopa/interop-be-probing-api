@@ -6,21 +6,15 @@ package it.pagopa.interop.probing.job;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
-import it.pagopa.interop.probing.dto.EserviceDTO;
 import it.pagopa.interop.probing.producer.ServicesSend;
 import it.pagopa.interop.probing.service.BucketService;
 import lombok.extern.slf4j.Slf4j;
@@ -52,7 +46,7 @@ public class BucketReaderJob implements Job {
 		String jobName = context.getJobDetail().getKey().getName();
 		log.info(jobName + " started at :" + LocalDateTime.now());
 		LocalDateTime start = LocalDateTime.now();
-
+		
 		LocalDateTime end = LocalDateTime.now();
 		log.info(jobName + " ended in: " + Duration.between(start, end).getSeconds() + " seconds at: " + Instant.now());
 	}
