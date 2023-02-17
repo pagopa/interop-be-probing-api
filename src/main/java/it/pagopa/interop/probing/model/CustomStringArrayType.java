@@ -59,16 +59,16 @@ public class CustomStringArrayType implements UserType {
 
     @Override
     public Serializable disassemble(Object o) throws HibernateException {
-        return null;
+        return (Serializable) o;
     }
 
     @Override
     public Object assemble(Serializable serializable, Object o) throws HibernateException {
-        return null;
+        return serializable;
     }
 
     @Override
     public Object replace(Object o, Object o1, Object o2) throws HibernateException {
-        return null;
+        return o;
     }
 }

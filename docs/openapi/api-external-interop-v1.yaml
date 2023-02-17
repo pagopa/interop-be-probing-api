@@ -273,7 +273,7 @@ components:
           maximum: 600
           minimum: 100
           type: integer
-          format: int64
+          format: int32
         title:
           description: A short, summary of the problem type. Written in english and readable
           example: Service Unavailable

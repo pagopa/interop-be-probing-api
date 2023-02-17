@@ -4,6 +4,7 @@ import it.pagopa.interop.probing.interop_be_probing.model.EServiceState;
 import it.pagopa.interop.probing.util.EserviceType;
 import lombok.*;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -17,6 +18,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name="eservices", uniqueConstraints=@UniqueConstraint(columnNames={"eservice_id", "version_id"}))
+@TypeDef(name = "basePathType", typeClass = CustomStringArrayType.class)
 @Getter
 @Setter
 public class Eservice implements Serializable {
@@ -26,7 +28,7 @@ public class Eservice implements Serializable {
     private long id;
 
     @Column(name="base_path", columnDefinition = "text[]")
-    @Type(type = "it.pagopa.interop.probing.model.CustomStringArrayType")
+    @Type(type = "basePathType")
     private String[] basePath;
 
     @Column(name="eservice_name")
@@ -38,7 +40,7 @@ public class Eservice implements Serializable {
 
     @NotNull
     @Column(name="eservice_id")
-    private UUID eserviceid;
+    private UUID eserviceId;
 
     @Column(name="last_request")
     private Timestamp lastRequest;
@@ -67,5 +69,5 @@ public class Eservice implements Serializable {
 
     @NotNull
     @Column(name="version_id")
-    private UUID versionid;
+    private UUID versionId;
 }
