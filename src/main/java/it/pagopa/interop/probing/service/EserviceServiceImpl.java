@@ -18,6 +18,6 @@ public class EserviceServiceImpl implements EserviceService {
     @Override
     public void updateEserviceState(UUID eserviceId, UUID versionId, EServiceState newState) {
         eserviceRepository.updateEserviceStateByEserviceIdAndVersionId(
-                eserviceId.toString(), versionId.toString(), newState.toString().toLowerCase());
+                eserviceId, versionId, newState.toString().toLowerCase());
     }
 }

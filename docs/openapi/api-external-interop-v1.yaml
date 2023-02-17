@@ -63,6 +63,13 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/Problem'
+        '404':
+          description: >-
+            The e-service hasn't been found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
         '500':                  
           description: >-
             A managed error has occured during the request elaboration
@@ -118,6 +125,13 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/Problem'
+        '404':
+          description: >-
+            The e-service hasn't been found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
         '500':                  
           description: >-
             A managed error has occured during the request elaboration
@@ -169,6 +183,13 @@ paths:
         '400':
           description: >-
             The provided input data is invalid
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: >-
+            The e-service hasn't been found
           content:
             application/problem+json:
               schema:
@@ -231,8 +252,8 @@ components:
     ProbingState:
       type: string
       enum:
-        - ENABLE 
-        - DISABLE
+        - ENABLED
+        - DISABLED
         
     EServiceState:
       type: string

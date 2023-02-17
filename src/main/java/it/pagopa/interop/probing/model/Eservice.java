@@ -1,11 +1,13 @@
 package it.pagopa.interop.probing.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import it.pagopa.interop.probing.interop_be_probing.model.EServiceState;
+import it.pagopa.interop.probing.util.EserviceType;
+import lombok.*;
+import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.UUID;
 
 /**
  * The persistent class for the eservices database table.
@@ -16,20 +18,24 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 public class Eservice implements Serializable {
-    @Id
-    @GeneratedValue
-    private Integer id;
 
-    @Column(name="base_path")
-    private String basePath;
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private long id;
+
+    @Column(name="base_path", columnDefinition = "text[]")
+    @Type(type = "it.pagopa.interop.probing.model.CustomStringArrayType")
+    private String[] basePath;
 
     @Column(name="eservice_name")
     private String eserviceName;
 
     @Column(name="eservice_type")
-    private String eserviceType;
+    @Enumerated(EnumType.STRING)
+    private EserviceType eserviceType;
 
-    private String eserviceid;
+    @Column(name="eservice_id")
+    private UUID eserviceid;
 
     @Column(name="last_checked")
     private Timestamp lastChecked;
@@ -37,19 +43,22 @@ public class Eservice implements Serializable {
     @Column(name="polling_end_time")
     private Timestamp pollingEndTime;
 
-    @Column(name="polling_frequency")
-    private BigDecimal pollingFrequency;
+    @Column(name="polling_frequency", columnDefinition = "integer default 5")
+    private Integer pollingFrequency;
 
     @Column(name="polling_start_time")
     private Timestamp pollingStartTime;
 
     @Column(name="probing_enabled")
-    private Boolean probingEnabled;
+    private boolean probingEnabled;
 
     @Column(name="producer_name")
     private String producerName;
 
-    private String state;
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "varchar default 'ACTIVE'")
+    private EServiceState state;
 
-    private String versionid;
+    @Column(name="version_id")
+    private UUID versionid;
 }

@@ -7,6 +7,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 @Repository
 public interface EserviceRepository extends CrudRepository<Eservice, Integer> {
 
@@ -14,7 +16,7 @@ public interface EserviceRepository extends CrudRepository<Eservice, Integer> {
     @Query("UPDATE Eservice eService set eService.state = :newState WHERE eService.eserviceid = :eserviceId " +
             "AND eService.versionid = :versionId")
     void updateEserviceStateByEserviceIdAndVersionId(
-            @Param("eserviceId") String eserviceId,
-            @Param("versionId") String versionId,
+            @Param("eserviceId") UUID eserviceId,
+            @Param("versionId") UUID versionId,
             @Param("newState") String newState);
 }
