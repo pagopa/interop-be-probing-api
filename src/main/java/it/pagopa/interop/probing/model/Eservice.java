@@ -5,7 +5,9 @@ import it.pagopa.interop.probing.util.EserviceType;
 import lombok.*;
 import org.hibernate.annotations.Type;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -14,7 +16,7 @@ import java.util.UUID;
  *
  */
 @Entity
-@Table(name="eservices")
+@Table(name="eservices", uniqueConstraints=@UniqueConstraint(columnNames={"eservice_id", "version_id"}))
 @Getter
 @Setter
 public class Eservice implements Serializable {
@@ -34,20 +36,24 @@ public class Eservice implements Serializable {
     @Enumerated(EnumType.STRING)
     private EserviceType eserviceType;
 
+    @NotNull
     @Column(name="eservice_id")
     private UUID eserviceid;
 
-    @Column(name="last_checked")
-    private Timestamp lastChecked;
+    @Column(name="last_request")
+    private Timestamp lastRequest;
+
+    @Column(name="response_received")
+    private Timestamp responseReceived;
 
     @Column(name="polling_end_time")
-    private Timestamp pollingEndTime;
+    private Time pollingEndTime;
 
     @Column(name="polling_frequency", columnDefinition = "integer default 5")
     private Integer pollingFrequency;
 
     @Column(name="polling_start_time")
-    private Timestamp pollingStartTime;
+    private Time pollingStartTime;
 
     @Column(name="probing_enabled")
     private boolean probingEnabled;
@@ -59,6 +65,7 @@ public class Eservice implements Serializable {
     @Column(columnDefinition = "varchar default 'ACTIVE'")
     private EServiceState state;
 
+    @NotNull
     @Column(name="version_id")
     private UUID versionid;
 }
