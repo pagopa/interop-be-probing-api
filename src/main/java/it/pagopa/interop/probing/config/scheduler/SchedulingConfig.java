@@ -16,7 +16,7 @@
 ** --/1.0  |  Initial Create.
 **---------|------------------------------------------------------------------
 ***************************************************************************/
-package it.pagopa.interop.probing.config;
+package it.pagopa.interop.probing.config.scheduler;
 
 import java.io.IOException;
 import java.util.Properties;

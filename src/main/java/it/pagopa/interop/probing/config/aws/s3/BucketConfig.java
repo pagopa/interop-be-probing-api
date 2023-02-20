@@ -1,4 +1,4 @@
-package it.pagopa.interop.probing.config;
+package it.pagopa.interop.probing.config.aws.s3;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

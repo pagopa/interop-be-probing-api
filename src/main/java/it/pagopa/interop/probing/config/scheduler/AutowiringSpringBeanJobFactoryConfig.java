@@ -1,7 +1,7 @@
 /*
  * 
  */
-package it.pagopa.interop.probing.config;
+package it.pagopa.interop.probing.config.scheduler;
 
 import org.quartz.spi.TriggerFiredBundle;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
