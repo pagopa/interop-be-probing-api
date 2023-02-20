@@ -2,7 +2,7 @@
 *
 * Copyright 2023 (C) DXC
 *
-* Created on  : Feb 20, 2023
+* Created on  : 20 Feb 2023
 * Author      : dxc technology
 * Project Name: interop-be-probing 
 * Package     : it.pagopa.interop.probing.model
@@ -43,7 +43,6 @@ import it.pagopa.interop.probing.util.EserviceType;
 import lombok.Getter;
 import lombok.Setter;
 
-// TODO: Auto-generated Javadoc
 /**
  * The persistent class for the eservices database table.
  *
@@ -57,7 +56,31 @@ import lombok.Setter;
  *
  * @return the version id
  */
+
+/**
+ * Gets the version id.
+ *
+ * @return the version id
+ */
+
+/**
+ * Gets the version id.
+ *
+ * @return the version id
+ */
 @Getter
+
+/**
+ * Sets the version id.
+ *
+ * @param versionId the new version id
+ */
+
+/**
+ * Sets the version id.
+ *
+ * @param versionId the new version id
+ */
 
 /**
  * Sets the version id.
