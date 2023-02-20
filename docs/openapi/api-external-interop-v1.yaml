@@ -31,7 +31,7 @@ paths:
         Updates the state of the e-service identified by its id and version id.
       tags:
         - Write
-      operationId: updateStateService
+      operationId: updateEserviceState
       parameters:
         - name: eserviceId
           in: path
@@ -59,6 +59,13 @@ paths:
         '400':
           description: >-
             The provided input data is invalid
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: >-
+            The e-service hasn't been found
           content:
             application/problem+json:
               schema:
@@ -118,6 +125,13 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/Problem'
+        '404':
+          description: >-
+            The e-service hasn't been found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
         '500':                  
           description: >-
             A managed error has occured during the request elaboration
@@ -169,6 +183,13 @@ paths:
         '400':
           description: >-
             The provided input data is invalid
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: >-
+            The e-service hasn't been found
           content:
             application/problem+json:
               schema:
@@ -231,8 +252,8 @@ components:
     ProbingState:
       type: string
       enum:
-        - ENABLE 
-        - DISABLE
+        - ENABLED
+        - DISABLED
         
     EServiceState:
       type: string
