@@ -5,7 +5,6 @@ package it.pagopa.interop.probing;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * The Class InteropProbingApplication.

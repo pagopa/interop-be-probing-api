@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.awspring.cloud.messaging.listener.SqsMessageDeletionPolicy;
 import io.awspring.cloud.messaging.listener.annotation.SqsListener;
 import it.pagopa.interop.probing.dto.EserviceDTO;
+import it.pagopa.interop.probing.service.EserviceService;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -23,6 +24,8 @@ public class ServicesReceiver {
 	@Autowired
 	ObjectMapper mapper;
 	
+	@Autowired
+	EserviceService eserviceService;
 	/**
 	 * Receive string message from a sqs queue which will be used for the services update/storage .
 	 *
@@ -35,6 +38,7 @@ public class ServicesReceiver {
 	@SqsListener(value = "${amazon.sqs.end-point.services-queue}", deletionPolicy = SqsMessageDeletionPolicy.ON_SUCCESS)
 	public void receiveStringMessage(final String message) throws NoSuchAlgorithmException, IOException {
 		EserviceDTO service = mapper.readValue(message, EserviceDTO.class);
-		log.info(service.getEserviceId());
+		eserviceService.saveService(service);
+		log.info("" + service.getEserviceId());
 		}
 	}

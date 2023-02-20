@@ -25,6 +25,9 @@ public class BucketServiceImpl implements BucketService{
 	@Qualifier("bucket-s3")
 	AmazonS3 s3Client;
 
+	@Autowired
+	ObjectMapper objectMapper;
+	
 	@Value("${amazon.bucketS3.name}")
 	private String bucketName;
 
@@ -33,12 +36,11 @@ public class BucketServiceImpl implements BucketService{
 
 	public List<EserviceDTO> readObject(){
 
-		ObjectMapper objectMapper = new ObjectMapper();
 		List<EserviceDTO> listProva = new ArrayList<>();
 
 		try {
 			S3Object s3Object = s3Client.getObject(new GetObjectRequest(bucketName, bucketKey));
-			listProva = objectMapper.readValue(s3Object.getObjectContent(), new TypeReference<List<EserviceDTO>>(){});			
+			listProva = objectMapper.readValue(s3Object.getObjectContent(), new TypeReference<List<EserviceDTO>>(){});				
 		} catch (Exception e) {
 			log.error("Error in : {} ", bucketName + " - " + e.getMessage());
 		}

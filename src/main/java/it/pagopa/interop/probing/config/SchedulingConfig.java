@@ -31,7 +31,6 @@ import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 import it.pagopa.interop.probing.listener.JobFailureHandlingListener;
 import lombok.extern.slf4j.Slf4j;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class SchedulingConfig.
  */
