@@ -17,7 +17,7 @@ public final class AutowiringSpringBeanJobFactoryConfig extends SpringBeanJobFac
 		implements ApplicationContextAware {
 
 	/** The bean factory. */
-	private transient AutowireCapableBeanFactory beanFactory;
+	private AutowireCapableBeanFactory beanFactory;
 
 	/**
 	 * Sets the application context.

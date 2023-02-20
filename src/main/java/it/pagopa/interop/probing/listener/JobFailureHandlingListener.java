@@ -67,6 +67,7 @@ public class JobFailureHandlingListener implements JobListener {
 	 */
 	@Override
 	public void jobExecutionVetoed(JobExecutionContext context) {
+		/* Do nothing because it is unused */
 	}
 
 	/**
