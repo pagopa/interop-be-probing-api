@@ -15,11 +15,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import it.pagopa.interop.probing.dto.EserviceDTO;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
-@Slf4j
-public class BucketServiceImpl implements BucketService{
+public class BucketServiceImpl implements BucketService {
 
 	@Autowired
 	@Qualifier("bucket-s3")
@@ -27,25 +25,20 @@ public class BucketServiceImpl implements BucketService{
 
 	@Autowired
 	ObjectMapper objectMapper;
-	
+
 	@Value("${amazon.bucketS3.name}")
 	private String bucketName;
 
 	@Value("${amazon.bucketS3.key}")
 	private String bucketKey;
 
-	public List<EserviceDTO> readObject(){
+	public List<EserviceDTO> readObject() throws Exception {
 
 		List<EserviceDTO> listProva = new ArrayList<>();
-
-		try {
-			S3Object s3Object = s3Client.getObject(new GetObjectRequest(bucketName, bucketKey));
-			listProva = objectMapper.readValue(s3Object.getObjectContent(), new TypeReference<List<EserviceDTO>>(){});				
-		} catch (Exception e) {
-			log.error("Error in : {} ", bucketName + " - " + e.getMessage());
-		}
+		S3Object s3Object = s3Client.getObject(new GetObjectRequest(bucketName, bucketKey));
+		listProva = objectMapper.readValue(s3Object.getObjectContent(), new TypeReference<List<EserviceDTO>>() {
+		});
 		return listProva;
 	}
-
 
 }

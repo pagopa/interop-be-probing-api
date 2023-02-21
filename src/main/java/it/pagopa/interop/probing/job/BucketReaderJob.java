@@ -16,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 import it.pagopa.interop.probing.dto.EserviceDTO;
 import it.pagopa.interop.probing.producer.ServicesSend;
 import it.pagopa.interop.probing.service.BucketService;
@@ -50,13 +48,13 @@ public class BucketReaderJob implements Job {
 		String jobName = context.getJobDetail().getKey().getName();
 		log.info(jobName + " started at :" + LocalDateTime.now());
 		LocalDateTime start = LocalDateTime.now();
-		List<EserviceDTO> listEservice = bucketService.readObject();
-		for (EserviceDTO eserviceDTO : listEservice) {
-			try {
+		try {
+			List<EserviceDTO> listEservice = bucketService.readObject();
+			for (EserviceDTO eserviceDTO : listEservice) {
 				producer.sendMessage(eserviceDTO, url);
-			} catch (JsonProcessingException e) {
-				log.error(e.getMessage());
 			}
+		} catch (Exception e) {
+			throw new JobExecutionException(e);
 		}
 		LocalDateTime end = LocalDateTime.now();
 		log.info(jobName + " ended in: " + Duration.between(start, end).getSeconds() + " seconds at: " + Instant.now());

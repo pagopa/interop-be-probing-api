@@ -6,5 +6,5 @@ import it.pagopa.interop.probing.dto.EserviceDTO;
 
 public interface BucketService {
 	
-	List<EserviceDTO> readObject();
+	List<EserviceDTO> readObject() throws Exception;
 }
