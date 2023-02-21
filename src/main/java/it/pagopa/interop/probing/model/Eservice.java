@@ -19,8 +19,8 @@ import java.util.UUID;
 @Entity
 @Table(name="eservices", uniqueConstraints=@UniqueConstraint(columnNames={"eservice_id", "version_id"}))
 @TypeDef(name = "basePathType", typeClass = CustomStringArrayType.class)
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 public class Eservice implements Serializable {
 
     @Id

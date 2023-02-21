@@ -51,7 +51,7 @@ paths:
         content:
           application/json:
             schema:
-                $ref: '#/components/schemas/ChangeEServiceStateDTO'
+                $ref: '#/components/schemas/ChangeEServiceStateRequest'
       responses:
         '204':
           description: >-
@@ -112,7 +112,7 @@ paths:
         content:
           application/json:
             schema:
-                $ref: '#/components/schemas/ChangeProbingStateDTO'
+                $ref: '#/components/schemas/ChangeProbingStateRequest'
         required: true
       responses:
         '204':
@@ -174,7 +174,7 @@ paths:
         content:
           application/json:
             schema:
-                $ref: '#/components/schemas/ChangeProbingFrequencyDTO'
+                $ref: '#/components/schemas/ChangeProbingFrequencyRequest'
         required: true
       responses:
         '204':
@@ -211,7 +211,7 @@ paths:
 
 components:
   schemas:
-    ChangeProbingStateDTO:
+    ChangeProbingStateRequest:
       type: object
       required:
         - probingState
@@ -219,7 +219,7 @@ components:
         probingState:
           $ref: '#/components/schemas/ProbingState'
           
-    ChangeEServiceStateDTO:
+    ChangeEServiceStateRequest:
       type: object
       required:
         - eServiceState
@@ -227,7 +227,7 @@ components:
         eServiceState:
           $ref: '#/components/schemas/EServiceState'
           
-    ChangeProbingFrequencyDTO:
+    ChangeProbingFrequencyRequest:
       type: object
       required:
         - frequency

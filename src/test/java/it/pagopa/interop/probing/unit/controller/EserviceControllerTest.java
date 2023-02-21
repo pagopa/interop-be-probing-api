@@ -2,11 +2,12 @@ package it.pagopa.interop.probing.unit.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.pagopa.interop.probing.exception.EserviceNotFoundException;
-import it.pagopa.interop.probing.interop_be_probing.model.ChangeEServiceStateDTO;
+import it.pagopa.interop.probing.interop_be_probing.model.ChangeEServiceStateRequest;
 import it.pagopa.interop.probing.interop_be_probing.model.EServiceState;
+import it.pagopa.interop.probing.mapstruct.dto.UpdateEserviceStateDto;
+import it.pagopa.interop.probing.mapstruct.mapper.MapStructMapper;
 import it.pagopa.interop.probing.rest.EserviceController;
 import it.pagopa.interop.probing.service.EserviceService;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,12 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -29,7 +29,8 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@WebMvcTest(controllers = EserviceController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
+
+@SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 class EserviceControllerTest {
@@ -37,17 +38,26 @@ class EserviceControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    MapStructMapper mapstructMapper;
+
     @MockBean
     private EserviceService service;
 
-    private ChangeEServiceStateDTO changeEServiceStateDTO;
+    private ChangeEServiceStateRequest changeEServiceStateRequest;
     private final UUID eServiceId = UUID.randomUUID();
     private final UUID versionId = UUID.randomUUID();
 
+    private UpdateEserviceStateDto updateEserviceStateDto;
+
     @BeforeEach
     void setup(){
-        changeEServiceStateDTO = new ChangeEServiceStateDTO();
-        changeEServiceStateDTO.seteServiceState(EServiceState.fromValue("ACTIVE"));
+        changeEServiceStateRequest = new ChangeEServiceStateRequest();
+        changeEServiceStateRequest.seteServiceState(EServiceState.fromValue("ACTIVE"));
+        updateEserviceStateDto = new UpdateEserviceStateDto();
+        updateEserviceStateDto.setEserviceId(eServiceId);
+        updateEserviceStateDto.setVersionId(versionId);
+        updateEserviceStateDto.setNewEServiceState(EServiceState.fromValue("ACTIVE"));
     }
 
     @Test
@@ -56,9 +66,9 @@ class EserviceControllerTest {
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post(
                 "/eservices/"+eServiceId +"/versions/"+versionId+"/updateState")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(changeEServiceStateDTO));
+                .content(new ObjectMapper().writeValueAsString(changeEServiceStateRequest));
 
-        Mockito.doNothing().when(service).updateEserviceState(eServiceId, versionId, EServiceState.ACTIVE);
+        Mockito.doNothing().when(service).updateEserviceState(updateEserviceStateDto);
 
         mockMvc.perform(requestBuilder).andExpect(status().isNoContent());
     }
@@ -69,9 +79,9 @@ class EserviceControllerTest {
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post(
                         "/eservices/"+eServiceId +"/versions/"+versionId+"/updateState")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(changeEServiceStateDTO));
+                .content(new ObjectMapper().writeValueAsString(changeEServiceStateRequest));
 
-        Mockito.doThrow(EserviceNotFoundException.class).when(service).updateEserviceState(eServiceId, versionId, EServiceState.ACTIVE);
+        Mockito.doThrow(EserviceNotFoundException.class).when(service).updateEserviceState(updateEserviceStateDto);
 
         mockMvc.perform(requestBuilder).andExpect(status().isNotFound());
     }

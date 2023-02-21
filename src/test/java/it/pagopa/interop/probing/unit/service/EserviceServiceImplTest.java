@@ -2,6 +2,7 @@ package it.pagopa.interop.probing.unit.service;
 
 import it.pagopa.interop.probing.exception.EserviceNotFoundException;
 import it.pagopa.interop.probing.interop_be_probing.model.EServiceState;
+import it.pagopa.interop.probing.mapstruct.dto.UpdateEserviceStateDto;
 import it.pagopa.interop.probing.model.Eservice;
 import it.pagopa.interop.probing.repository.EserviceRepository;
 import it.pagopa.interop.probing.service.EserviceService;
@@ -38,11 +39,16 @@ class EserviceServiceImplTest {
     private final UUID eServiceId = UUID.randomUUID();
     private final UUID versionId = UUID.randomUUID();
     private Eservice testService;
+    private UpdateEserviceStateDto updateEserviceStateDto;
 
     @BeforeEach
     void setup(){
         testService = new Eservice();
         testService.setState(EServiceState.ACTIVE);
+        updateEserviceStateDto = new UpdateEserviceStateDto();
+        updateEserviceStateDto.setEserviceId(eServiceId);
+        updateEserviceStateDto.setVersionId(versionId);
+        updateEserviceStateDto.setNewEServiceState(EServiceState.fromValue("INACTIVE"));
     }
 
     @Test
@@ -52,7 +58,7 @@ class EserviceServiceImplTest {
                 .thenReturn(Optional.of(testService));
         Mockito.when(eserviceRepository.save(Mockito.any(Eservice.class))).thenReturn(testService);
 
-        service.updateEserviceState(eServiceId, versionId, EServiceState.INACTIVE);
+        service.updateEserviceState(updateEserviceStateDto);
         Assertions.assertEquals(EServiceState.INACTIVE, testService.getState(),
                 () -> "e-service state should be INACTIVE");
     }
@@ -64,7 +70,7 @@ class EserviceServiceImplTest {
                 .thenReturn(Optional.empty());
 
         Assertions.assertThrows(EserviceNotFoundException.class, () ->{
-            service.updateEserviceState(eServiceId, versionId, EServiceState.INACTIVE);
+            service.updateEserviceState(updateEserviceStateDto);
         }, "e-service should not be found and an EserviceNotFoundException should be thrown");
     }
 }
