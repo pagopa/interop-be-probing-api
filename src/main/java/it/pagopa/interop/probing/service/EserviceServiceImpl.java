@@ -44,8 +44,8 @@ public class EserviceServiceImpl implements EserviceService {
 		eservice.setProducerName(eserviceNew.getProducerName());
 		eservice.setEserviceType(EserviceType.valueOf(eserviceNew.getType()));
 		eservice.setBasePath(eserviceNew.getBasePath());
-		eserviceRepository.save(eservice);
 		
-		return eservice.getId();
+		
+		return eserviceRepository.save(eservice).getId();
 	}
 }

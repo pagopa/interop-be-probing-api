@@ -3,8 +3,6 @@
  */
 package it.pagopa.interop.probing.scheduler;
 
-import java.util.TimeZone;
-
 import org.quartz.CronScheduleBuilder;
 import org.quartz.Job;
 import org.quartz.JobBuilder;
@@ -94,12 +92,12 @@ public class JobScheduler {
 			}
 			JobDetail job = JobBuilder.newJob(jobClass).withIdentity(jobKey)
 					.usingJobData(RETRY_INITIAL_INTERVAL_SECS_KEY, retryIntervalSecs).build();
-//			Trigger trigger = TriggerBuilder.newTrigger()
-//					.withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(dailyHour, dailyMin)).build();
+			Trigger trigger = TriggerBuilder.newTrigger()
+					.withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(dailyHour, dailyMin)).build();
 			/* TEST */
-			Trigger trigger = TriggerBuilder.newTrigger().withSchedule(
-					CronScheduleBuilder.cronSchedule("0 /1 * ? * *").inTimeZone(TimeZone.getTimeZone("Europe/Rome")))
-					.build();
+//			Trigger trigger = TriggerBuilder.newTrigger().withSchedule(
+//					CronScheduleBuilder.cronSchedule("0 /1 * ? * *").inTimeZone(TimeZone.getTimeZone("Europe/Rome")))
+//					.build();
 			
 			scheduler.scheduleJob(job, trigger);
 		} catch (SchedulerException e) {
