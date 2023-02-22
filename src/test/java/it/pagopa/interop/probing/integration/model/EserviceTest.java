@@ -45,7 +45,6 @@ class EserviceTest {
     @Test
     @DisplayName("e-service methods work")
     void testEserviceEntity_whenValidEserviceData_returnsEservice(){
-        System.out.println("ciao " + eservice.getEserviceName());
         Eservice eserviceDuplicate = testEntityManager.persistAndFlush(eservice);
         assertTrue(eserviceDuplicate.getId() > 0);
         assertEquals(eservice.getEserviceId(), eserviceDuplicate.getEserviceId());
