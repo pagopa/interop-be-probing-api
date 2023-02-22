@@ -74,7 +74,7 @@ public class Eservice implements Serializable {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "varchar default 'ACTIVE'")
+    @Column(columnDefinition = "varchar")
     private EServiceState state;
 
     @NotNull
