@@ -39,7 +39,7 @@ public class CustomStringArrayType implements UserType {
             throws HibernateException, SQLException {
         if(st != null){
             if (value != null) {
-                Array array = session.connection().createArrayOf("text", (String[])value);
+                Array array = session.connection().createArrayOf("varchar", (String[])value);
                 st.setArray(index, array);
             } else {
                 st.setNull(index, sqlTypes()[0]);

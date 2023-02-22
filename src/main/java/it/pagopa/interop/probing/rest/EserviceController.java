@@ -5,9 +5,13 @@ import it.pagopa.interop.probing.interop_be_probing.model.ChangeEServiceStateReq
 import it.pagopa.interop.probing.interop_be_probing.model.ChangeProbingFrequencyRequest;
 import it.pagopa.interop.probing.interop_be_probing.model.ChangeProbingStateRequest;
 import it.pagopa.interop.probing.mapstruct.mapper.MapStructMapper;
+import it.pagopa.interop.probing.model.Eservice;
+import it.pagopa.interop.probing.repository.EserviceRepository;
 import it.pagopa.interop.probing.service.EserviceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
@@ -19,6 +23,9 @@ public class EserviceController implements EservicesApi {
 
     @Autowired
     MapStructMapper mapstructMapper;
+
+    @Autowired
+    EserviceRepository repo;
 
     @Override
     public ResponseEntity<Void> updateEserviceFrequency(UUID eserviceId, UUID versionId, ChangeProbingFrequencyRequest changeProbingFrequencyRequest) throws Exception {
@@ -35,5 +42,10 @@ public class EserviceController implements EservicesApi {
         eserviceService.updateEserviceState(mapstructMapper.changeEServiceStateRequestDataToUpdateEserviceStateDto(
                 eserviceId, versionId, changeEServiceStateRequest));
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/add")
+    public void add(@RequestBody Eservice eservice){
+        repo.save(eservice);
     }
 }

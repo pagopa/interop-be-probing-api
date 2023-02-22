@@ -24,10 +24,11 @@ import java.util.UUID;
 public class Eservice implements Serializable {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "eservice_sequence")
+    @SequenceGenerator(name = "eservice_sequence",sequenceName = "eservice_sequence", allocationSize = 1)
     private long id;
 
-    @Column(name="base_path", columnDefinition = "text[]")
+    @Column(name="base_path", columnDefinition = "varchar[]")
     @Type(type = "basePathType")
     private String[] basePath;
 

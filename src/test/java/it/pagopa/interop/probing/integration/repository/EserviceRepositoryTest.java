@@ -1,4 +1,4 @@
-package it.pagopa.interop.probing.unit.repository;
+package it.pagopa.interop.probing.integration.repository;
 
 import it.pagopa.interop.probing.interop_be_probing.model.EServiceState;
 import it.pagopa.interop.probing.model.Eservice;
@@ -8,17 +8,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.ActiveProfiles;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
 @DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ActiveProfiles("test")
 class EserviceRepositoryTest {
 
     @Autowired
