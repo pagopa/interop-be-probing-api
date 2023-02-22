@@ -49,7 +49,7 @@ public class CustomStringArrayType implements UserType {
 
     @Override
     public Object deepCopy(Object o) throws HibernateException {
-        return null;
+        return o;
     }
 
     @Override

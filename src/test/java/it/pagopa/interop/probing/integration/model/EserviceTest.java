@@ -2,7 +2,7 @@ package it.pagopa.interop.probing.integration.model;
 
 import it.pagopa.interop.probing.interop_be_probing.model.EServiceState;
 import it.pagopa.interop.probing.model.Eservice;
-import org.junit.jupiter.api.Assertions;
+import it.pagopa.interop.probing.util.EserviceType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,6 +34,7 @@ class EserviceTest {
         eservice.setPollingEndTime(Time.valueOf("00:00:00"));
         eservice.setPollingStartTime(Time.valueOf("00:00:00"));
         eservice.setBasePath(new String[] {"test1", "test2"});
+        eservice.setEserviceType(EserviceType.REST);
         eservice.setPollingFrequency(5);
         eservice.setLastRequest(Timestamp.from(Instant.now()));
         eservice.setProducerName("producer1");
@@ -44,19 +45,20 @@ class EserviceTest {
     @Test
     @DisplayName("e-service methods work")
     void testEserviceEntity_whenValidEserviceData_returnsEservice(){
+        System.out.println("ciao " + eservice.getEserviceName());
         Eservice eserviceDuplicate = testEntityManager.persistAndFlush(eservice);
-        Assertions.assertTrue(eserviceDuplicate.getId() > 0);
-        Assertions.assertEquals(eservice.getEserviceId(), eserviceDuplicate.getEserviceId());
-        Assertions.assertEquals(eservice.getEserviceType(), eserviceDuplicate.getEserviceType());
-        Assertions.assertEquals(eservice.getEserviceName(), eserviceDuplicate.getEserviceName());
-        Assertions.assertEquals(eservice.getLastRequest(), eserviceDuplicate.getLastRequest());
-        Assertions.assertEquals(eservice.getBasePath(), eserviceDuplicate.getBasePath());
-        Assertions.assertEquals(eservice.getPollingEndTime(), eserviceDuplicate.getPollingEndTime());
-        Assertions.assertEquals(eservice.getPollingStartTime(), eserviceDuplicate.getPollingStartTime());
-        Assertions.assertEquals(eservice.getPollingFrequency(), eserviceDuplicate.getPollingFrequency());
-        Assertions.assertEquals(eservice.getProducerName(), eserviceDuplicate.getProducerName());
-        Assertions.assertEquals(eservice.getVersionId(), eserviceDuplicate.getVersionId());
-        Assertions.assertEquals(eservice.getResponseReceived(), eserviceDuplicate.getResponseReceived());
-        Assertions.assertEquals(eservice.isProbingEnabled(), eserviceDuplicate.isProbingEnabled());
+        assertTrue(eserviceDuplicate.getId() > 0);
+        assertEquals(eservice.getEserviceId(), eserviceDuplicate.getEserviceId());
+        assertEquals(eservice.getEserviceType(), eserviceDuplicate.getEserviceType());
+        assertEquals(eservice.getEserviceName(), eserviceDuplicate.getEserviceName());
+        assertEquals(eservice.getLastRequest(), eserviceDuplicate.getLastRequest());
+        assertEquals(eservice.getBasePath(), eserviceDuplicate.getBasePath());
+        assertEquals(eservice.getPollingEndTime(), eserviceDuplicate.getPollingEndTime());
+        assertEquals(eservice.getPollingStartTime(), eserviceDuplicate.getPollingStartTime());
+        assertEquals(eservice.getPollingFrequency(), eserviceDuplicate.getPollingFrequency());
+        assertEquals(eservice.getProducerName(), eserviceDuplicate.getProducerName());
+        assertEquals(eservice.getVersionId(), eserviceDuplicate.getVersionId());
+        assertEquals(eservice.getResponseReceived(), eserviceDuplicate.getResponseReceived());
+        assertEquals(eservice.isProbingEnabled(), eserviceDuplicate.isProbingEnabled());
     }
 }

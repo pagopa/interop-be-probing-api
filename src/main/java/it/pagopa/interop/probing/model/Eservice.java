@@ -28,13 +28,16 @@ public class Eservice implements Serializable {
     @SequenceGenerator(name = "eservice_sequence",sequenceName = "eservice_sequence", allocationSize = 1)
     private long id;
 
+    @NotNull
     @Column(name="base_path", columnDefinition = "varchar[]")
     @Type(type = "basePathType")
     private String[] basePath;
 
+    @NotNull
     @Column(name="eservice_name")
     private String eserviceName;
 
+    @NotNull
     @Column(name="eservice_type")
     @Enumerated(EnumType.STRING)
     private EserviceType eserviceType;
@@ -49,21 +52,27 @@ public class Eservice implements Serializable {
     @Column(name="response_received")
     private Timestamp responseReceived;
 
+    @NotNull
     @Column(name="polling_end_time")
     private Time pollingEndTime;
 
+    @NotNull
     @Column(name="polling_frequency", columnDefinition = "integer default 5")
     private Integer pollingFrequency;
 
+    @NotNull
     @Column(name="polling_start_time")
     private Time pollingStartTime;
 
+    @NotNull
     @Column(name="probing_enabled")
     private boolean probingEnabled;
 
+    @NotNull
     @Column(name="producer_name")
     private String producerName;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "varchar default 'ACTIVE'")
     private EServiceState state;

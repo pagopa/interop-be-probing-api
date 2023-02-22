@@ -7,7 +7,6 @@ import it.pagopa.interop.probing.model.Eservice;
 import it.pagopa.interop.probing.repository.EserviceRepository;
 import it.pagopa.interop.probing.service.EserviceService;
 import it.pagopa.interop.probing.service.EserviceServiceImpl;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,8 +27,6 @@ class EserviceServiceImplTest {
 
     @InjectMocks
     EserviceService service = new EserviceServiceImpl();
-
-    private final EServiceState newState = EServiceState.ACTIVE;
     private final UUID eServiceId = UUID.randomUUID();
     private final UUID versionId = UUID.randomUUID();
     private Eservice testService;
@@ -53,17 +50,17 @@ class EserviceServiceImplTest {
         Mockito.when(eserviceRepository.save(Mockito.any(Eservice.class))).thenReturn(testService);
 
         service.updateEserviceState(updateEserviceStateDto);
-        Assertions.assertEquals(EServiceState.INACTIVE, testService.getState(),
+        assertEquals(EServiceState.INACTIVE, testService.getState(),
                 () -> "e-service state should be INACTIVE");
     }
 
     @Test
     @DisplayName("e-service to update state not found")
-    void testUpdateEserviceState_whenNoEServiceIsFound_thenThrowsNotFoundException() throws EserviceNotFoundException {
+    void testUpdateEserviceState_whenNoEServiceIsFound_thenThrowsNotFoundException() {
         Mockito.when(eserviceRepository.findByEserviceIdAndVersionId(eServiceId, versionId))
                 .thenReturn(Optional.empty());
 
-        Assertions.assertThrows(EserviceNotFoundException.class, () ->{
+        assertThrows(EserviceNotFoundException.class, () ->{
             service.updateEserviceState(updateEserviceStateDto);
         }, "e-service should not be found and an EserviceNotFoundException should be thrown");
     }
