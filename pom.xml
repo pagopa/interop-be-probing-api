@@ -7,20 +7,21 @@
 	<artifactId>interop-be-probing</artifactId>
 	<version>1.0.1-SNAPSHOT</version>
 	<name>interop-probing</name>
-	<description>Register PDND Interop E-Service Probing</description>
+	<description>Register Interop E-Service Probing</description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 		<java.version>17</java.version>
-		
 		<springfox-version>2.8.0</springfox-version>
-		<openapi-generator-maven-plugin-version>5.1.0</openapi-generator-maven-plugin-version>
+		<openapi-generator-maven-plugin-version>5.1.0
+		</openapi-generator-maven-plugin-version>
 		<testcontainer-version>1.15.3</testcontainer-version>
 		<spring.cloud-version>2020.0.3</spring.cloud-version>
 		<spring.boot-version>2.5.2</spring.boot-version>
 		<awssdk.version>2.16.97</awssdk.version>
-		<logstash.logback.encoder-version>6.6 </logstash.logback.encoder-version>
+		<logstash.logback.encoder-version>6.6
+		</logstash.logback.encoder-version>
 		<jacoco.min.line.cover.ratio>0.10</jacoco.min.line.cover.ratio>
 		<sonar.coverage.jacoco.xmlReportPaths>
 			${project.reporting.outputDirectory}/jacoco-unit-test-coverage-report/jacoco.xml,${project.reporting.outputDirectory}/jacoco-integration-test-coverage-report/jacoco.xml
@@ -32,6 +33,7 @@
 		<name>PagoPa</name>
 		<url>https://www.pagopa.it</url>
 	</organization>
+
 	<dependencyManagement>
 		<dependencies>
 			<!-- Import dependency for AWS cloud -->
@@ -47,8 +49,18 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webflux</artifactId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 			<version>${spring.boot-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.2.15</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openapitools</groupId>
+			<artifactId>jackson-databind-nullable</artifactId>
+			<version>0.2.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -56,14 +68,20 @@
 			<version>${spring.boot-version}</version>
 		</dependency>
 		<dependency>
-			<groupId>software.amazon.awssdk</groupId>
-			<artifactId>sqs</artifactId>
-			<version>${awssdk.version}</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-quartz</artifactId>
+			<version>${spring.boot-version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.openapitools</groupId>
-			<artifactId>jackson-databind-nullable</artifactId>
-			<version>0.2.1</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<version>${spring.boot-version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<version>${spring.boot-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>
@@ -86,15 +104,6 @@
 			<version>2.10.1</version>
 		</dependency>
 		<dependency>
-			<groupId>io.awspring.cloud</groupId>
-			<artifactId>spring-cloud-starter-aws-messaging</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-quartz</artifactId>
-			<version>${spring.boot-version}</version>
-		</dependency>
-		<dependency>
 			<groupId>com.google.code.findbugs</groupId>
 			<artifactId>jsr305</artifactId>
 			<version>3.0.2</version>
@@ -110,14 +119,29 @@
 			<version>0.2.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<version>${spring.boot-version}</version>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-yaml</artifactId>
+			<version>2.13.4</version>
 		</dependency>
 		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter</artifactId>
-			<version>5.9.1</version>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.14.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.12.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>1.5.1.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>2.7.1</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -128,13 +152,18 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
-					<source>17</source> <!-- depending on your project -->
-					<target>17</target> <!-- depending on your project -->
+					<source>17</source>
+					<target>17</target>
 					<annotationProcessorPaths>
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
 							<version>1.18.24</version>
+						</path>
+						<path>
+							<groupId>org.mapstruct</groupId>
+							<artifactId>mapstruct-processor</artifactId>
+							<version>1.5.1.Final</version>
 						</path>
 						<!-- This is needed when using Lombok 1.18.16 and above -->
 						<path>
@@ -142,11 +171,7 @@
 							<artifactId>lombok-mapstruct-binding</artifactId>
 							<version>0.2.0</version>
 						</path>
-						<path>
-							<groupId>org.mapstruct</groupId>
-							<artifactId>mapstruct-processor</artifactId>
-							<version>1.5.1.Final</version>
-						</path>
+
 						<!-- other annotation processors -->
 					</annotationProcessorPaths>
 				</configuration>
@@ -300,6 +325,31 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
 				<version>3.0.0-M7</version>
+			</plugin>
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>${openapi-generator-maven-plugin-version}</version>
+				<executions>
+					<execution>
+						<id>spring-server</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/docs/openapi/api-external-interop-v1.yaml</inputSpec>
+							<generatorName>spring</generatorName>
+							<apiPackage>${project.groupId}.${project.artifactId}.api</apiPackage>
+							<modelPackage>${project.groupId}.${project.artifactId}.model</modelPackage>
+							<enablePostProcessFile>true</enablePostProcessFile>
+							<configOptions>
+								<serializableModel>true</serializableModel>
+								<interfaceOnly>true</interfaceOnly>
+								<unhandledException>true</unhandledException>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

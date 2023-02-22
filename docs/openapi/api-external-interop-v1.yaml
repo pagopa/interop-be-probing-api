@@ -31,7 +31,7 @@ paths:
         Updates the state of the e-service identified by its id and version id.
       tags:
         - Write
-      operationId: updateStateService
+      operationId: updateEserviceState
       parameters:
         - name: eserviceId
           in: path
@@ -51,7 +51,7 @@ paths:
         content:
           application/json:
             schema:
-                $ref: '#/components/schemas/ChangeEServiceStateDTO'
+                $ref: '#/components/schemas/ChangeEServiceStateRequest'
       responses:
         '204':
           description: >-
@@ -59,6 +59,13 @@ paths:
         '400':
           description: >-
             The provided input data is invalid
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: >-
+            The e-service hasn't been found
           content:
             application/problem+json:
               schema:
@@ -105,7 +112,7 @@ paths:
         content:
           application/json:
             schema:
-                $ref: '#/components/schemas/ChangeProbingStateDTO'
+                $ref: '#/components/schemas/ChangeProbingStateRequest'
         required: true
       responses:
         '204':
@@ -114,6 +121,13 @@ paths:
         '400':
           description: >-
             The provided input data is invalid
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: >-
+            The e-service hasn't been found
           content:
             application/problem+json:
               schema:
@@ -160,7 +174,7 @@ paths:
         content:
           application/json:
             schema:
-                $ref: '#/components/schemas/ChangeProbingFrequencyDTO'
+                $ref: '#/components/schemas/ChangeProbingFrequencyRequest'
         required: true
       responses:
         '204':
@@ -169,6 +183,13 @@ paths:
         '400':
           description: >-
             The provided input data is invalid
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: >-
+            The e-service hasn't been found
           content:
             application/problem+json:
               schema:
@@ -190,7 +211,7 @@ paths:
 
 components:
   schemas:
-    ChangeProbingStateDTO:
+    ChangeProbingStateRequest:
       type: object
       required:
         - probingState
@@ -198,7 +219,7 @@ components:
         probingState:
           $ref: '#/components/schemas/ProbingState'
           
-    ChangeEServiceStateDTO:
+    ChangeEServiceStateRequest:
       type: object
       required:
         - eServiceState
@@ -206,7 +227,7 @@ components:
         eServiceState:
           $ref: '#/components/schemas/EServiceState'
           
-    ChangeProbingFrequencyDTO:
+    ChangeProbingFrequencyRequest:
       type: object
       required:
         - frequency
@@ -231,8 +252,8 @@ components:
     ProbingState:
       type: string
       enum:
-        - ENABLE 
-        - DISABLE
+        - ENABLED
+        - DISABLED
         
     EServiceState:
       type: string
@@ -252,7 +273,7 @@ components:
           maximum: 600
           minimum: 100
           type: integer
-          format: int64
+          format: int32
         title:
           description: A short, summary of the problem type. Written in english and readable
           example: Service Unavailable
