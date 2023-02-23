@@ -1,4 +1,4 @@
-package it.pagopa.interop.probing.service;
+package it.pagopa.interop.probing.unit.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -11,28 +11,19 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import it.pagopa.interop.probing.InteropProbingApplication;
 import it.pagopa.interop.probing.dto.EserviceDTO;
 import it.pagopa.interop.probing.interop_be_probing.model.EServiceState;
 import it.pagopa.interop.probing.model.Eservice;
 import it.pagopa.interop.probing.repository.EserviceRepository;
+import it.pagopa.interop.probing.service.EserviceService;
+import it.pagopa.interop.probing.service.EserviceServiceImpl;
 
-@SpringBootTest(classes = InteropProbingApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureMockMvc
-@ExtendWith(MockitoExtension.class)
-@RunWith(SpringRunner.class)
-@TestPropertySource(properties = { "spring.quartz.properties.org.quartz.scheduler.skipUpdateCheck = true" })
+@SpringBootTest
  class EserviceServiceImplTest {
 
 	@InjectMocks
