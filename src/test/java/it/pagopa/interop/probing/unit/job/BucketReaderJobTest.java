@@ -18,15 +18,18 @@ import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobKey;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 
 import com.amazonaws.services.sqs.AmazonSQS;
 
+import it.pagopa.interop.probing.config.MockMessageListenerConfiguration;
 import it.pagopa.interop.probing.dto.EserviceDTO;
 import it.pagopa.interop.probing.job.BucketReaderJob;
 import it.pagopa.interop.probing.producer.ServicesSend;
 import it.pagopa.interop.probing.service.BucketServiceImpl;
 
 @SpringBootTest
+@Import({MockMessageListenerConfiguration.class})
  class BucketReaderJobTest {
 
 	@InjectMocks

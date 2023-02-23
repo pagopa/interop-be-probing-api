@@ -10,16 +10,19 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.model.SendMessageRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import it.pagopa.interop.probing.config.MockMessageListenerConfiguration;
 import it.pagopa.interop.probing.dto.EserviceDTO;
 import it.pagopa.interop.probing.producer.ServicesSend;
 
 @SpringBootTest
+@Import({MockMessageListenerConfiguration.class})
  class ServicesSendTest {
 
 	@Mock

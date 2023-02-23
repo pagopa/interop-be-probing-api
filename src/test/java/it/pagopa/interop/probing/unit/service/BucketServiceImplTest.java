@@ -16,19 +16,28 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 
+import it.pagopa.interop.probing.config.MockMessageListenerConfiguration;
+import it.pagopa.interop.probing.config.jacksonMapper.BeanDeserializerModifierWithValidation;
 import it.pagopa.interop.probing.dto.EserviceDTO;
 import it.pagopa.interop.probing.service.BucketService;
 import it.pagopa.interop.probing.service.BucketServiceImpl;
 
 @SpringBootTest
+@Import({MockMessageListenerConfiguration.class})
  class BucketServiceImplTest {
 
 	@Mock
@@ -77,6 +86,24 @@ import it.pagopa.interop.probing.service.BucketServiceImpl;
 		List<EserviceDTO> resp = bucketServiceImpl.readObject();
 		assertEquals(listProva.size(), resp.size());
 		assertEquals(stringList, objectMapper.writeValueAsString(resp));
+	}
+	
+	@Test
+	@DisplayName("readObject method is executed")
+	 void testValidateJacksonReadObject() throws Exception {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		mapper.registerModule(new ParameterNamesModule());
+		mapper.registerModule(new Jdk8Module());
+		mapper.registerModule(new JavaTimeModule());
+		SimpleModule validationModule = new SimpleModule();
+		validationModule.setDeserializerModifier(new BeanDeserializerModifierWithValidation());
+		mapper.registerModule(validationModule);
+		
+		String stringDto = mapper.writeValueAsString(listProva.get(0));
+		
+		EserviceDTO resultMap = mapper.readValue(stringDto, EserviceDTO.class);
+		assertEquals(listProva.get(0).getEserviceId(), resultMap.getEserviceId());
 	}
 
 }

@@ -15,7 +15,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 
+import it.pagopa.interop.probing.config.MockMessageListenerConfiguration;
 import it.pagopa.interop.probing.dto.EserviceDTO;
 import it.pagopa.interop.probing.interop_be_probing.model.EServiceState;
 import it.pagopa.interop.probing.model.Eservice;
@@ -24,6 +26,7 @@ import it.pagopa.interop.probing.service.EserviceService;
 import it.pagopa.interop.probing.service.EserviceServiceImpl;
 
 @SpringBootTest
+@Import({MockMessageListenerConfiguration.class})
  class EserviceServiceImplTest {
 
 	@InjectMocks

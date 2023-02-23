@@ -16,15 +16,18 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import it.pagopa.interop.probing.config.MockMessageListenerConfiguration;
 import it.pagopa.interop.probing.consumer.ServicesReceiver;
 import it.pagopa.interop.probing.dto.EserviceDTO;
 import it.pagopa.interop.probing.service.EserviceService;
 
 @SpringBootTest
+@Import({MockMessageListenerConfiguration.class})
  class ServicesReceiverTest {
 
 	@Mock

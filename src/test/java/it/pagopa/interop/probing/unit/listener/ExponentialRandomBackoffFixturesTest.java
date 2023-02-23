@@ -8,10 +8,13 @@ import java.util.Date;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 
+import it.pagopa.interop.probing.config.MockMessageListenerConfiguration;
 import it.pagopa.interop.probing.listener.ExponentialRandomBackoffFixtures;
 
 @SpringBootTest
+@Import({MockMessageListenerConfiguration.class})
  class ExponentialRandomBackoffFixturesTest {
 	
 	@Test

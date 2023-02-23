@@ -21,11 +21,14 @@ import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.quartz.TriggerKey;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 
+import it.pagopa.interop.probing.config.MockMessageListenerConfiguration;
 import it.pagopa.interop.probing.listener.JobFailureHandlingListener;
 
 @SpringBootTest
+@Import({MockMessageListenerConfiguration.class})
 @TestPropertySource(properties = { "scheduler.bucketReader.active = true" })
 class JobFailureHandlingListenerTest {
 
