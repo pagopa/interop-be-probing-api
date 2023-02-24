@@ -1,5 +1,6 @@
 package it.pagopa.interop.probing.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import it.pagopa.interop.probing.interop_be_probing.model.EServiceState;
 import it.pagopa.interop.probing.util.EserviceType;
 import lombok.*;
@@ -55,20 +56,20 @@ public class Eservice implements Serializable {
     @Column(name="last_request", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private OffsetDateTime lastRequest;
 
-    @Column(name="response_received", columnDefinition = "TIME WITH TIME ZONE")
+    @Column(name="response_received", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private OffsetDateTime responseReceived;
 
     @NotNull
-    @Column(name="polling_end_time",columnDefinition = "TIME WITH TIME ZONE")
-    private OffsetTime pollingEndTime;
+    @Column(name="polling_end_time", columnDefinition = "TIMESTAMP with time zone")
+    private OffsetDateTime pollingEndTime;
 
     @NotNull
     @Column(name="polling_frequency", columnDefinition = "integer default 5")
     private Integer pollingFrequency = 5;
 
     @NotNull
-    @Column(name="polling_start_time", columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private OffsetTime pollingStartTime;
+    @Column(name="polling_start_time", columnDefinition = "TIMESTAMP with time zone")
+    private OffsetDateTime pollingStartTime;
 
     @NotNull
     @Column(name="probing_enabled")

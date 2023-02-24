@@ -39,8 +39,10 @@ class EserviceRepositoryTest {
         eservice.setEserviceId(eServiceId);
         eservice.setVersionId(versionId);
         eservice.setEserviceName("e-service1");
-        eservice.setPollingEndTime(OffsetTime.of(0, 0,0,0, ZoneOffset.UTC));
-        eservice.setPollingStartTime(OffsetTime.of(0, 0,0,0, ZoneOffset.UTC));
+        eservice.setPollingEndTime(OffsetDateTime.of(2023, 12, 12, 1, 0, 0,
+                0, ZoneOffset.UTC));
+        eservice.setPollingStartTime(OffsetDateTime.of(2023, 12, 12, 1, 0, 0,
+                0, ZoneOffset.UTC));
         eservice.setBasePath(new String[] {"test1", "test2"});
         eservice.setEserviceType(EserviceType.REST);
         eservice.setPollingFrequency(5);
