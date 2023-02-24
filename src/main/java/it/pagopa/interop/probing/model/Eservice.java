@@ -81,6 +81,7 @@ public class Eservice implements Serializable {
 
     @NotNull
     @Enumerated(EnumType.STRING)
+    @Column(name = "state")
     private EServiceState state;
 
     @NotNull
