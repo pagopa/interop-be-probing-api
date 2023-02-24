@@ -52,10 +52,10 @@ public class Eservice implements Serializable {
     @Column(name="eservice_id")
     private UUID eserviceId;
 
-    @Column(name="last_request", precision = 16, columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    @Column(name="last_request", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private OffsetDateTime lastRequest;
 
-    @Column(name="response_received", precision = 16, columnDefinition = "TIME WITH TIME ZONE")
+    @Column(name="response_received", columnDefinition = "TIME WITH TIME ZONE")
     private OffsetDateTime responseReceived;
 
     @NotNull
