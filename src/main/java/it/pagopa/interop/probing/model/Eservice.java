@@ -6,10 +6,12 @@ import lombok.*;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.sql.Time;
-import java.sql.Timestamp;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
 import java.util.UUID;
 
 /**
@@ -26,14 +28,18 @@ public class Eservice implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "eservice_sequence")
     @SequenceGenerator(name = "eservice_sequence",sequenceName = "eservice_sequence", allocationSize = 1)
+    @Column(updatable = false)
     private long id;
 
     @NotNull
+    @Size(max = 255)
+    @Basic(optional = false)
     @Column(name="base_path", columnDefinition = "varchar[]")
     @Type(type = "basePathType")
     private String[] basePath;
 
-    @NotNull
+    @NotBlank
+    @Size(max = 255)
     @Column(name="eservice_name")
     private String eserviceName;
 
@@ -46,35 +52,35 @@ public class Eservice implements Serializable {
     @Column(name="eservice_id")
     private UUID eserviceId;
 
-    @Column(name="last_request")
-    private Timestamp lastRequest;
+    @Column(name="last_request", precision = 16, columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private OffsetDateTime lastRequest;
 
-    @Column(name="response_received")
-    private Timestamp responseReceived;
+    @Column(name="response_received", precision = 16, columnDefinition = "TIME WITH TIME ZONE")
+    private OffsetDateTime responseReceived;
 
     @NotNull
-    @Column(name="polling_end_time")
-    private Time pollingEndTime;
+    @Column(name="polling_end_time",columnDefinition = "TIME WITH TIME ZONE")
+    private OffsetTime pollingEndTime;
 
     @NotNull
     @Column(name="polling_frequency", columnDefinition = "integer default 5")
-    private Integer pollingFrequency;
+    private Integer pollingFrequency = 5;
 
     @NotNull
-    @Column(name="polling_start_time")
-    private Time pollingStartTime;
+    @Column(name="polling_start_time", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private OffsetTime pollingStartTime;
 
     @NotNull
     @Column(name="probing_enabled")
     private boolean probingEnabled;
 
-    @NotNull
+    @NotBlank
+    @Size(max = 255)
     @Column(name="producer_name")
     private String producerName;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "varchar")
     private EServiceState state;
 
     @NotNull

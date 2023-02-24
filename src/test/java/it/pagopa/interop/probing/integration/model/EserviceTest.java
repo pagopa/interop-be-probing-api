@@ -12,6 +12,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
+import java.time.ZoneOffset;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,6 +27,8 @@ class EserviceTest {
 
     Eservice eservice;
 
+    Eservice eservice1;
+
     @BeforeEach
     void setup(){
         eservice = new Eservice();
@@ -31,15 +36,17 @@ class EserviceTest {
         eservice.setEserviceId(UUID.randomUUID());
         eservice.setVersionId(UUID.randomUUID());
         eservice.setEserviceName("e-service1");
-        eservice.setPollingEndTime(Time.valueOf("00:00:00"));
-        eservice.setPollingStartTime(Time.valueOf("00:00:00"));
+        eservice.setPollingEndTime(OffsetTime.of(14, 10,10,10, ZoneOffset.UTC));
+        eservice.setPollingStartTime(OffsetTime.of(13, 10,10,10, ZoneOffset.UTC));
         eservice.setBasePath(new String[] {"test1", "test2"});
         eservice.setEserviceType(EserviceType.REST);
         eservice.setPollingFrequency(5);
-        eservice.setLastRequest(Timestamp.from(Instant.now()));
+        eservice.setLastRequest(OffsetDateTime.of(2023, 12, 12, 1, 0, 0,
+                0, ZoneOffset.UTC));
         eservice.setProducerName("producer1");
         eservice.setProbingEnabled(true);
-        eservice.setResponseReceived(Timestamp.from(Instant.now()));
+        eservice.setResponseReceived(OffsetDateTime.of(2023, 12, 12, 1, 0, 0,
+                0, ZoneOffset.UTC));
     }
 
     @Test
