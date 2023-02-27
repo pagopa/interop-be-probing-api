@@ -10,6 +10,6 @@ import java.util.UUID;
 @Repository
 public interface EserviceRepository extends JpaRepository<Eservice, Long> {
 
-    public Optional<Eservice> findByEserviceIdAndVersionId(@Param("eserviceId") UUID eserviceId,
+    Optional<Eservice> findByEserviceIdAndVersionId(@Param("eserviceId") UUID eserviceId,
                                                            @Param("versionId") UUID versionId);
 }

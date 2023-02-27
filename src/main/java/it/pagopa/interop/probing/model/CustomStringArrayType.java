@@ -1,10 +1,11 @@
 package it.pagopa.interop.probing.model;
-
+import org.apache.commons.lang3.SerializationUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.usertype.UserType;
-import java.io.Serializable;
+import java.io.*;
 import java.sql.*;
+import java.util.Objects;
 
 public class CustomStringArrayType implements UserType {
     @Override
@@ -19,12 +20,12 @@ public class CustomStringArrayType implements UserType {
 
     @Override
     public boolean equals(Object o, Object o1) throws HibernateException {
-        return false;
+        return Objects.equals(o, o1);
     }
 
     @Override
     public int hashCode(Object o) throws HibernateException {
-        return 0;
+        return o.hashCode();
     }
 
     @Override
@@ -49,8 +50,9 @@ public class CustomStringArrayType implements UserType {
 
     @Override
     public Object deepCopy(Object o) throws HibernateException {
-        return null;
+        return SerializationUtils.clone((String[])o);
     }
+
 
     @Override
     public boolean isMutable() {

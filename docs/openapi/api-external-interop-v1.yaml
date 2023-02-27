@@ -243,11 +243,11 @@ components:
         startTime:
           title: Service verification start time
           type: string
-          format: time
+          format: date-time
         endTime:
           title: Service verification end time
           type: string
-          format: time
+          format: date-time
           
     ProbingState:
       type: string
