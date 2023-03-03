@@ -1,9 +1,9 @@
 package it.pagopa.interop.probing.rest;
 
-import it.pagopa.interop.probing.interop_be_probing.api.EservicesApi;
-import it.pagopa.interop.probing.interop_be_probing.model.ChangeEServiceStateRequest;
-import it.pagopa.interop.probing.interop_be_probing.model.ChangeProbingFrequencyRequest;
-import it.pagopa.interop.probing.interop_be_probing.model.ChangeProbingStateRequest;
+import it.pagopa.interop.probing.interop_be_probing_api.api.EservicesApi;
+import it.pagopa.interop.probing.interop_be_probing_api.model.ChangeEserviceStateRequest;
+import it.pagopa.interop.probing.interop_be_probing_api.model.ChangeProbingFrequencyRequest;
+import it.pagopa.interop.probing.interop_be_probing_api.model.ChangeProbingStateRequest;
 import it.pagopa.interop.probing.mapstruct.mapper.MapStructMapper;
 import it.pagopa.interop.probing.service.EserviceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +26,18 @@ public class EserviceController implements EservicesApi {
     }
 
     @Override
-    public ResponseEntity<Void> updateEserviceProbingState(UUID eserviceId, UUID versionId, ChangeProbingStateRequest changeProbingStateRequest) throws Exception {
-        return EservicesApi.super.updateEserviceProbingState(eserviceId, versionId, changeProbingStateRequest);
+    public ResponseEntity<Void> updateEserviceProbingState(UUID eserviceId,
+                                                           UUID versionId,
+                                                           ChangeProbingStateRequest changeProbingStateRequest) throws Exception {
+        eserviceService.updateEserviceProbingState(mapstructMapper.toUpdateEserviceProbingStateDto(eserviceId,
+                versionId, changeProbingStateRequest));
+        return ResponseEntity.noContent().build();
     }
 
     @Override
-    public ResponseEntity<Void> updateEserviceState(UUID eserviceId, UUID versionId, ChangeEServiceStateRequest changeEServiceStateRequest) throws Exception {
-        eserviceService.updateEserviceState(mapstructMapper.changeEServiceStateRequestDataToUpdateEserviceStateDto(
-                eserviceId, versionId, changeEServiceStateRequest));
+    public ResponseEntity<Void> updateEserviceState(UUID eserviceId, UUID versionId, ChangeEserviceStateRequest changeEserviceStateRequest) throws Exception {
+        eserviceService.updateEserviceState(mapstructMapper.toUpdateEserviceStateDto(eserviceId,
+                versionId, changeEserviceStateRequest));
         return ResponseEntity.noContent().build();
     }
 }

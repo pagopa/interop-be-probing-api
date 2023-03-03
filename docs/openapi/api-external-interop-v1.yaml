@@ -48,10 +48,11 @@ paths:
             type: string
             format: uuid
       requestBody:
+        required: true
         content:
           application/json:
             schema:
-                $ref: '#/components/schemas/ChangeEServiceStateRequest'
+                $ref: '#/components/schemas/ChangeEserviceStateRequest'
       responses:
         '204':
           description: >-
@@ -109,11 +110,11 @@ paths:
             type: string
             format: uuid
       requestBody:
+        required: true
         content:
           application/json:
             schema:
                 $ref: '#/components/schemas/ChangeProbingStateRequest'
-        required: true
       responses:
         '204':
           description: >-
@@ -171,11 +172,11 @@ paths:
             type: string
             format: uuid
       requestBody:
+        required: true
         content:
           application/json:
             schema:
                 $ref: '#/components/schemas/ChangeProbingFrequencyRequest'
-        required: true
       responses:
         '204':
           description: >-
@@ -214,18 +215,19 @@ components:
     ChangeProbingStateRequest:
       type: object
       required:
-        - probingState
+        - probingEnabled
       properties:
-        probingState:
-          $ref: '#/components/schemas/ProbingState'
+        probingEnabled:
+          type: boolean
+          default: false
           
-    ChangeEServiceStateRequest:
+    ChangeEserviceStateRequest:
       type: object
       required:
         - eServiceState
       properties:
         eServiceState:
-          $ref: '#/components/schemas/EServiceState'
+          $ref: '#/components/schemas/EserviceState'
           
     ChangeProbingFrequencyRequest:
       type: object
@@ -248,14 +250,8 @@ components:
           title: Service verification end time
           type: string
           format: date-time
-          
-    ProbingState:
-      type: string
-      enum:
-        - ENABLED
-        - DISABLED
         
-    EServiceState:
+    EserviceState:
       type: string
       enum:
         - ACTIVE 

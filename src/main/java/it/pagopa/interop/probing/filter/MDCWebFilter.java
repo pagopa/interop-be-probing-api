@@ -1,7 +1,6 @@
 package it.pagopa.interop.probing.filter;
 
-import it.pagopa.interop.probing.util.constant.LoggingConstants;
-import lombok.extern.slf4j.Slf4j;
+import it.pagopa.interop.probing.util.constant.LoggingPlaceholders;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -15,7 +14,7 @@ import java.util.UUID;
 /**
  * WebFilter that puts in the MDC log map a unique identifier for incoming requests.
  */
-@Slf4j
+
 @Component
 public class MDCWebFilter extends OncePerRequestFilter {
 	
@@ -23,11 +22,11 @@ public class MDCWebFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         try {
-			MDC.put(LoggingConstants.TRACE_ID_PLACEHOLDER, "Root=" + UUID.randomUUID().toString().toLowerCase());
+			MDC.put(LoggingPlaceholders.TRACE_ID_PLACEHOLDER, "Root=" + UUID.randomUUID().toString().toLowerCase());
             filterChain.doFilter(request, response);
         }
 		finally {
-			MDC.remove(LoggingConstants.TRACE_ID_PLACEHOLDER);
+			MDC.remove(LoggingPlaceholders.TRACE_ID_PLACEHOLDER);
         }
     }
     

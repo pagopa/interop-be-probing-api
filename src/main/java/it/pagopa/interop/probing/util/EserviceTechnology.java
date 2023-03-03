@@ -3,7 +3,7 @@ package it.pagopa.interop.probing.util;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum EserviceType {
+public enum EserviceTechnology {
 
     REST("REST"),
 
@@ -11,7 +11,7 @@ public enum EserviceType {
 
     private String value;
 
-    EserviceType(String value) {
+    EserviceTechnology(String value) {
         this.value = value;
     }
 
@@ -26,8 +26,8 @@ public enum EserviceType {
     }
 
     @JsonCreator
-    public static EserviceType fromValue(String value) {
-        for (EserviceType b : EserviceType.values()) {
+    public static EserviceTechnology fromValue(String value) {
+        for (EserviceTechnology b : EserviceTechnology.values()) {
             if (b.value.equals(value)) {
                 return b;
             }

@@ -1,6 +1,8 @@
 package it.pagopa.interop.probing.mapstruct.mapper;
 
-import it.pagopa.interop.probing.interop_be_probing.model.ChangeEServiceStateRequest;
+import it.pagopa.interop.probing.interop_be_probing_api.model.ChangeEserviceStateRequest;
+import it.pagopa.interop.probing.interop_be_probing_api.model.ChangeProbingStateRequest;
+import it.pagopa.interop.probing.mapstruct.dto.UpdateEserviceProbingStateDto;
 import it.pagopa.interop.probing.mapstruct.dto.UpdateEserviceStateDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -14,8 +16,12 @@ public interface MapStructMapper {
 
 
     @Mapping(source = "changeEServiceStateRequest.eServiceState", target = "newEServiceState")
-    UpdateEserviceStateDto changeEServiceStateRequestDataToUpdateEserviceStateDto(
+    UpdateEserviceStateDto toUpdateEserviceStateDto(
             UUID eserviceId,
             UUID versionId,
-            ChangeEServiceStateRequest changeEServiceStateRequest);
+            ChangeEserviceStateRequest changeEServiceStateRequest);
+
+    UpdateEserviceProbingStateDto toUpdateEserviceProbingStateDto(UUID eserviceId,
+                                                                  UUID versionId,
+                                                                  ChangeProbingStateRequest changeProbingStateRequest);
 }
