@@ -55,9 +55,9 @@ public class Eservice implements Serializable {
     @NotNull
     @Column(name="polling_end_time", columnDefinition = "TIMESTAMP with time zone")
     private OffsetDateTime pollingEndTime = OffsetDateTime.of(
-            OffsetDateTime.now().getYear(),
-            OffsetDateTime.now().getMonthValue(),
-            OffsetDateTime.now().getDayOfMonth(),
+            OffsetDateTime.now(ZoneOffset.UTC).getYear(),
+            OffsetDateTime.now(ZoneOffset.UTC).getMonthValue(),
+            OffsetDateTime.now(ZoneOffset.UTC).getDayOfMonth(),
             23,
             59,
             0,
