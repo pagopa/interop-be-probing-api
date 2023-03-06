@@ -73,9 +73,9 @@ public class Eservice implements Serializable {
     @NotNull
     @Column(name="polling_start_time", columnDefinition = "TIMESTAMP with time zone")
     private OffsetDateTime pollingStartTime = OffsetDateTime.of(
-            OffsetDateTime.now().getYear(),
-            OffsetDateTime.now().getMonthValue(),
-            OffsetDateTime.now().getDayOfMonth(),
+            OffsetDateTime.now(ZoneOffset.UTC).getYear(),
+            OffsetDateTime.now(ZoneOffset.UTC).getMonthValue(),
+            OffsetDateTime.now(ZoneOffset.UTC).getDayOfMonth(),
             0,
             0,
             0,
