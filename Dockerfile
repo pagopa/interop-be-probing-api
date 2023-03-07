@@ -10,7 +10,7 @@ FROM eclipse-temurin:17-jre-alpine
 
 WORKDIR /app
 
-COPY --from=MAVEN_BUILD /interop-be-probing-api/target/interop-be-probing-api*.jar /app/app.jar
+COPY --from=MAVEN_BUILD /interop-be-probing-api/target/*.jar /app/app.jar
 
 RUN apk add curl
 
