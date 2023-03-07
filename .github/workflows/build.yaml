@@ -31,7 +31,7 @@ on:
 
 jobs:
   manual-build:
-    if: "${{ github.event.inputs.environment != '' }}"
+    if: "${{ github.event_name == 'workflow_dispatch' }}
     name: "build-push"
     runs-on: ubuntu-latest
     continue-on-error: false
@@ -54,7 +54,7 @@ jobs:
               docker push ghcr.io/${{ github.event.repository.name }}:latest
 
   merge-build:
-    if: "${{ github.event.inputs.environment != '' }}"
+    if: ${{ github.event_name == 'push' }}
     name: "build-push"
     runs-on: ubuntu-latest
     continue-on-error: false
