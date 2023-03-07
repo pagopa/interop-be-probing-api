@@ -1,0 +1,77 @@
+name: "CI"
+
+on:
+  push:
+    branches:
+      - '**'
+      - '!main'
+      - '!master'
+    paths:
+      - '*'
+      - '.github/workflows/*.yaml'
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+        type: choice
+        options:
+        - info
+        - warning
+        - debug
+      environment:
+        description: 'Which environment to update.'
+        type: choice
+        required: true
+        default: dev
+        options:
+        - dev
+        - uat
+
+jobs:
+  manual-build:
+    if: "${{ github.event.inputs.environment != '' }}"
+    name: "build-push"
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    permissions:
+      id-token: write
+      contents: read
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build
+        run: |
+              docker build . --tag ghcr.io/${{ github.event.repository.name }}:latest
+              docker push ghcr.io/${{ github.event.repository.name }}:latest
+
+  merge-build:
+    if: "${{ github.event.inputs.environment != '' }}"
+    name: "build-push"
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    permissions:
+      id-token: write  
+      contents: read
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build 
+        run: |
+              docker build . --tag ghcr.io/${{ github.event.repository.name }}:latest
+              docker push ghcr.io/${{ github.event.repository.name }}:latest
