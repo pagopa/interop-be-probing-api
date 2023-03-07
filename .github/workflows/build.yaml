@@ -1,5 +1,10 @@
 name: "CI"
 
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
 on:
   push:
     branches:
@@ -30,51 +35,6 @@ on:
         - uat
 
 jobs:
-  manual-build:
-    if: "${{ github.event_name == 'workflow_dispatch' }}"
-    name: "build-push"
-    runs-on: ubuntu-latest
-    continue-on-error: false
-    permissions:
-      id-token: write
-      contents: read
-    environment: ${{ inputs.environment }}
-
-    steps:
-      - uses: actions/checkout@v3
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build
-        run: |
-              docker build . --tag ghcr.io/${{ github.event.repository.name }}:latest
-              docker push ghcr.io/${{ github.event.repository.name }}:latest
-
-  merge-build:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
-    name: "build-push"
-    runs-on: ubuntu-latest
-    continue-on-error: false
-    permissions:
-      id-token: write  
-      contents: read
-    environment: ${{ inputs.environment }}
-
-    steps:
-      - uses: actions/checkout@v3
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build 
-        run: |
-              docker build . --tag ghcr.io/${{ github.event.repository.name }}:latest
-              docker push ghcr.io/${{ github.event.repository.name }}:latest
   build-and-push-image:
     if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-latest
@@ -89,7 +49,7 @@ jobs:
       - name: Log in to the Container registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
-          registry: ghcr.io
+          registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
@@ -97,12 +57,13 @@ jobs:
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: ghcr.io/interop-be-probing-api
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+      - name: Build and push
+        uses: docker/build-push-action@v2
         with:
           context: .
+          file: Dockerfile
+          builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
