@@ -219,7 +219,6 @@ components:
       properties:
         probingEnabled:
           type: boolean
-          default: false
           
     ChangeEserviceStateRequest:
       type: object
