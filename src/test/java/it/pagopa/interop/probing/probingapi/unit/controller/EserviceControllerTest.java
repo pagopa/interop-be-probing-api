@@ -1,14 +1,14 @@
 package it.pagopa.interop.probing.probingapi.unit.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.pagopa.interop.probing.probingapi.dtos.ChangeEserviceStateRequest;
+import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingStateRequest;
+import it.pagopa.interop.probing.probingapi.dtos.EserviceState;
 import it.pagopa.interop.probing.probingapi.exception.EserviceNotFoundException;
 import it.pagopa.interop.probing.probingapi.mapstruct.dto.UpdateEserviceProbingStateDto;
 import it.pagopa.interop.probing.probingapi.mapstruct.dto.UpdateEserviceStateDto;
 import it.pagopa.interop.probing.probingapi.mapstruct.mapper.MapStructMapper;
 import it.pagopa.interop.probing.probingapi.service.EserviceService;
-import it.pagopa.interop.probing.interop_be_probing_api.model.ChangeEserviceStateRequest;
-import it.pagopa.interop.probing.interop_be_probing_api.model.ChangeProbingStateRequest;
-import it.pagopa.interop.probing.interop_be_probing_api.model.EserviceState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

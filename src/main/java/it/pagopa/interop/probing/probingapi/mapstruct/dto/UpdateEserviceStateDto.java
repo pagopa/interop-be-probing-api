@@ -1,7 +1,7 @@
 package it.pagopa.interop.probing.probingapi.mapstruct.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.pagopa.interop.probing.interop_be_probing_api.model.EserviceState;
+import it.pagopa.interop.probing.probingapi.dtos.EserviceState;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;

@@ -1,5 +1,6 @@
 package it.pagopa.interop.probing.probingapi.unit.service;
 
+import it.pagopa.interop.probing.probingapi.dtos.EserviceState;
 import it.pagopa.interop.probing.probingapi.exception.EserviceNotFoundException;
 import it.pagopa.interop.probing.probingapi.mapstruct.dto.UpdateEserviceProbingStateDto;
 import it.pagopa.interop.probing.probingapi.mapstruct.dto.UpdateEserviceStateDto;
@@ -7,7 +8,6 @@ import it.pagopa.interop.probing.probingapi.model.Eservice;
 import it.pagopa.interop.probing.probingapi.repository.EserviceRepository;
 import it.pagopa.interop.probing.probingapi.service.EserviceService;
 import it.pagopa.interop.probing.probingapi.service.EserviceServiceImpl;
-import it.pagopa.interop.probing.interop_be_probing_api.model.EserviceState;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

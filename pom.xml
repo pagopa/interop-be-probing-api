@@ -180,8 +180,8 @@
 						<configuration>
 							<inputSpec>${project.basedir}/docs/openapi/api-external-interop-v1.yaml</inputSpec>
 							<generatorName>spring</generatorName>
-							<apiPackage>${project.groupId}.${project.artifactId}.api</apiPackage>
-							<modelPackage>${project.groupId}.${project.artifactId}.model</modelPackage>
+							<apiPackage>it.pagopa.interop.probing.probingapi.api</apiPackage>
+							<modelPackage>it.pagopa.interop.probing.probingapi.dtos</modelPackage>
 							<enablePostProcessFile>true</enablePostProcessFile>
 							<configOptions>
 								<serializableModel>true</serializableModel>

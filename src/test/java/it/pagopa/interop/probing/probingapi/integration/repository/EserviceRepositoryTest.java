@@ -1,6 +1,6 @@
 package it.pagopa.interop.probing.probingapi.integration.repository;
 
-import it.pagopa.interop.probing.interop_be_probing_api.model.EserviceState;
+import it.pagopa.interop.probing.probingapi.dtos.EserviceState;
 import it.pagopa.interop.probing.probingapi.model.Eservice;
 import it.pagopa.interop.probing.probingapi.repository.EserviceRepository;
 import it.pagopa.interop.probing.probingapi.util.EserviceTechnology;

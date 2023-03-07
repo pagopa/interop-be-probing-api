@@ -1,7 +1,7 @@
 package it.pagopa.interop.probing.probingapi.mapstruct.mapper;
 
-import it.pagopa.interop.probing.interop_be_probing_api.model.ChangeEserviceStateRequest;
-import it.pagopa.interop.probing.interop_be_probing_api.model.ChangeProbingStateRequest;
+import it.pagopa.interop.probing.probingapi.dtos.ChangeEserviceStateRequest;
+import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingStateRequest;
 import it.pagopa.interop.probing.probingapi.mapstruct.dto.UpdateEserviceProbingStateDto;
 import it.pagopa.interop.probing.probingapi.mapstruct.dto.UpdateEserviceStateDto;
 import org.mapstruct.Mapper;

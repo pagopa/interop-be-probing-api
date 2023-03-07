@@ -1,7 +1,7 @@
 package it.pagopa.interop.probing.probingapi.exception;
 
-import it.pagopa.interop.probing.interop_be_probing_api.model.Problem;
-import it.pagopa.interop.probing.interop_be_probing_api.model.ProblemError;
+import it.pagopa.interop.probing.probingapi.dtos.Problem;
+import it.pagopa.interop.probing.probingapi.dtos.ProblemError;
 import it.pagopa.interop.probing.probingapi.util.constant.ErrorMessages;
 import it.pagopa.interop.probing.probingapi.util.constant.LoggingPlaceholders;
 import lombok.extern.slf4j.Slf4j;

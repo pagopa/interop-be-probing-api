@@ -1,9 +1,9 @@
 package it.pagopa.interop.probing.probingapi.rest;
 
-import it.pagopa.interop.probing.interop_be_probing_api.api.EservicesApi;
-import it.pagopa.interop.probing.interop_be_probing_api.model.ChangeEserviceStateRequest;
-import it.pagopa.interop.probing.interop_be_probing_api.model.ChangeProbingFrequencyRequest;
-import it.pagopa.interop.probing.interop_be_probing_api.model.ChangeProbingStateRequest;
+import it.pagopa.interop.probing.probingapi.api.EservicesApi;
+import it.pagopa.interop.probing.probingapi.dtos.ChangeEserviceStateRequest;
+import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingFrequencyRequest;
+import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingStateRequest;
 import it.pagopa.interop.probing.probingapi.mapstruct.mapper.MapStructMapper;
 import it.pagopa.interop.probing.probingapi.service.EserviceService;
 import org.springframework.beans.factory.annotation.Autowired;
