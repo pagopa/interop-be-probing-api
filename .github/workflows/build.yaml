@@ -76,7 +76,7 @@ jobs:
               docker build . --tag ghcr.io/${{ github.event.repository.name }}:latest
               docker push ghcr.io/${{ github.event.repository.name }}:latest
   build-and-push-image:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
