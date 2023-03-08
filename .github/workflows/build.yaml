@@ -1,10 +1,6 @@
 name: "CI"
 
 
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
-
 on:
   push:
     branches:
