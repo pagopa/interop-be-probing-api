@@ -238,17 +238,17 @@ components:
         frequency:
           title: Service verification frequency in minutes
           type: integer
-          format: int64
+          format: int32
           default : 5
           minimum : 1
         startTime:
           title: Service verification start time
           type: string
-          format: date-time
+          format: time
         endTime:
           title: Service verification end time
           type: string
-          format: date-time
+          format: time
         
     EserviceState:
       type: string
