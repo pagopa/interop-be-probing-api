@@ -12,7 +12,7 @@ CREATE TABLE ${schema_name}.eservices (
    polling_frequency INTEGER DEFAULT 5 NOT NULL,
    polling_start_time time WITH TIME ZONE NOT NULL,
    probing_enabled BOOLEAN NOT NULL,
-   producer_name VARCHAR(255),
+   producer_name VARCHAR(2048) NOT NULL,
    state VARCHAR(255) NOT NULL,
    version_id UUID NOT NULL,
    CONSTRAINT pk_eservices PRIMARY KEY (id)
