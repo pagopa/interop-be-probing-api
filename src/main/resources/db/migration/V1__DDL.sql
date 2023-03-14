@@ -5,7 +5,7 @@ CREATE SEQUENCE  IF NOT EXISTS ${schema_name}.eservice_sequence START WITH 1 INC
 CREATE TABLE ${schema_name}.eservices (
    id BIGINT NOT NULL,
    base_path VARCHAR(2048) array NOT NULL,
-   eservice_name VARCHAR(255),
+   eservice_name VARCHAR(255) NOT NULL,
    eservice_technology VARCHAR(255) NOT NULL,
    eservice_id UUID NOT NULL,
    polling_end_time time WITH TIME ZONE NOT NULL,
