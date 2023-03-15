@@ -7,7 +7,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.5.2</version>
-		<relativePath/>
+		<relativePath />
 	</parent>
 	<groupId>it.pagopa.interop.probing</groupId>
 	<artifactId>interop-be-probing-api</artifactId>
@@ -148,11 +148,20 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<inputSpec>${project.basedir}/docs/openapi/api-external-interop-v1.yaml</inputSpec>
+							<inputSpec>${project.basedir}/docs/openapi/api-external-interop-v1.yaml
+							</inputSpec>
 							<generatorName>spring</generatorName>
 							<apiPackage>it.pagopa.interop.probing.probingapi.api</apiPackage>
-							<modelPackage>it.pagopa.interop.probing.probingapi.dtos</modelPackage>
+							<modelPackage>it.pagopa.interop.probing.probingapi.dtos
+							</modelPackage>
 							<enablePostProcessFile>true</enablePostProcessFile>
+							<typeMappings>
+								<typeMapping>time=java.time.OffsetTime</typeMapping>
+							</typeMappings>
+							<importMappings>
+								<importMapping>java.time.OffsetTime=java.time.OffsetTime
+								</importMapping>
+							</importMappings>
 							<configOptions>
 								<serializableModel>true</serializableModel>
 								<interfaceOnly>true</interfaceOnly>
