@@ -15,7 +15,9 @@ import it.pagopa.interop.probing.probingapi.mapstruct.dto.UpdateEserviceStateDto
 import it.pagopa.interop.probing.probingapi.model.Eservice;
 import it.pagopa.interop.probing.probingapi.repository.EserviceRepository;
 import it.pagopa.interop.probing.probingapi.util.constant.ErrorMessages;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @Transactional
 public class EserviceServiceImpl implements EserviceService {
@@ -36,6 +38,8 @@ public class EserviceServiceImpl implements EserviceService {
 
 		eServiceToUpdate.setState(inputData.getNewEServiceState());
 		eserviceRepository.save(eServiceToUpdate);
+		log.info("EserviceState of eservice " + eServiceToUpdate.getEserviceId() + " with version "
+				+ eServiceToUpdate.getVersionId() + " has been updated into " + eServiceToUpdate.getState());
 	}
 
 	@Override
@@ -49,6 +53,8 @@ public class EserviceServiceImpl implements EserviceService {
 
 		eServiceToUpdate.setProbingEnabled(inputData.isProbingEnabled());
 		eserviceRepository.save(eServiceToUpdate);
+		log.info("EserviceProbingState of eservice " + eServiceToUpdate.getEserviceId() + " with version "
+				+ eServiceToUpdate.getVersionId() + " has been updated into " + eServiceToUpdate.isProbingEnabled());
 	}
 
 	@Override
@@ -64,6 +70,9 @@ public class EserviceServiceImpl implements EserviceService {
 		eServiceToUpdate.setPollingStartTime(inputData.getNewPollingStartTime());
 		eServiceToUpdate.setPollingEndTime(inputData.getNewPollingEndTime());
 		eserviceRepository.save(eServiceToUpdate);
+		log.info("Eservice " + eServiceToUpdate.getEserviceId() + " with version " + eServiceToUpdate.getVersionId()
+				+ " has been updated with startTime: " + eServiceToUpdate.getPollingStartTime() + " and endTime: "
+				+ eServiceToUpdate.getPollingEndTime() + " and frequency: " + eServiceToUpdate.getPollingFrequency());
 
 	}
 
