@@ -9,14 +9,14 @@ import java.util.UUID;
 @Data
 public class UpdateEserviceProbingStateDto {
 
-    @NotNull
-    @JsonProperty("eserviceId")
-    private UUID eserviceId;
+	@NotNull
+	@JsonProperty("eserviceId")
+	private UUID eserviceId;
 
-    @NotNull
-    @JsonProperty("versionId")
-    private UUID versionId;
+	@NotNull
+	@JsonProperty("versionId")
+	private UUID versionId;
 
-    @NotNull
-    private boolean probingEnabled;
+	@NotNull
+	private boolean probingEnabled;
 }

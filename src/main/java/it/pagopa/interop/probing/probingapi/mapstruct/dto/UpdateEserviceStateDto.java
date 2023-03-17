@@ -10,15 +10,15 @@ import java.util.UUID;
 @Data
 public class UpdateEserviceStateDto {
 
-    @NotNull
-    @JsonProperty("eserviceId")
-    private UUID eserviceId;
+	@NotNull
+	@JsonProperty("eserviceId")
+	private UUID eserviceId;
 
-    @NotNull
-    @JsonProperty("versionId")
-    private UUID versionId;
+	@NotNull
+	@JsonProperty("versionId")
+	private UUID versionId;
 
-    @NotNull
-    @JsonProperty("eServiceState")
-    private EserviceState newEServiceState;
+	@NotNull
+	@JsonProperty("eServiceState")
+	private EserviceState newEServiceState;
 }

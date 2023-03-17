@@ -2,7 +2,9 @@ package it.pagopa.interop.probing.probingapi.util.constant;
 
 public class ErrorMessages {
 
-    private ErrorMessages() {}
-    public static final String ELEMENT_NOT_FOUND = "Element not found";
-    public static final String BAD_REQUEST = "The provided data is not valid";
+	private ErrorMessages() {
+	}
+
+	public static final String ELEMENT_NOT_FOUND = "Element not found";
+	public static final String BAD_REQUEST = "The provided data is not valid";
 }
