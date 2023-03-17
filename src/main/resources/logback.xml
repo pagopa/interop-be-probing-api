@@ -8,7 +8,7 @@
 			<onMatch>DENY</onMatch>
 		</filter>
 		<encoder>
-			<pattern>%d{YYYY-MM-dd HH:mm:ss:SSS} %(%-5level) [%(%logger{20})] - [%X{trace_id}] - %msg %n</pattern>
+			<pattern>%d{YYYY-MM-dd HH:mm:ss:SSS} %(%-5level) [%(%logger{20})] %X{trace_id} - %msg %n</pattern>
 		</encoder>
 	</appender>
 
