@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: interop-be-probing-api
+  name: interop-be-probing-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: interop-be-probing-api
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: interop-be-probing-api
+    spec:
+      containers:
+      - image: ghcr.io/pagopa/interop-be-probing-api:develop
+        name: interop-be-probing-api
+        resources: {}
+        env:
+          - name: VALIDATE_MIGRATION_NAMING
+            valueFrom:
+              configMapKeyRef:
+                name: interop-be-probing-api
+                key: VALIDATE_MIGRATION_NAMING
+          - name: DATABASE_URL
+            valueFrom:
+              configMapKeyRef:
+                name: interop-be-probing-api
+                key: DATABASE_URL
+    
+          - name: DATABASE_DRIVER
+            valueFrom:
+              configMapKeyRef:
+                name: interop-be-probing-api
+                key: DATABASE_DRIVER   
+          - name: DATABASE_PLATFORM
+            valueFrom:
+              configMapKeyRef:
+                name: interop-be-probing-api
+                key: DATABASE_PLATFORM   
+          - name: DATABASE
+            valueFrom:
+              configMapKeyRef:
+                name: interop-be-probing-api
+                key: DATABASE   
+          - name: JDBC_TIME_ZONE
+            valueFrom:
+              configMapKeyRef:
+                name: interop-be-probing-api
+                key: JDBC_TIME_ZONE
+          - name: SCHEMA_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: interop-be-probing-api
+                key: SCHEMA_NAME
+          - name: FLYWAY_DATABASE_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: interop-be-probing-aurora-flyway-user-credentials
+                key: FLYWAY_DATABASE_USERNAME                
+          - name: FLYWAY_DATABASE_PASSWORD 
+            valueFrom:
+              secretKeyRef:
+                name: interop-be-probing-aurora-flyway-user-credentials
+                key: FLYWAY_DATABASE_PASSWORD
+          - name: DATABASE_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: interop-be-probing-api-aurora-user-credentials
+                key: DATABASE_USERNAME  
+          - name: DATABASE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: interop-be-probing-api-aurora-user-credentials
+                key: DATABASE_PASSWORD                                                                  
+        ports: 
+          - containerPort: 8080
+            name: http
+status: {}

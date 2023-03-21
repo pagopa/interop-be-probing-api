@@ -1,0 +1,12 @@
+apiVersion: v1
+data:
+  DATABASE_URL: jdbc:postgresql://interop-probing-operational-database-dev.cluster-caudw4yuwazj.eu-central-1.rds.amazonaws.com:5432/interop_probing_operational?currentSchema=interop_probing_operational
+  DATABASE_DRIVER: org.postgresql.Driver
+  DATABASE_PLATFORM: org.hibernate.dialect.PostgreSQL95Dialect
+  DATABASE: POSTGRESQL
+  JDBC_TIME_ZONE: UTC
+  VALIDATE_MIGRATION_NAMING: "true"
+  SCHEMA_NAME: interop_probing_operational
+kind: ConfigMap
+metadata:
+  name: interop-be-probing-api
