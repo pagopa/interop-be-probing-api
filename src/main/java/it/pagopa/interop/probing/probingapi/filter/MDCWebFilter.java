@@ -14,25 +14,26 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import it.pagopa.interop.probing.probingapi.util.constant.LoggingPlaceholders;
 
-/**
- * WebFilter that puts in the MDC log map a unique identifier for incoming
- * requests.
- */
-
 @Component
 public class MDCWebFilter extends OncePerRequestFilter {
 
-	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
 		try {
-			MDC.put(LoggingPlaceholders.TRACE_ID_PLACEHOLDER, "- [CID= " + UUID.randomUUID().toString().toLowerCase()+"]");
+			response.addHeader("Access-Control-Allow-Origin", "*");
+			response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+			response.addHeader("Access-Control-Allow-Headers", "origin, content-type, accept, x-requested-with");
+			response.addHeader("Access-Control-Max-Age", "3600");
+			if ("OPTIONS".equals(request.getMethod())) {
+				response.setStatus(HttpServletResponse.SC_OK);
+			}
+			MDC.put(LoggingPlaceholders.TRACE_ID_PLACEHOLDER,
+					"- [CID= " + UUID.randomUUID().toString().toLowerCase() + "]");
 
 			filterChain.doFilter(request, response);
 		} finally {
 			MDC.remove(LoggingPlaceholders.TRACE_ID_PLACEHOLDER);
 		}
 	}
-
 }

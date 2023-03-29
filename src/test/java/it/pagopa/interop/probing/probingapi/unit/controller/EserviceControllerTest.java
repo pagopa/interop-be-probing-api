@@ -74,7 +74,7 @@ class EserviceControllerTest {
 	@BeforeEach
 	void setup() {
 		changeEserviceStateRequest = new ChangeEserviceStateRequest();
-		changeEserviceStateRequest.seteServiceState(EserviceState.INACTIVE);
+		changeEserviceStateRequest.seteServiceState(EserviceState.OFFLINE);
 		updateEserviceStateDto = new UpdateEserviceStateDto();
 		updateEserviceStateDto.setEserviceId(eServiceId);
 		updateEserviceStateDto.setVersionId(versionId);

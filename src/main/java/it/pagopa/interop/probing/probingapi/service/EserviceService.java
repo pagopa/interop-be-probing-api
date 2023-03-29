@@ -1,5 +1,8 @@
 package it.pagopa.interop.probing.probingapi.service;
 
+import java.util.List;
+
+import it.pagopa.interop.probing.probingapi.dtos.SearchProducerNameResponse;
 import it.pagopa.interop.probing.probingapi.exception.EserviceNotFoundException;
 import it.pagopa.interop.probing.probingapi.mapstruct.dto.UpdateEserviceFrequencyDto;
 import it.pagopa.interop.probing.probingapi.mapstruct.dto.UpdateEserviceProbingStateDto;
@@ -39,4 +42,12 @@ public interface EserviceService {
 	 *                                   database
 	 */
 	void updateEserviceFrequency(UpdateEserviceFrequencyDto inputData) throws EserviceNotFoundException;
+
+	/**
+	 * Get the list of eservices producers.
+	 *
+	 * @param producerName the eservice producer name
+	 * @return the eservices producers
+	 */
+	List<SearchProducerNameResponse> getEservicesProducers(String producerName);
 }

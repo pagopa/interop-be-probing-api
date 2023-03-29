@@ -1,10 +1,12 @@
 package it.pagopa.interop.probing.probingapi.mapstruct.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
-import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.Data;
 
 @Data
 public class UpdateEserviceProbingStateDto {

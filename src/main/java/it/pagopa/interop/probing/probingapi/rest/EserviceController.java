@@ -1,5 +1,6 @@
 package it.pagopa.interop.probing.probingapi.rest;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import it.pagopa.interop.probing.probingapi.api.EservicesApi;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeEserviceStateRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingFrequencyRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingStateRequest;
+import it.pagopa.interop.probing.probingapi.dtos.SearchProducerNameResponse;
 import it.pagopa.interop.probing.probingapi.mapstruct.mapper.MapStructMapper;
 import it.pagopa.interop.probing.probingapi.service.EserviceService;
 
@@ -44,6 +46,11 @@ public class EserviceController implements EservicesApi {
 		eserviceService.updateEserviceState(
 				mapstructMapper.toUpdateEserviceStateDto(eserviceId, versionId, changeEserviceStateRequest));
 		return ResponseEntity.noContent().build();
+	}
+	
+	@Override
+	public ResponseEntity<List<SearchProducerNameResponse>> getEservicesProducers(String producerName) {
+		return ResponseEntity.ok(eserviceService.getEservicesProducers(producerName));
 	}
 
 }
