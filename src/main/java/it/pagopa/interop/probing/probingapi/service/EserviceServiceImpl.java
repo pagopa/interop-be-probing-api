@@ -1,66 +1,72 @@
 package it.pagopa.interop.probing.probingapi.service;
 
 import java.util.List;
+import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import it.pagopa.interop.probing.probingapi.dtos.ChangeEserviceStateRequest;
+import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingFrequencyRequest;
+import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingStateRequest;
+import it.pagopa.interop.probing.probingapi.dtos.EserviceState;
+import it.pagopa.interop.probing.probingapi.dtos.SearchEserviceResponse;
 import it.pagopa.interop.probing.probingapi.dtos.SearchProducerNameResponse;
 import it.pagopa.interop.probing.probingapi.exception.EserviceNotFoundException;
-import it.pagopa.interop.probing.probingapi.mapstruct.dto.UpdateEserviceFrequencyDto;
-import it.pagopa.interop.probing.probingapi.mapstruct.dto.UpdateEserviceProbingStateDto;
-import it.pagopa.interop.probing.probingapi.mapstruct.dto.UpdateEserviceStateDto;
+import it.pagopa.interop.probing.probingapi.feignclient.OperationsClient;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
 public class EserviceServiceImpl implements EserviceService {
 
-	@Override
-	public void updateEserviceState(UpdateEserviceStateDto inputData) throws EserviceNotFoundException {
+	@Autowired
+	private OperationsClient operationsClient;
 
-//		TODO CHIAMATA REST
-//		Optional<Eservice> queryResult = eserviceRepository.findByEserviceIdAndVersionId(inputData.getEserviceId(),
-//				inputData.getVersionId());
-//
-//		Eservice eServiceToUpdate = queryResult
-//				.orElseThrow(() -> new EserviceNotFoundException(ErrorMessages.ELEMENT_NOT_FOUND));
-//
-//		eServiceToUpdate.setState(inputData.getNewEServiceState());
-//		eserviceRepository.save(eServiceToUpdate);
-		log.info("EserviceState of eservice " + inputData.getEserviceId() + " with version " + inputData.getVersionId()
-				+ " has been updated into " + inputData.getNewEServiceState());
+	@Override
+	public void updateEserviceState(UUID eserviceId, UUID versionId,
+			ChangeEserviceStateRequest changeEserviceStateRequest) throws EserviceNotFoundException {
+
+		operationsClient.updateEserviceState(eserviceId, versionId, changeEserviceStateRequest);
+		log.info("EserviceState of eservice " + eserviceId + " with version " + versionId + " has been updated into "
+				+ changeEserviceStateRequest.geteServiceState());
 	}
 
 	@Override
-	public void updateEserviceProbingState(UpdateEserviceProbingStateDto inputData) throws EserviceNotFoundException {
+	public void updateEserviceProbingState(UUID eserviceId, UUID versionId,
+			ChangeProbingStateRequest changeProbingStateRequest) throws EserviceNotFoundException {
 
-//		TODO CHIAMATA REST
-//		Optional<Eservice> queryResult = eserviceRepository.findByEserviceIdAndVersionId(inputData.getEserviceId(),
-//				inputData.getVersionId());
-//
-//		Eservice eServiceToUpdate = queryResult
-//				.orElseThrow(() -> new EserviceNotFoundException(ErrorMessages.ELEMENT_NOT_FOUND));
-//
-//		eServiceToUpdate.setProbingEnabled(inputData.isProbingEnabled());
-//		eserviceRepository.save(eServiceToUpdate);
-		log.info("EserviceProbingState of eservice " + inputData.getEserviceId() + " with version "
-				+ inputData.getVersionId() + " has been updated into " + inputData.isProbingEnabled());
+		operationsClient.updateEserviceProbingState(eserviceId, versionId, changeProbingStateRequest);
+
+		log.info("EserviceProbingState of eservice " + eserviceId + " with version " + versionId
+				+ " has been updated into " + changeProbingStateRequest.getProbingEnabled());
 	}
 
 	@Override
-	public void updateEserviceFrequency(UpdateEserviceFrequencyDto inputData) throws EserviceNotFoundException {
+	public void updateEserviceFrequency(UUID eserviceId, UUID versionId,
+			ChangeProbingFrequencyRequest changeProbingFrequencyRequest) throws EserviceNotFoundException {
 
-//		TODO CHIAMATA REST
-		log.info("Eservice " + inputData.getEserviceId() + " with version " + inputData.getVersionId()
-				+ " has been updated with startTime: " + inputData.getNewPollingStartTime() + " and endTime: "
-				+ inputData.getNewPollingEndTime() + " and frequency: " + inputData.getNewPollingFrequency());
-
+		operationsClient.updateEserviceFrequency(eserviceId, versionId, changeProbingFrequencyRequest);
+		log.info("Eservice " + eserviceId + " with version " + versionId + " has been updated with startTime: "
+				+ changeProbingFrequencyRequest.getStartTime() + " and endTime: "
+				+ changeProbingFrequencyRequest.getEndTime() + " and frequency: "
+				+ changeProbingFrequencyRequest.getFrequency());
 	}
 
 	@Override
 	public List<SearchProducerNameResponse> getEservicesProducers(String producerName) {
-//		TODO CHIAMATA REST
-		return null;
+		log.info("Search producer name by producerName: " + producerName);
+		return operationsClient.getProducers(producerName).getBody();
+	}
+
+	@Override
+	public SearchEserviceResponse searchEservices(Integer limit, Integer offset, String eserviceName,
+			String producerName, Integer versionNumber, List<EserviceState> state) {
+		log.info(
+				"Search eservice by filters -> limit:" + limit + ", offset:" + offset + ", producerName:" + producerName
+						+ ", eserviceName:" + eserviceName + ", versionNumber:" + versionNumber + ", stateList:" + state);
+		return operationsClient.searchEservices(limit, offset, eserviceName, producerName, versionNumber, state)
+				.getBody();
 	}
 
 }

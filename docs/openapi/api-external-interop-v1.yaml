@@ -210,6 +210,89 @@ paths:
                 traceId: 'string'
                 errors: [{'code':'000-1234', 'detail':'The server is currently down for maintenance. Please try again later.'}]
                 
+   '/eservices/searchEservices':
+    get:
+      summary: Retrive e-services by filters
+      description: >-
+        Retrive e-services by filters : eserviceName , producerName, versionNumber, eservice-state 
+      tags:
+        - Read
+      operationId: searchEservices
+      parameters:
+        - name: limit
+          in: query
+          required: true
+          description: the e-service's page limit
+          schema:
+            type: string
+            format: integer
+        - name: offset
+          in: query
+          required: true
+          description: the page's offset
+          schema:
+            type: string
+            format: integer
+        - name: eserviceName
+          in: query
+          required: false
+          description:  the e-service's name
+          schema:
+            type: string
+            format: string
+        - name: producerName
+          in: query
+          required: false
+          description: the e-service's producer name
+          schema:
+            type: string
+            format: string
+        - name: versionNumber
+          in: query
+          required: false
+          description: the e-service's version
+          schema:
+            type: string
+            format: integer
+        - name: state
+          in: query
+          required: false
+          description:  the e-service's state
+          schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/EserviceState'
+      responses:
+        '200':
+          description: >-
+            The search has been successfully performed 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchEserviceResponse'
+        '400':
+          description: >-
+            The provided input data is invalid
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '500':                  
+          description: >-
+            A managed error has occured during the request elaboration
+          content:                        
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                type: string
+                status: 500 
+                title: 'Internal Server Error'
+                detail: 'There is a problem processing the request on the server.'
+                traceId: 'string'
+                errors: [{'code':'000-1234', 'detail':'The server is currently down for maintenance. Please try again later.'}]
+                
+                
    '/eservices/getProducers':
     get:
       summary: Retrive e-services producers
@@ -297,6 +380,51 @@ components:
           title: Service verification end time
           type: string
           format: time
+    
+    EserviceViewDTO:
+      type: object
+      properties:
+        id:
+          title: Service name
+          type: string
+        eserviceName:
+          title: Service name
+          type: string
+        producerName:
+          title: Service name
+          type: string
+        responseReceived:
+          title: last response date
+          type: string
+          format: date-time
+        state:
+          $ref: '#/components/schemas/EserviceState'
+        versionNumber:
+          title: the e-service's version
+          type: integer
+          
+    EserviceViewDtos:
+      type: array
+      items:
+        type: 
+        $ref: '#/components/schemas/EserviceViewDTO'
+          
+    SearchEserviceResponse:
+      type: object
+      properties:
+        content:
+          title: eservice dto list
+          $ref: '#/components/schemas/EserviceViewDtos'
+        offset:
+          title: page offset
+          type: integer
+        limit:
+          title: page limit
+          type: integer
+        totalElements:
+          title: total elements
+          type: integer
+          format: int64
         
     SearchProducerNameResponse:
       type: object
