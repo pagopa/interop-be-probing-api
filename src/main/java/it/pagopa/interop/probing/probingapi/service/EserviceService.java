@@ -6,7 +6,7 @@ import java.util.UUID;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeEserviceStateRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingFrequencyRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingStateRequest;
-import it.pagopa.interop.probing.probingapi.dtos.EserviceState;
+import it.pagopa.interop.probing.probingapi.dtos.EserviceStateFE;
 import it.pagopa.interop.probing.probingapi.dtos.SearchEserviceResponse;
 import it.pagopa.interop.probing.probingapi.dtos.SearchProducerNameResponse;
 import it.pagopa.interop.probing.probingapi.exception.EserviceNotFoundException;
@@ -62,7 +62,7 @@ public interface EserviceService {
 	 *         parameter
 	 */
 	public SearchEserviceResponse searchEservices(Integer limit, Integer offset, String eserviceName,
-			String producerName, Integer versionNumber, List<EserviceState> state);
+			String producerName, Integer versionNumber, List<EserviceStateFE> state);
 
 	/**
 	 * Get the list of eservices producers.

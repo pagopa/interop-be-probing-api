@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeEserviceStateRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingFrequencyRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingStateRequest;
-import it.pagopa.interop.probing.probingapi.dtos.EserviceState;
+import it.pagopa.interop.probing.probingapi.dtos.EserviceStateFE;
 import it.pagopa.interop.probing.probingapi.dtos.SearchEserviceResponse;
 import it.pagopa.interop.probing.probingapi.dtos.SearchProducerNameResponse;
 
@@ -34,7 +34,7 @@ public interface OperationsClient {
 			@RequestParam(value = "eserviceName", required = false) String eserviceName,
 			@RequestParam(value = "producerName", required = false) String producerName,
 			@RequestParam(value = "versionNumber", required = false) Integer versionNumber,
-			@RequestParam(value = "state", required = false) List<EserviceState> state);
+			@RequestParam(value = "state", required = false) List<EserviceStateFE> state);
 
 	@PostMapping("/{eserviceId}/versions/{versionId}/updateFrequency")
 	ResponseEntity<Void> updateEserviceFrequency(@PathVariable("eserviceId") UUID eserviceId,

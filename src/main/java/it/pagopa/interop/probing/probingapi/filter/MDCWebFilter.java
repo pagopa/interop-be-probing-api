@@ -21,9 +21,6 @@ public class MDCWebFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 
 		try {
-			if ("OPTIONS".equals(request.getMethod())) {
-				response.setStatus(HttpServletResponse.SC_OK);
-			}
 			MDC.put(LoggingPlaceholders.TRACE_ID_PLACEHOLDER,
 					"- [CID= " + UUID.randomUUID().toString().toLowerCase() + "]");
 

@@ -11,7 +11,7 @@ import it.pagopa.interop.probing.probingapi.api.EservicesApi;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeEserviceStateRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingFrequencyRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingStateRequest;
-import it.pagopa.interop.probing.probingapi.dtos.EserviceState;
+import it.pagopa.interop.probing.probingapi.dtos.EserviceStateFE;
 import it.pagopa.interop.probing.probingapi.dtos.SearchEserviceResponse;
 import it.pagopa.interop.probing.probingapi.dtos.SearchProducerNameResponse;
 import it.pagopa.interop.probing.probingapi.service.EserviceService;
@@ -45,7 +45,7 @@ public class EserviceController implements EservicesApi {
 	
 	@Override
 	public ResponseEntity<SearchEserviceResponse> searchEservices(Integer limit, Integer offset, String eserviceName,
-			String producerName, Integer versionNumber, List<EserviceState> state) {
+			String producerName, Integer versionNumber, List<EserviceStateFE> state) {
 		return ResponseEntity
 				.ok(eserviceService.searchEservices(limit, offset, eserviceName, producerName, versionNumber, state));
 	}
