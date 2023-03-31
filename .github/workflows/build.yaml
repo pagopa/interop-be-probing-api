@@ -1,4 +1,4 @@
-name: "CI"
+name: "CI Develop"
 
 on:
   push:
@@ -7,73 +7,33 @@ on:
       - '!main'
       - '!master'
     paths:
-      - '*'
-      - '.github/workflows/*.yml'
-  workflow_dispatch:
-    inputs:
-      logLevel:
-        description: 'Log level'
-        required: true
-        default: 'warning'
-        type: choice
-        options:
-        - info
-        - warning
-        - debug
-      environment:
-        description: 'Which environment to update.'
-        type: choice
-        required: true
-        default: dev
-        options:
-        - dev
-        - uat
+      - '**'
 
 jobs:
-  manual-build:
-    if: "${{ github.event.inputs.environment != '' }}"
-    name: "build-push"
+  build-and-push:
     runs-on: ubuntu-latest
-    continue-on-error: false
     permissions:
-      id-token: write
       contents: read
-    environment: ${{ inputs.environment }}
-
+      packages: write
     steps:
-      - uses: actions/checkout@v3
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: normalize branch name for tagging
+        run: |
+          NORM_TAG=$(echo "$GITHUB_REF_NAME" | tr -s "/" "-")
+          echo "NORM_TAG=$NORM_TAG" >> $GITHUB_ENV
+      - name: Log in to the Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build
-        run: |
-              docker build . --tag ghcr.io/${{ github.event.repository.name }}:latest
-              docker push ghcr.io/${{ github.event.repository.name }}:latest
 
-  merge-build:
-    if: "${{ github.event.inputs.environment != '' }}"
-    name: "build-push"
-    runs-on: ubuntu-latest
-    continue-on-error: false
-    permissions:
-      id-token: write  
-      contents: read
-    environment: ${{ inputs.environment }}
-
-    steps:
-      - uses: actions/checkout@v3
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
+      - name: Build and push on GitHub packages
+        uses: docker/build-push-action@v2
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build
-        env: 
-          REPO_PATH: ${{ github.event.repository.name }}
-        run: |
-              docker build . --tag ghcr.io/$REPO_PATH:latest
-              docker push ghcr.io/$REPO_PATH:latest
+          context: .
+          file: Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}:${{ env.NORM_TAG }}

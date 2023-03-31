@@ -1,4 +1,4 @@
-package it.pagopa.interop.probing;
+package it.pagopa.interop.probing.probingapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
