@@ -19,6 +19,7 @@ import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingStateRequest;
 import it.pagopa.interop.probing.probingapi.dtos.EserviceStateFE;
 import it.pagopa.interop.probing.probingapi.dtos.SearchEserviceResponse;
 import it.pagopa.interop.probing.probingapi.dtos.SearchProducerNameResponse;
+import it.pagopa.interop.probing.probingapi.exception.EserviceNotFoundException;
 
 @FeignClient(name = "operationsClient", url = "${api.operations.baseUrl}")
 public interface OperationsClient {
@@ -39,16 +40,16 @@ public interface OperationsClient {
 	@PostMapping("/{eserviceId}/versions/{versionId}/updateFrequency")
 	ResponseEntity<Void> updateEserviceFrequency(@PathVariable("eserviceId") UUID eserviceId,
 			@PathVariable("versionId") UUID versionId,
-			@Valid @RequestBody ChangeProbingFrequencyRequest changeProbingFrequencyRequest);
+			@Valid @RequestBody ChangeProbingFrequencyRequest changeProbingFrequencyRequest) throws EserviceNotFoundException;
 
 	@PostMapping("/{eserviceId}/versions/{versionId}/probing/updateState")
 	ResponseEntity<Void> updateEserviceProbingState(@PathVariable("eserviceId") UUID eserviceId,
 			@PathVariable("versionId") UUID versionId,
-			@RequestBody ChangeProbingStateRequest changeProbingStateRequest);
+			@RequestBody ChangeProbingStateRequest changeProbingStateRequest) throws EserviceNotFoundException;
 
 	@PostMapping("/{eserviceId}/versions/{versionId}/updateState")
 	ResponseEntity<Void> updateEserviceState(@PathVariable("eserviceId") UUID eserviceId,
 			@PathVariable("versionId") UUID versionId,
-			@RequestBody ChangeEserviceStateRequest changeEserviceStateRequest);
+			@RequestBody ChangeEserviceStateRequest changeEserviceStateRequest) throws EserviceNotFoundException;
 
 }

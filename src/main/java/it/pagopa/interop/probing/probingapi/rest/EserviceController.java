@@ -14,6 +14,7 @@ import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingStateRequest;
 import it.pagopa.interop.probing.probingapi.dtos.EserviceStateFE;
 import it.pagopa.interop.probing.probingapi.dtos.SearchEserviceResponse;
 import it.pagopa.interop.probing.probingapi.dtos.SearchProducerNameResponse;
+import it.pagopa.interop.probing.probingapi.exception.EserviceNotFoundException;
 import it.pagopa.interop.probing.probingapi.service.EserviceService;
 
 @RestController
@@ -24,21 +25,21 @@ public class EserviceController implements EservicesApi {
 
 	@Override
 	public ResponseEntity<Void> updateEserviceFrequency(UUID eserviceId, UUID versionId,
-			ChangeProbingFrequencyRequest changeProbingFrequencyRequest) throws Exception {
+			ChangeProbingFrequencyRequest changeProbingFrequencyRequest) throws EserviceNotFoundException {
 		eserviceService.updateEserviceFrequency(eserviceId, versionId, changeProbingFrequencyRequest);
 		return ResponseEntity.noContent().build();
 	}
 
 	@Override
 	public ResponseEntity<Void> updateEserviceProbingState(UUID eserviceId, UUID versionId,
-			ChangeProbingStateRequest changeProbingStateRequest) throws Exception {
+			ChangeProbingStateRequest changeProbingStateRequest) throws EserviceNotFoundException {
 		eserviceService.updateEserviceProbingState(eserviceId, versionId, changeProbingStateRequest);
 		return ResponseEntity.noContent().build();
 	}
 
 	@Override
 	public ResponseEntity<Void> updateEserviceState(UUID eserviceId, UUID versionId,
-			ChangeEserviceStateRequest changeEserviceStateRequest) throws Exception {
+			ChangeEserviceStateRequest changeEserviceStateRequest) throws EserviceNotFoundException {
 		eserviceService.updateEserviceState(eserviceId, versionId, changeEserviceStateRequest);
 		return ResponseEntity.noContent().build();
 	}

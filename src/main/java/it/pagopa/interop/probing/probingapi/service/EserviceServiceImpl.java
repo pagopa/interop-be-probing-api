@@ -26,7 +26,7 @@ public class EserviceServiceImpl implements EserviceService {
 	@Override
 	public void updateEserviceState(UUID eserviceId, UUID versionId,
 			ChangeEserviceStateRequest changeEserviceStateRequest) throws EserviceNotFoundException {
-		operationsClient.updateEserviceState(eserviceId, versionId, changeEserviceStateRequest).getStatusCode();
+		operationsClient.updateEserviceState(eserviceId, versionId, changeEserviceStateRequest);
 		log.info("EserviceState of eservice " + eserviceId + " with version " + versionId + " has been updated into "
 				+ changeEserviceStateRequest.geteServiceState());
 	}
