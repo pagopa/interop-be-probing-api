@@ -1,4 +1,4 @@
-package it.pagopa.interop.probing.probingapi.service;
+package it.pagopa.interop.probing.probingapi.service.impl;
 
 import java.util.List;
 import java.util.UUID;
@@ -13,6 +13,7 @@ import it.pagopa.interop.probing.probingapi.dtos.EserviceStateFE;
 import it.pagopa.interop.probing.probingapi.dtos.SearchEserviceResponse;
 import it.pagopa.interop.probing.probingapi.dtos.SearchProducerNameResponse;
 import it.pagopa.interop.probing.probingapi.exception.EserviceNotFoundException;
+import it.pagopa.interop.probing.probingapi.service.EserviceService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

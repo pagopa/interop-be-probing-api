@@ -130,6 +130,9 @@
 								</importMapping>
 							</importMappings>
 							<configOptions>
+								<additionalModelTypeAnnotations>@lombok.Builder
+									@lombok.NoArgsConstructor @lombok.AllArgsConstructor @lombok.experimental.Accessors(chain = true, fluent = true)
+								</additionalModelTypeAnnotations>
 								<serializableModel>true</serializableModel>
 								<interfaceOnly>true</interfaceOnly>
 								<unhandledException>true</unhandledException>
