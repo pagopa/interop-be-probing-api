@@ -1,4 +1,4 @@
-package it.pagopa.interop.probing.probingapi.feignclient;
+package it.pagopa.interop.probing.probingapi.client;
 
 import java.util.List;
 import java.util.UUID;

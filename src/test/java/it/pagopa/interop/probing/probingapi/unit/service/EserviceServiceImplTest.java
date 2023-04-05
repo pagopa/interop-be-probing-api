@@ -21,7 +21,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
-
+import it.pagopa.interop.probing.probingapi.client.OperationsClient;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeEserviceStateRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingFrequencyRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingStateRequest;
@@ -31,7 +31,6 @@ import it.pagopa.interop.probing.probingapi.dtos.EserviceViewDTO;
 import it.pagopa.interop.probing.probingapi.dtos.SearchEserviceResponse;
 import it.pagopa.interop.probing.probingapi.dtos.SearchProducerNameResponse;
 import it.pagopa.interop.probing.probingapi.exception.EserviceNotFoundException;
-import it.pagopa.interop.probing.probingapi.feignclient.OperationsClient;
 import it.pagopa.interop.probing.probingapi.service.EserviceService;
 import it.pagopa.interop.probing.probingapi.service.EserviceServiceImpl;
 
