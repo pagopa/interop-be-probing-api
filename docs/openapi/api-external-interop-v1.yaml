@@ -210,11 +210,10 @@ paths:
                 traceId: 'string'
                 errors: [{'code':'000-1234', 'detail':'The server is currently down for maintenance. Please try again later.'}]
                 
-   '/eservices/searchEservices':
+   '/eservices':
     get:
       summary: Retrive e-services by filters
-      description: >-
-        Retrive e-services by filters : eserviceName , producerName, versionNumber, eservice-state 
+      description:       Retrive e-services by filters
       tags:
         - Read
       operationId: searchEservices
@@ -293,11 +292,10 @@ paths:
                 errors: [{'code':'000-1234', 'detail':'The server is currently down for maintenance. Please try again later.'}]
                 
                 
-   '/eservices/getProducers':
+   '/producers':
     get:
       summary: Retrive e-services producers
-      description: >-
-        Retrive e-services producers : producerName
+      description: Retrive e-services producers 
       tags:
         - Read
       operationId: getEservicesProducers
@@ -381,7 +379,7 @@ components:
           type: string
           format: time
     
-    EserviceViewDTO:
+    SearchEserviceContent:
       type: object
       properties:
         id:
@@ -403,18 +401,14 @@ components:
           title: the e-service's version
           type: integer
           
-    EserviceViewDtos:
-      type: array
-      items:
-        type: 
-        $ref: '#/components/schemas/EserviceViewDTO'
-          
     SearchEserviceResponse:
       type: object
       properties:
         content:
           title: eservice dto list
-          $ref: '#/components/schemas/EserviceViewDtos'
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchEserviceContent'
         offset:
           title: page offset
           type: integer

@@ -25,7 +25,7 @@ import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingFrequencyRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingStateRequest;
 import it.pagopa.interop.probing.probingapi.dtos.EserviceStateBE;
 import it.pagopa.interop.probing.probingapi.dtos.EserviceStateFE;
-import it.pagopa.interop.probing.probingapi.dtos.EserviceViewDTO;
+import it.pagopa.interop.probing.probingapi.dtos.SearchEserviceContent;
 import it.pagopa.interop.probing.probingapi.dtos.SearchEserviceResponse;
 import it.pagopa.interop.probing.probingapi.dtos.SearchProducerNameResponse;
 import it.pagopa.interop.probing.probingapi.exception.EserviceNotFoundException;
@@ -64,11 +64,12 @@ class EserviceServiceImplTest {
         .startTime(OffsetTime.of(8, 0, 0, 0, ZoneOffset.UTC))
         .endTime(OffsetTime.of(20, 0, 0, 0, ZoneOffset.UTC)).build();
 
-    EserviceViewDTO expectedEserviceViewDTO = EserviceViewDTO.builder()
+    SearchEserviceContent expectedEserviceViewDTO = SearchEserviceContent.builder()
         .eserviceName("Eservice-Name").producerName("Eservice-Producer-Name").versionNumber(1)
         .state(EserviceStateFE.OFFLINE).build();
 
-    List<EserviceViewDTO> eservicesViewDTOExpectedList = Arrays.asList(expectedEserviceViewDTO);
+    List<SearchEserviceContent> eservicesViewDTOExpectedList =
+        Arrays.asList(expectedEserviceViewDTO);
     searchEserviceResponse =
         SearchEserviceResponse.builder().content(eservicesViewDTOExpectedList).limit(2).offset(0)
             .totalElements(Long.valueOf(eservicesViewDTOExpectedList.size())).build();
@@ -160,7 +161,7 @@ class EserviceServiceImplTest {
   @DisplayName("e-service frequency correctly updated with new state")
   void testSearchEservices_whenGivenCorrectEserviceIdAndVersionIdAndState_thenEserviceStateIsUpdated()
       throws EserviceNotFoundException {
-    searchEserviceResponse.setContent(new ArrayList<EserviceViewDTO>());
+    searchEserviceResponse.setContent(new ArrayList<SearchEserviceContent>());
     searchEserviceResponse.setTotalElements(0L);
     Mockito
         .when(operationsClient.searchEservices(2, 0, "Eservice-Name", "Eservice-Producer-Name", 1,
