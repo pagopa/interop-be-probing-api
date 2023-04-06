@@ -209,6 +209,135 @@ paths:
                 detail: 'There is a problem processing the request on the server.'
                 traceId: 'string'
                 errors: [{'code':'000-1234', 'detail':'The server is currently down for maintenance. Please try again later.'}]
+                
+   '/eservices':
+    get:
+      summary: Retrive e-services by filters
+      description:       Retrive e-services by filters
+      tags:
+        - Read
+      operationId: searchEservices
+      parameters:
+        - name: limit
+          in: query
+          required: true
+          description: the e-service's page limit
+          schema:
+            type: string
+            format: integer
+        - name: offset
+          in: query
+          required: true
+          description: the page's offset
+          schema:
+            type: string
+            format: integer
+        - name: eserviceName
+          in: query
+          required: false
+          description:  the e-service's name
+          schema:
+            type: string
+            format: string
+        - name: producerName
+          in: query
+          required: false
+          description: the e-service's producer name
+          schema:
+            type: string
+            format: string
+        - name: versionNumber
+          in: query
+          required: false
+          description: the e-service's version
+          schema:
+            type: string
+            format: integer
+        - name: state
+          in: query
+          required: false
+          description:  the e-service's state
+          schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/EserviceStateFE'
+      responses:
+        '200':
+          description: >-
+            The search has been successfully performed 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchEserviceResponse'
+        '400':
+          description: >-
+            The provided input data is invalid
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '500':                  
+          description: >-
+            A managed error has occured during the request elaboration
+          content:                        
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                type: string
+                status: 500 
+                title: 'Internal Server Error'
+                detail: 'There is a problem processing the request on the server.'
+                traceId: 'string'
+                errors: [{'code':'000-1234', 'detail':'The server is currently down for maintenance. Please try again later.'}]
+                
+                
+   '/producers':
+    get:
+      summary: Retrive e-services producers
+      description: Retrive e-services producers 
+      tags:
+        - Read
+      operationId: getEservicesProducers
+      parameters:
+        - name: producerName
+          in: query
+          required: false
+          description: the e-service's producer name
+          schema:
+            type: string
+            format: string
+      responses:
+        '200':
+          description: >-
+            The search for the list of producers has been performed successfully
+          content:
+            application/json:
+              schema:
+               type: array
+               items:
+                $ref: '#/components/schemas/SearchProducerNameResponse'
+        '400':
+          description: >-
+            The provided input data is invalid
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '500':                  
+          description: >-
+            A managed error has occured during the request elaboration
+          content:                        
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                type: string
+                status: 500 
+                title: 'Internal Server Error'
+                detail: 'There is a problem processing the request on the server.'
+                traceId: 'string'
+                errors: [{'code':'000-1234', 'detail':'The server is currently down for maintenance. Please ry again later.'}]                
 
 components:
   schemas:
@@ -226,7 +355,7 @@ components:
         - eServiceState
       properties:
         eServiceState:
-          $ref: '#/components/schemas/EserviceState'
+          $ref: '#/components/schemas/EserviceStateBE'
           
     ChangeProbingFrequencyRequest:
       type: object
@@ -249,8 +378,66 @@ components:
           title: Service verification end time
           type: string
           format: time
+    
+    SearchEserviceContent:
+      type: object
+      properties:
+        id:
+          title: Service name
+          type: string
+        eserviceName:
+          title: Service name
+          type: string
+        producerName:
+          title: Service name
+          type: string
+        responseReceived:
+          title: last response date
+          type: string
+          format: date-time
+        state:
+          $ref: '#/components/schemas/EserviceStateFE'
+        versionNumber:
+          title: the e-service's version
+          type: integer
+          
+    SearchEserviceResponse:
+      type: object
+      properties:
+        content:
+          title: eservice dto list
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchEserviceContent'
+        offset:
+          title: page offset
+          type: integer
+        limit:
+          title: page limit
+          type: integer
+        totalElements:
+          title: total elements
+          type: integer
+          format: int64
         
-    EserviceState:
+    SearchProducerNameResponse:
+      type: object
+      properties:
+        label:
+          title: label of producer's name
+          type: string
+        value:
+          title: value of producer's name
+          type: string
+          
+    EserviceStateFE:
+      type: string
+      enum:
+        - ONLINE 
+        - OFFLINE
+        - 'N/D'
+        
+    EserviceStateBE:
       type: string
       enum:
         - ACTIVE 
