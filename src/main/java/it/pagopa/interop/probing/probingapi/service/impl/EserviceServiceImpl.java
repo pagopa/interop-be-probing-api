@@ -68,7 +68,4 @@ public class EserviceServiceImpl implements EserviceService {
     return operationsClient
         .searchEservices(limit, offset, eserviceName, producerName, versionNumber, state).getBody();
   }
-
-
-
 }
