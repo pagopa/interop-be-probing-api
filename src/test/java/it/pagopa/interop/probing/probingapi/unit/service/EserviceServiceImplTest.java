@@ -1,6 +1,5 @@
 package it.pagopa.interop.probing.probingapi.unit.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -19,7 +18,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
-import it.pagopa.interop.probing.probingapi.client.OperationsClient;
+import it.pagopa.interop.probing.probingapi.client.EserviceClient;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeEserviceStateRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingFrequencyRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingStateRequest;
@@ -39,7 +38,7 @@ class EserviceServiceImplTest {
   EserviceService service = new EserviceServiceImpl();
 
   @Mock
-  private OperationsClient operationsClient;
+  private EserviceClient operationsClient;
 
   ChangeEserviceStateRequest changeEserviceStateRequest;
 
@@ -190,36 +189,5 @@ class EserviceServiceImplTest {
     assertTrue(searchEserviceResponseResult.getTotalElements() > 0);
   }
 
-  @Test
-  @DisplayName("given a valid producer name, then returns a non-empty list")
-  void testGetEservicesProducers_whenGivenValidProducerName_thenReturnsSearchProducerNameResponseList()
-      throws Exception {
-    SearchProducerNameResponse searchProducerNameResponse = SearchProducerNameResponse.builder()
-        .label("ProducerName-Test-1").value("ProducerName-Test-1").build();
 
-    searchProducerNameResponseExpectedList = Arrays.asList(searchProducerNameResponse);
-
-    Mockito.when(operationsClient.getProducers("ProducerName-Test-1"))
-        .thenReturn(ResponseEntity.ok(searchProducerNameResponseExpectedList));
-
-    List<SearchProducerNameResponse> searchProducerNameResponseResponse =
-        service.getEservicesProducers("ProducerName-Test-1");
-
-    assertThat(searchProducerNameResponseResponse.toString()).contains("value");
-  }
-
-  @Test
-  @DisplayName("given a valid producer name with no matching records, then returns an empty list")
-  void testGetEservicesProducers_whenGivenValidProducerName_thenReturnsSearchProducerNameResponseListEmpty()
-      throws Exception {
-    searchProducerNameResponseExpectedList = new ArrayList<>();
-
-    Mockito.when(operationsClient.getProducers("ProducerName-Test-1"))
-        .thenReturn(ResponseEntity.ok(searchProducerNameResponseExpectedList));
-
-    List<SearchProducerNameResponse> searchProducerNameResponseResponse =
-        service.getEservicesProducers("ProducerName-Test-1");
-
-    assertThat(searchProducerNameResponseResponse).isEmpty();
-  }
 }
