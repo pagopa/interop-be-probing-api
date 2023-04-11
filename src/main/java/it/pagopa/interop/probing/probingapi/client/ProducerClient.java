@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import it.pagopa.interop.probing.probingapi.dtos.SearchProducerNameResponse;
 
-@FeignClient(name = "producerClient", url = "${api.operations.baseUrl}" + "producers")
+@FeignClient(name = "producerClient",
+    url = "${api.operations.baseUrl}" + "${api.producer.basePath}")
 public interface ProducerClient {
 
   @GetMapping("/")

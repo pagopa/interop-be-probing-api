@@ -17,10 +17,11 @@ import it.pagopa.interop.probing.probingapi.dtos.EserviceStateFE;
 import it.pagopa.interop.probing.probingapi.dtos.SearchEserviceResponse;
 import it.pagopa.interop.probing.probingapi.exception.EserviceNotFoundException;
 
-@FeignClient(name = "eserviceClient", url = "${api.operations.baseUrl}" + "eservices")
+@FeignClient(name = "eserviceClient",
+    url = "${api.operations.baseUrl}" + "${api.eservice.basePath}")
 public interface EserviceClient {
 
-  @GetMapping("/searchEservices")
+  @GetMapping("/")
   ResponseEntity<SearchEserviceResponse> searchEservices(
       @RequestParam(value = "limit", required = true) Integer limit,
       @RequestParam(value = "offset", required = true) Integer offset,
