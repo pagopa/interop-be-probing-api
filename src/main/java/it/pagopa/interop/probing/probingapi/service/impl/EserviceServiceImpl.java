@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 public class EserviceServiceImpl implements EserviceService {
 
   @Autowired
-  private EserviceClient operationsClient;
+  private EserviceClient eserviceClient;
 
   @Autowired
   private ProducerClient producerClient;
