@@ -1,6 +1,5 @@
 package it.pagopa.interop.probing.probingapi.unit.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -19,7 +18,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
-import it.pagopa.interop.probing.probingapi.client.OperationsClient;
+import it.pagopa.interop.probing.probingapi.client.EserviceClient;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeEserviceStateRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingFrequencyRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingStateRequest;
@@ -39,7 +38,7 @@ class EserviceServiceImplTest {
   EserviceService service = new EserviceServiceImpl();
 
   @Mock
-  private OperationsClient operationsClient;
+  private EserviceClient eserviceClient;
 
   ChangeEserviceStateRequest changeEserviceStateRequest;
 
@@ -80,11 +79,10 @@ class EserviceServiceImplTest {
   void testUpdateEserviceState_whenGivenCorrectEserviceIdAndVersionIdAndState_thenEserviceStateIsUpdated()
       throws EserviceNotFoundException {
     Mockito
-        .when(
-            operationsClient.updateEserviceState(eserviceId, versionId, changeEserviceStateRequest))
+        .when(eserviceClient.updateEserviceState(eserviceId, versionId, changeEserviceStateRequest))
         .thenReturn(ResponseEntity.ok(null));
     service.updateEserviceState(eserviceId, versionId, changeEserviceStateRequest);
-    verify(operationsClient).updateEserviceState(eserviceId, versionId, changeEserviceStateRequest);
+    verify(eserviceClient).updateEserviceState(eserviceId, versionId, changeEserviceStateRequest);
   }
 
   @Test
@@ -94,7 +92,7 @@ class EserviceServiceImplTest {
     UUID eserviceIdRandom = UUID.randomUUID();
     UUID versionIdRandom = UUID.randomUUID();
 
-    Mockito.doThrow(new EserviceNotFoundException("Eservice not found")).when(operationsClient)
+    Mockito.doThrow(new EserviceNotFoundException("Eservice not found")).when(eserviceClient)
         .updateEserviceState(eserviceIdRandom, versionIdRandom, changeEserviceStateRequest);
 
     assertThrows(EserviceNotFoundException.class,
@@ -107,10 +105,11 @@ class EserviceServiceImplTest {
   @DisplayName("e-service probing gets enabled")
   void testEserviceProbingState_whenGivenCorrectEserviceIdAndVersionId_thenEserviceProbingIsEnabled()
       throws EserviceNotFoundException {
-    Mockito.when(operationsClient.updateEserviceProbingState(eserviceId, versionId,
-        changeProbingStateRequest)).thenReturn(ResponseEntity.ok(null));
+    Mockito.when(
+        eserviceClient.updateEserviceProbingState(eserviceId, versionId, changeProbingStateRequest))
+        .thenReturn(ResponseEntity.ok(null));
     service.updateEserviceProbingState(eserviceId, versionId, changeProbingStateRequest);
-    verify(operationsClient).updateEserviceProbingState(eserviceId, versionId,
+    verify(eserviceClient).updateEserviceProbingState(eserviceId, versionId,
         changeProbingStateRequest);
   }
 
@@ -121,7 +120,7 @@ class EserviceServiceImplTest {
     UUID eserviceIdRandom = UUID.randomUUID();
     UUID versionIdRandom = UUID.randomUUID();
 
-    Mockito.doThrow(new EserviceNotFoundException("Eservice not found")).when(operationsClient)
+    Mockito.doThrow(new EserviceNotFoundException("Eservice not found")).when(eserviceClient)
         .updateEserviceProbingState(eserviceIdRandom, versionIdRandom, changeProbingStateRequest);
 
     assertThrows(EserviceNotFoundException.class,
@@ -134,10 +133,10 @@ class EserviceServiceImplTest {
   @DisplayName("e-service frequency correctly updated with new state")
   void testUpdateEserviceFrequencyDto_whenGivenCorrectEserviceIdAndVersionIdAndState_thenEserviceStateIsUpdated()
       throws EserviceNotFoundException {
-    Mockito.when(operationsClient.updateEserviceFrequency(eserviceId, versionId,
+    Mockito.when(eserviceClient.updateEserviceFrequency(eserviceId, versionId,
         changeProbingFrequencyRequest)).thenReturn(ResponseEntity.ok(null));
     service.updateEserviceFrequency(eserviceId, versionId, changeProbingFrequencyRequest);
-    verify(operationsClient).updateEserviceFrequency(eserviceId, versionId,
+    verify(eserviceClient).updateEserviceFrequency(eserviceId, versionId,
         changeProbingFrequencyRequest);
   }
 
@@ -148,7 +147,7 @@ class EserviceServiceImplTest {
     UUID eserviceIdRandom = UUID.randomUUID();
     UUID versionIdRandom = UUID.randomUUID();
 
-    Mockito.doThrow(new EserviceNotFoundException("Eservice not found")).when(operationsClient)
+    Mockito.doThrow(new EserviceNotFoundException("Eservice not found")).when(eserviceClient)
         .updateEserviceFrequency(eserviceIdRandom, versionIdRandom, changeProbingFrequencyRequest);
 
     assertThrows(EserviceNotFoundException.class,
@@ -164,7 +163,7 @@ class EserviceServiceImplTest {
     searchEserviceResponse.setContent(new ArrayList<SearchEserviceContent>());
     searchEserviceResponse.setTotalElements(0L);
     Mockito
-        .when(operationsClient.searchEservices(2, 0, "Eservice-Name", "Eservice-Producer-Name", 1,
+        .when(eserviceClient.searchEservices(2, 0, "Eservice-Name", "Eservice-Producer-Name", 1,
             Arrays.asList(EserviceStateFE.OFFLINE)))
         .thenReturn(ResponseEntity.ok(searchEserviceResponse));
 
@@ -178,7 +177,7 @@ class EserviceServiceImplTest {
   void testSearchEservice_whenGivenValidSizeAndPageNumber_thenReturnsSearchEserviceResponseWithContentNotEmpty() {
 
     Mockito
-        .when(operationsClient.searchEservices(2, 0, "Eservice-Name", "Eservice-Producer-Name", 1,
+        .when(eserviceClient.searchEservices(2, 0, "Eservice-Name", "Eservice-Producer-Name", 1,
             Arrays.asList(EserviceStateFE.OFFLINE)))
         .thenReturn(ResponseEntity.ok(searchEserviceResponse));
 
@@ -190,36 +189,4 @@ class EserviceServiceImplTest {
     assertTrue(searchEserviceResponseResult.getTotalElements() > 0);
   }
 
-  @Test
-  @DisplayName("given a valid producer name, then returns a non-empty list")
-  void testGetEservicesProducers_whenGivenValidProducerName_thenReturnsSearchProducerNameResponseList()
-      throws Exception {
-    SearchProducerNameResponse searchProducerNameResponse = SearchProducerNameResponse.builder()
-        .label("ProducerName-Test-1").value("ProducerName-Test-1").build();
-
-    searchProducerNameResponseExpectedList = Arrays.asList(searchProducerNameResponse);
-
-    Mockito.when(operationsClient.getProducers("ProducerName-Test-1"))
-        .thenReturn(ResponseEntity.ok(searchProducerNameResponseExpectedList));
-
-    List<SearchProducerNameResponse> searchProducerNameResponseResponse =
-        service.getEservicesProducers("ProducerName-Test-1");
-
-    assertThat(searchProducerNameResponseResponse.toString()).contains("value");
-  }
-
-  @Test
-  @DisplayName("given a valid producer name with no matching records, then returns an empty list")
-  void testGetEservicesProducers_whenGivenValidProducerName_thenReturnsSearchProducerNameResponseListEmpty()
-      throws Exception {
-    searchProducerNameResponseExpectedList = new ArrayList<>();
-
-    Mockito.when(operationsClient.getProducers("ProducerName-Test-1"))
-        .thenReturn(ResponseEntity.ok(searchProducerNameResponseExpectedList));
-
-    List<SearchProducerNameResponse> searchProducerNameResponseResponse =
-        service.getEservicesProducers("ProducerName-Test-1");
-
-    assertThat(searchProducerNameResponseResponse).isEmpty();
-  }
 }

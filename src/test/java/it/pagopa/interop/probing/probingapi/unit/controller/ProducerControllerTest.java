@@ -21,10 +21,10 @@ import it.pagopa.interop.probing.probingapi.service.EserviceService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ProducerControllerTest {
+class ProducerControllerTest {
 
 
-  @Value("${api.eservices.producers.url}")
+  @Value("${api.producer.basePath}")
   private String apiGetEservicesProducersUrl;
 
   @Autowired
