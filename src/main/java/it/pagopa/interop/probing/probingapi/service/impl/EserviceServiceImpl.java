@@ -29,7 +29,7 @@ public class EserviceServiceImpl implements EserviceService {
   @Override
   public void updateEserviceState(UUID eserviceId, UUID versionId,
       ChangeEserviceStateRequest changeEserviceStateRequest) throws EserviceNotFoundException {
-    operationsClient.updateEserviceState(eserviceId, versionId, changeEserviceStateRequest);
+    eserviceClient.updateEserviceState(eserviceId, versionId, changeEserviceStateRequest);
     log.info("EserviceState of eservice " + eserviceId + " with version " + versionId
         + " has been updated into " + changeEserviceStateRequest.geteServiceState());
   }
@@ -37,7 +37,7 @@ public class EserviceServiceImpl implements EserviceService {
   @Override
   public void updateEserviceProbingState(UUID eserviceId, UUID versionId,
       ChangeProbingStateRequest changeProbingStateRequest) throws EserviceNotFoundException {
-    operationsClient.updateEserviceProbingState(eserviceId, versionId, changeProbingStateRequest);
+    eserviceClient.updateEserviceProbingState(eserviceId, versionId, changeProbingStateRequest);
     log.info("EserviceProbingState of eservice " + eserviceId + " with version " + versionId
         + " has been updated into " + changeProbingStateRequest.getProbingEnabled());
   }
@@ -46,7 +46,7 @@ public class EserviceServiceImpl implements EserviceService {
   public void updateEserviceFrequency(UUID eserviceId, UUID versionId,
       ChangeProbingFrequencyRequest changeProbingFrequencyRequest)
       throws EserviceNotFoundException {
-    operationsClient.updateEserviceFrequency(eserviceId, versionId, changeProbingFrequencyRequest);
+    eserviceClient.updateEserviceFrequency(eserviceId, versionId, changeProbingFrequencyRequest);
     log.info("Eservice " + eserviceId + " with version " + versionId
         + " has been updated with startTime: " + changeProbingFrequencyRequest.getStartTime()
         + " and endTime: " + changeProbingFrequencyRequest.getEndTime() + " and frequency: "
@@ -65,7 +65,7 @@ public class EserviceServiceImpl implements EserviceService {
     log.info("Search eservice by filters -> limit:" + limit + ", offset:" + offset
         + ", producerName:" + producerName + ", eserviceName:" + eserviceName + ", versionNumber:"
         + versionNumber + ", stateList:" + state);
-    return operationsClient
+    return eserviceClient
         .searchEservices(limit, offset, eserviceName, producerName, versionNumber, state).getBody();
   }
 }
