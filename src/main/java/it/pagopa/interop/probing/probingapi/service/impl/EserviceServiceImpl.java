@@ -2,6 +2,8 @@ package it.pagopa.interop.probing.probingapi.service.impl;
 
 import java.util.List;
 import java.util.UUID;
+
+import it.pagopa.interop.probing.probingapi.util.constant.LoggingMessages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import it.pagopa.interop.probing.probingapi.client.EserviceClient;
@@ -30,16 +32,16 @@ public class EserviceServiceImpl implements EserviceService {
   public void updateEserviceState(UUID eserviceId, UUID versionId,
       ChangeEserviceStateRequest changeEserviceStateRequest) throws EserviceNotFoundException {
     eserviceClient.updateEserviceState(eserviceId, versionId, changeEserviceStateRequest);
-    log.info("EserviceState of eservice " + eserviceId + " with version " + versionId
-        + " has been updated into " + changeEserviceStateRequest.geteServiceState());
+    log.info(LoggingMessages.ESERVICE_STATE_UPDATED, eserviceId, versionId,
+        changeEserviceStateRequest.geteServiceState());
   }
 
   @Override
   public void updateEserviceProbingState(UUID eserviceId, UUID versionId,
       ChangeProbingStateRequest changeProbingStateRequest) throws EserviceNotFoundException {
     eserviceClient.updateEserviceProbingState(eserviceId, versionId, changeProbingStateRequest);
-    log.info("EserviceProbingState of eservice " + eserviceId + " with version " + versionId
-        + " has been updated into " + changeProbingStateRequest.getProbingEnabled());
+    log.info(LoggingMessages.ESERVICE_PROBING_STATE_UPDATED, eserviceId, versionId,
+        changeProbingStateRequest.getProbingEnabled());
   }
 
   @Override
@@ -47,25 +49,24 @@ public class EserviceServiceImpl implements EserviceService {
       ChangeProbingFrequencyRequest changeProbingFrequencyRequest)
       throws EserviceNotFoundException {
     eserviceClient.updateEserviceFrequency(eserviceId, versionId, changeProbingFrequencyRequest);
-    log.info("Eservice " + eserviceId + " with version " + versionId
-        + " has been updated with startTime: " + changeProbingFrequencyRequest.getStartTime()
-        + " and endTime: " + changeProbingFrequencyRequest.getEndTime() + " and frequency: "
-        + changeProbingFrequencyRequest.getFrequency());
+    log.info(LoggingMessages.ESERVICE_POLLING_CONFIG_UPDATED, eserviceId, versionId,
+        changeProbingFrequencyRequest.getStartTime(), changeProbingFrequencyRequest.getEndTime(),
+        changeProbingFrequencyRequest.getFrequency());
   }
 
   @Override
   public List<SearchProducerNameResponse> getEservicesProducers(String producerName) {
-    log.info("Search producer name by producerName: " + producerName);
+
+    log.info(LoggingMessages.SEARCH_PRODUCER_BY_NAME, producerName);
     return producerClient.getProducers(producerName).getBody();
   }
 
   @Override
   public SearchEserviceResponse searchEservices(Integer limit, Integer offset, String eserviceName,
       String producerName, Integer versionNumber, List<EserviceStateFE> state) {
-    log.info("Search eservice by filters -> limit:" + limit + ", offset:" + offset
-        + ", producerName:" + producerName + ", eserviceName:" + eserviceName + ", versionNumber:"
-        + versionNumber + ", stateList:" + state);
-    return eserviceClient
-        .searchEservices(limit, offset, eserviceName, producerName, versionNumber, state).getBody();
+    log.info(LoggingMessages.SEARCH_ESERVICES_BY_FILTER, limit, offset, producerName, eserviceName,
+        versionNumber, state);
+    return eserviceClient.searchEservices(limit, offset, eserviceName, producerName, versionNumber,
+        state).getBody();
   }
 }

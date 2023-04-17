@@ -1,6 +1,8 @@
 package it.pagopa.interop.probing.probingapi.service.impl;
 
 import java.util.List;
+
+import it.pagopa.interop.probing.probingapi.util.constant.LoggingMessages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import it.pagopa.interop.probing.probingapi.client.ProducerClient;
@@ -17,7 +19,7 @@ public class ProducerServiceImpl implements ProducerService {
 
   @Override
   public List<SearchProducerNameResponse> getEservicesProducers(String producerName) {
-    log.info("Search producer name by producerName: " + producerName);
+    log.info(LoggingMessages.SEARCH_PRODUCER_BY_NAME, producerName);
     return producerClient.getProducers(producerName).getBody();
   }
 
