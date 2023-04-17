@@ -12,5 +12,5 @@ public class LoggingMessages {
 
   public static final String SEARCH_PRODUCER_BY_NAME = "Searching producer, producerName={}";
   public static final String SEARCH_ESERVICES_BY_FILTER =
-      "Searching e-services, limit:{}, offset:{}, producerName:{}, eserviceName:{}, versionNumber:{}, stateList:{}";
+      "Searching e-services, limit={}, offset={}, producerName={}, eserviceName={}, versionNumber={}, stateList={}";
 }
