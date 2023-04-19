@@ -3,7 +3,7 @@ package it.pagopa.interop.probing.probingapi.exception;
 import it.pagopa.interop.probing.probingapi.dtos.Problem;
 import it.pagopa.interop.probing.probingapi.dtos.ProblemError;
 import it.pagopa.interop.probing.probingapi.util.constant.ErrorMessages;
-import it.pagopa.interop.probing.probingapi.util.constant.LoggingPlaceholders;
+import it.pagopa.interop.probing.probingapi.util.logging.LoggingPlaceholders;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.MDC;

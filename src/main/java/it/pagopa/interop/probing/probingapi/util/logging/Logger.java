@@ -1,9 +1,7 @@
 package it.pagopa.interop.probing.probingapi.util.logging;
 
-import it.pagopa.interop.probing.probingapi.dtos.EserviceState;
 import it.pagopa.interop.probing.probingapi.dtos.EserviceStateBE;
 import it.pagopa.interop.probing.probingapi.dtos.EserviceStateFE;
-import org.springframework.stereotype.Component;
 
 import java.time.OffsetTime;
 import java.util.List;

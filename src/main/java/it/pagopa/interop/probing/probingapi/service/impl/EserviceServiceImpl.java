@@ -21,7 +21,7 @@ import it.pagopa.interop.probing.probingapi.service.EserviceService;
 public class EserviceServiceImpl implements EserviceService {
 
   @Autowired
-  Logger logger;
+  private Logger logger;
   @Autowired
   private EserviceClient eserviceClient;
 

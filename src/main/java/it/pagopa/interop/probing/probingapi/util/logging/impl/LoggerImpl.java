@@ -1,6 +1,5 @@
 package it.pagopa.interop.probing.probingapi.util.logging.impl;
 
-import it.pagopa.interop.probing.probingapi.dtos.EserviceState;
 import it.pagopa.interop.probing.probingapi.dtos.EserviceStateBE;
 import it.pagopa.interop.probing.probingapi.dtos.EserviceStateFE;
 import it.pagopa.interop.probing.probingapi.util.logging.Logger;
@@ -12,8 +11,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-@Component
+
 @Slf4j
+@Component
 public class LoggerImpl implements Logger {
 
   @Override
