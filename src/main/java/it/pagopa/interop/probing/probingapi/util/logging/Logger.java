@@ -22,4 +22,6 @@ public interface Logger {
 
   void logMessageSearchEservice(Integer limit, Integer offset, String eserviceName,
       String producerName, Integer versionNumber, List<EserviceStateFE> state);
+
+  void logMessageException(Exception exception);
 }

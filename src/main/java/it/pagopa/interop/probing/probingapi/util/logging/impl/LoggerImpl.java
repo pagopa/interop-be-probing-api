@@ -4,6 +4,7 @@ import it.pagopa.interop.probing.probingapi.dtos.EserviceStateBE;
 import it.pagopa.interop.probing.probingapi.dtos.EserviceStateFE;
 import it.pagopa.interop.probing.probingapi.util.logging.Logger;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.stereotype.Component;
 
 import java.time.OffsetTime;
@@ -51,5 +52,10 @@ public class LoggerImpl implements Logger {
     log.info(
         "Searching e-services, limit={}, offset={}, producerName={}, eserviceName={}, versionNumber={}, stateList={}",
         limit, offset, producerName, eserviceName, versionNumber, Arrays.toString(state.toArray()));
+  }
+
+  @Override
+  public void logMessageException(Exception exception) {
+    log.error(ExceptionUtils.getStackTrace(exception));
   }
 }
