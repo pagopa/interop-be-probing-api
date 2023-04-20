@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @ControllerAdvice
@@ -66,17 +64,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
    */
   private Problem createProblem(HttpStatus responseCode, String titleMessage,
       String detailMessage) {
-    Problem genericError = new Problem();
-    genericError.setStatus(responseCode.value());
-    genericError.setTitle(titleMessage);
-    genericError.setDetail(detailMessage);
-    genericError.setTraceId(MDC.get(LoggingPlaceholders.TRACE_ID_PLACEHOLDER));
-    ProblemError errorDetails = new ProblemError();
-    errorDetails.setCode(responseCode.toString());
-    errorDetails.setDetail(detailMessage);
-    List<ProblemError> errorDetailsList = new ArrayList<>();
-    errorDetailsList.add(errorDetails);
-    genericError.setErrors(errorDetailsList);
-    return genericError;
+    ProblemError errorDetails = ProblemError.builder()
+        .code(responseCode.toString())
+        .detail(detailMessage)
+        .build();
+    return Problem.builder()
+        .status(responseCode.value())
+        .title(titleMessage)
+        .detail(detailMessage)
+        .traceId(MDC.get(LoggingPlaceholders.TRACE_ID_PLACEHOLDER))
+        .errors(List.of(errorDetails))
+        .build();
   }
 }
