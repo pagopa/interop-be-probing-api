@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import it.pagopa.interop.probing.probingapi.util.logging.Logger;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -21,6 +23,9 @@ class ProducerServiceImplTest {
 
   @InjectMocks
   EserviceService service = new EserviceServiceImpl();
+
+  @Mock
+  Logger logger;
 
   @Mock
   private ProducerClient producerClient;

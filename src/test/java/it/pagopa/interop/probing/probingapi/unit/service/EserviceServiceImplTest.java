@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+
+import it.pagopa.interop.probing.probingapi.util.logging.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,6 +39,8 @@ class EserviceServiceImplTest {
   @InjectMocks
   EserviceService service = new EserviceServiceImpl();
 
+  @Mock
+  Logger logger;
   @Mock
   private EserviceClient eserviceClient;
 

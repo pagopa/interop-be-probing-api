@@ -1,4 +1,4 @@
-package it.pagopa.interop.probing.probingapi.util.constant;
+package it.pagopa.interop.probing.probingapi.util.logging;
 
 public class LoggingPlaceholders {
 	private LoggingPlaceholders() {
