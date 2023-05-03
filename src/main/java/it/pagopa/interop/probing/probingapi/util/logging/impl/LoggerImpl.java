@@ -3,6 +3,7 @@ package it.pagopa.interop.probing.probingapi.util.logging.impl;
 import it.pagopa.interop.probing.probingapi.dtos.EserviceStateBE;
 import it.pagopa.interop.probing.probingapi.dtos.EserviceStateFE;
 import it.pagopa.interop.probing.probingapi.util.logging.Logger;
+import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.stereotype.Component;
@@ -51,7 +52,8 @@ public class LoggerImpl implements Logger {
       String producerName, Integer versionNumber, List<EserviceStateFE> state) {
     log.info(
         "Searching e-services, limit={}, offset={}, producerName={}, eserviceName={}, versionNumber={}, stateList={}",
-        limit, offset, producerName, eserviceName, versionNumber, Arrays.toString(state.toArray()));
+        limit, offset, producerName, eserviceName, versionNumber, Arrays.toString(
+            Objects.isNull(state) ? null : state.toArray()));
   }
 
   @Override
