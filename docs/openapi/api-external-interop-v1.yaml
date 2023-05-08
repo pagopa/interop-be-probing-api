@@ -383,14 +383,15 @@ components:
     SearchEserviceContent:
       type: object
       properties:
-        id:
-          title: Service name
-          type: string
+        eserviceRecordId:
+          title: Service record Id
+          type: integer
+          format: int64
         eserviceName:
           title: Service name
           type: string
         producerName:
-          title: Service name
+          title: Service producer name
           type: string
         responseReceived:
           title: last response date
