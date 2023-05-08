@@ -2,8 +2,6 @@ package it.pagopa.interop.probing.probingapi.service.impl;
 
 import java.util.List;
 import java.util.UUID;
-
-import it.pagopa.interop.probing.probingapi.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import it.pagopa.interop.probing.probingapi.client.EserviceClient;
@@ -12,10 +10,12 @@ import it.pagopa.interop.probing.probingapi.dtos.ChangeEserviceStateRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingFrequencyRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingStateRequest;
 import it.pagopa.interop.probing.probingapi.dtos.EserviceStateFE;
+import it.pagopa.interop.probing.probingapi.dtos.MainDataEserviceResponse;
 import it.pagopa.interop.probing.probingapi.dtos.SearchEserviceResponse;
 import it.pagopa.interop.probing.probingapi.dtos.SearchProducerNameResponse;
 import it.pagopa.interop.probing.probingapi.exception.EserviceNotFoundException;
 import it.pagopa.interop.probing.probingapi.service.EserviceService;
+import it.pagopa.interop.probing.probingapi.util.logging.Logger;
 
 @Service
 public class EserviceServiceImpl implements EserviceService {
@@ -65,7 +65,14 @@ public class EserviceServiceImpl implements EserviceService {
       String producerName, Integer versionNumber, List<EserviceStateFE> state) {
     logger.logMessageSearchEservice(limit, offset, producerName, eserviceName, versionNumber,
         state);
-    return eserviceClient.searchEservices(limit, offset, eserviceName, producerName, versionNumber,
-        state).getBody();
+    return eserviceClient
+        .searchEservices(limit, offset, eserviceName, producerName, versionNumber, state).getBody();
+  }
+
+  @Override
+  public MainDataEserviceResponse getEserviceMainData(Long eserviceRecordId)
+      throws EserviceNotFoundException {
+    logger.logMessageGetEserviceMainData(eserviceRecordId);
+    return eserviceClient.getEserviceMainData(eserviceRecordId).getBody();
   }
 }

@@ -1,17 +1,16 @@
 package it.pagopa.interop.probing.probingapi.util.logging.impl;
 
-import it.pagopa.interop.probing.probingapi.dtos.EserviceStateBE;
-import it.pagopa.interop.probing.probingapi.dtos.EserviceStateFE;
-import it.pagopa.interop.probing.probingapi.util.logging.Logger;
-import java.util.Objects;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.springframework.stereotype.Component;
-
 import java.time.OffsetTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.stereotype.Component;
+import it.pagopa.interop.probing.probingapi.dtos.EserviceStateBE;
+import it.pagopa.interop.probing.probingapi.dtos.EserviceStateFE;
+import it.pagopa.interop.probing.probingapi.util.logging.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
@@ -52,12 +51,17 @@ public class LoggerImpl implements Logger {
       String producerName, Integer versionNumber, List<EserviceStateFE> state) {
     log.info(
         "Searching e-services, limit={}, offset={}, producerName={}, eserviceName={}, versionNumber={}, stateList={}",
-        limit, offset, producerName, eserviceName, versionNumber, Arrays.toString(
-            Objects.isNull(state) ? null : state.toArray()));
+        limit, offset, producerName, eserviceName, versionNumber,
+        Arrays.toString(Objects.isNull(state) ? null : state.toArray()));
   }
 
   @Override
   public void logMessageException(Exception exception) {
     log.error(ExceptionUtils.getStackTrace(exception));
+  }
+
+  @Override
+  public void logMessageGetEserviceMainData(Long eserviceRecordId) {
+    log.info("Getting eservice main data. eserviceRecordId={}", eserviceRecordId);
   }
 }
