@@ -11,6 +11,7 @@ import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingFrequencyRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingStateRequest;
 import it.pagopa.interop.probing.probingapi.dtos.EserviceStateFE;
 import it.pagopa.interop.probing.probingapi.dtos.MainDataEserviceResponse;
+import it.pagopa.interop.probing.probingapi.dtos.ProbingDataEserviceResponse;
 import it.pagopa.interop.probing.probingapi.dtos.SearchEserviceResponse;
 import it.pagopa.interop.probing.probingapi.dtos.SearchProducerNameResponse;
 import it.pagopa.interop.probing.probingapi.exception.EserviceNotFoundException;
@@ -74,5 +75,12 @@ public class EserviceServiceImpl implements EserviceService {
       throws EserviceNotFoundException {
     logger.logMessageGetEserviceMainData(eserviceRecordId);
     return eserviceClient.getEserviceMainData(eserviceRecordId).getBody();
+  }
+
+  @Override
+  public ProbingDataEserviceResponse getEserviceProbingData(Long eserviceRecordId)
+      throws EserviceNotFoundException {
+    logger.logMessageGetEserviceProbingData(eserviceRecordId);
+    return eserviceClient.getEserviceProbingData(eserviceRecordId).getBody();
   }
 }
