@@ -25,4 +25,6 @@ public interface Logger {
   void logMessageException(Exception exception);
 
   void logMessageGetEserviceMainData(Long eserviceRecordId);
+
+  void logMessageGetEserviceProbingData(Long eserviceRecordId);
 }

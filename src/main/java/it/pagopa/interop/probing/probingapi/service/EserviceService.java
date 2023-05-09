@@ -7,6 +7,7 @@ import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingFrequencyRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingStateRequest;
 import it.pagopa.interop.probing.probingapi.dtos.EserviceStateFE;
 import it.pagopa.interop.probing.probingapi.dtos.MainDataEserviceResponse;
+import it.pagopa.interop.probing.probingapi.dtos.ProbingDataEserviceResponse;
 import it.pagopa.interop.probing.probingapi.dtos.SearchEserviceResponse;
 import it.pagopa.interop.probing.probingapi.dtos.SearchProducerNameResponse;
 import it.pagopa.interop.probing.probingapi.exception.EserviceNotFoundException;
@@ -74,5 +75,15 @@ public interface EserviceService {
    * @throws EserviceNotFoundException
    */
   MainDataEserviceResponse getEserviceMainData(Long eserviceRecordId)
+      throws EserviceNotFoundException;
+
+  /**
+   * Get the probing data of the selected service.
+   *
+   * @param eserviceRecordId the eservice record id
+   * @return the eservice probing data
+   * @throws EserviceNotFoundException
+   */
+  ProbingDataEserviceResponse getEserviceProbingData(Long eserviceRecordId)
       throws EserviceNotFoundException;
 }

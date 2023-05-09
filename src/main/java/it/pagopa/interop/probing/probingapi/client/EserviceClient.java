@@ -15,6 +15,7 @@ import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingFrequencyRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingStateRequest;
 import it.pagopa.interop.probing.probingapi.dtos.EserviceStateFE;
 import it.pagopa.interop.probing.probingapi.dtos.MainDataEserviceResponse;
+import it.pagopa.interop.probing.probingapi.dtos.ProbingDataEserviceResponse;
 import it.pagopa.interop.probing.probingapi.dtos.SearchEserviceResponse;
 import it.pagopa.interop.probing.probingapi.exception.EserviceNotFoundException;
 
@@ -51,5 +52,9 @@ public interface EserviceClient {
 
   @GetMapping("/mainData/{eserviceRecordId}")
   ResponseEntity<MainDataEserviceResponse> getEserviceMainData(
+      @PathVariable("eserviceRecordId") Long eserviceRecordId) throws EserviceNotFoundException;
+
+  @GetMapping("/probingData/{eserviceRecordId}")
+  ResponseEntity<ProbingDataEserviceResponse> getEserviceProbingData(
       @PathVariable("eserviceRecordId") Long eserviceRecordId) throws EserviceNotFoundException;
 }
