@@ -56,9 +56,10 @@ public class EserviceServiceImpl implements EserviceService {
   }
 
   @Override
-  public List<SearchProducerNameResponse> getEservicesProducers(String producerName) {
+  public List<SearchProducerNameResponse> getEservicesProducers(Integer limit, Integer offset,
+      String producerName) {
     logger.logMessageSearchProducer(producerName);
-    return producerClient.getProducers(producerName).getBody();
+    return producerClient.getProducers(limit, offset, producerName).getBody();
   }
 
   @Override
