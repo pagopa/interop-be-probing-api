@@ -13,6 +13,7 @@ public interface ProducerClient {
 
   @GetMapping("/")
   ResponseEntity<List<SearchProducerNameResponse>> getProducers(
+      @RequestParam(value = "limit", required = true) Integer limit,
+      @RequestParam(value = "offset", required = true) Integer offset,
       @RequestParam(value = "producerName", required = false) String producerName);
-
 }

@@ -8,8 +8,11 @@ public interface ProducerService {
   /**
    * Get the list of eservices producers.
    *
+   * @param limit the limit
+   * @param offset the offset
    * @param producerName the eservice producer name
    * @return the eservices producers
    */
-  List<SearchProducerNameResponse> getEservicesProducers(String producerName);
+  List<SearchProducerNameResponse> getEservicesProducers(Integer limit, Integer offset,
+      String producerName);
 }

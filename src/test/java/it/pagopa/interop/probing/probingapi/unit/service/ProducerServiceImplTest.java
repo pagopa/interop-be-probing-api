@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import it.pagopa.interop.probing.probingapi.util.logging.Logger;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,6 +15,7 @@ import it.pagopa.interop.probing.probingapi.client.ProducerClient;
 import it.pagopa.interop.probing.probingapi.dtos.SearchProducerNameResponse;
 import it.pagopa.interop.probing.probingapi.service.EserviceService;
 import it.pagopa.interop.probing.probingapi.service.impl.EserviceServiceImpl;
+import it.pagopa.interop.probing.probingapi.util.logging.Logger;
 
 @SpringBootTest
 class ProducerServiceImplTest {
@@ -33,6 +32,7 @@ class ProducerServiceImplTest {
 
   List<SearchProducerNameResponse> searchProducerNameResponseExpectedList;
 
+
   @Test
   @DisplayName("given a valid producer name, then returns a non-empty list")
   void testGetEservicesProducers_whenGivenValidProducerName_thenReturnsSearchProducerNameResponseList()
@@ -42,11 +42,11 @@ class ProducerServiceImplTest {
 
     searchProducerNameResponseExpectedList = Arrays.asList(searchProducerNameResponse);
 
-    Mockito.when(producerClient.getProducers("ProducerName-Test-1"))
+    Mockito.when(producerClient.getProducers(2, 0, "ProducerName-Test-1"))
         .thenReturn(ResponseEntity.ok(searchProducerNameResponseExpectedList));
 
     List<SearchProducerNameResponse> searchProducerNameResponseResponse =
-        service.getEservicesProducers("ProducerName-Test-1");
+        service.getEservicesProducers(2, 0, "ProducerName-Test-1");
 
     assertThat(searchProducerNameResponseResponse.toString()).contains("value");
   }
@@ -57,11 +57,11 @@ class ProducerServiceImplTest {
       throws Exception {
     searchProducerNameResponseExpectedList = new ArrayList<>();
 
-    Mockito.when(producerClient.getProducers("ProducerName-Test-1"))
+    Mockito.when(producerClient.getProducers(2, 0, "ProducerName-Test-1"))
         .thenReturn(ResponseEntity.ok(searchProducerNameResponseExpectedList));
 
     List<SearchProducerNameResponse> searchProducerNameResponseResponse =
-        service.getEservicesProducers("ProducerName-Test-1");
+        service.getEservicesProducers(2, 0, "ProducerName-Test-1");
 
     assertThat(searchProducerNameResponseResponse).isEmpty();
   }
