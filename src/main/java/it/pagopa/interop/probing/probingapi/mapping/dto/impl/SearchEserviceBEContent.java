@@ -9,11 +9,7 @@ import it.pagopa.interop.probing.probingapi.mapping.dto.Response;
 import it.pagopa.interop.probing.probingapi.util.EserviceStatus;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 @Data
 @Builder
 public class SearchEserviceBEContent implements Response {

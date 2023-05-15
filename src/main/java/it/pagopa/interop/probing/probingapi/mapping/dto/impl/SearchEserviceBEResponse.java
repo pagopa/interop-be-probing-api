@@ -7,11 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import it.pagopa.interop.probing.probingapi.mapping.dto.Response;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 @Data
 @Builder
 public class SearchEserviceBEResponse implements Response {
