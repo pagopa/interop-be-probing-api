@@ -549,6 +549,7 @@ components:
         producerName:
           title: Service producer name
           type: string
+         
           
     ProbingDataEserviceResponse:
       type: object
@@ -562,6 +563,9 @@ components:
           title: last response date
           type: string
           format: date-time
+        eserviceActive:
+          title: eservice active
+          type: boolean
           
     EserviceStateFE:
       type: string

@@ -6,17 +6,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import it.pagopa.interop.probing.probingapi.api.ProducersApi;
 import it.pagopa.interop.probing.probingapi.dtos.SearchProducerNameResponse;
-import it.pagopa.interop.probing.probingapi.service.EserviceService;
+import it.pagopa.interop.probing.probingapi.service.ProducerService;
 
 @RestController
 public class ProducerController implements ProducersApi {
 
   @Autowired
-  EserviceService eserviceService;
+  ProducerService producerService;
 
   @Override
   public ResponseEntity<List<SearchProducerNameResponse>> getEservicesProducers(Integer limit,
       Integer offset, String producerName) {
-    return ResponseEntity.ok(eserviceService.getEservicesProducers(limit, offset, producerName));
+    return ResponseEntity.ok(producerService.getEservicesProducers(limit, offset, producerName));
   }
 }

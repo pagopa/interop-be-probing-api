@@ -18,21 +18,21 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 import it.pagopa.interop.probing.probingapi.dtos.SearchProducerNameResponse;
-import it.pagopa.interop.probing.probingapi.service.EserviceService;
+import it.pagopa.interop.probing.probingapi.service.ProducerService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 class ProducerControllerTest {
 
 
-  @Value("${api.producer.basePath}")
+  @Value("${api.operations.producer.basePath}")
   private String apiGetEservicesProducersUrl;
 
   @Autowired
   private MockMvc mockMvc;
 
   @MockBean
-  private EserviceService service;
+  private ProducerService producerService;
 
   private List<SearchProducerNameResponse> searchProducerNameResponseExpectedList;
 
@@ -44,7 +44,7 @@ class ProducerControllerTest {
         .label("ProducerName-Test-1").value("ProducerName-Test-1").build();
 
     searchProducerNameResponseExpectedList = Arrays.asList(searchProducerNameResponse);
-    Mockito.when(service.getEservicesProducers(2, 0, "ProducerName-Test"))
+    Mockito.when(producerService.getEservicesProducers(2, 0, "ProducerName-Test"))
         .thenReturn(searchProducerNameResponseExpectedList);
     MockHttpServletResponse response = mockMvc
         .perform(get(apiGetEservicesProducersUrl)
@@ -61,7 +61,7 @@ class ProducerControllerTest {
   @DisplayName("given a valid producer name with no matching records, then returns an empty list")
   void testGetEservicesProducers_whenGivenValidProducerName_thenReturnsSearchProducerNameResponseListEmpty()
       throws Exception {
-    Mockito.when(service.getEservicesProducers(2, 0, "ProducerName-Test"))
+    Mockito.when(producerService.getEservicesProducers(2, 0, "ProducerName-Test"))
         .thenReturn(new ArrayList<SearchProducerNameResponse>());
     MockHttpServletResponse response = mockMvc
         .perform(get(apiGetEservicesProducersUrl)

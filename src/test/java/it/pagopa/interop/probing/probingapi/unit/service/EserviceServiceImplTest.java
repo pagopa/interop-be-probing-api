@@ -10,14 +10,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-
-import it.pagopa.interop.probing.probingapi.util.logging.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import it.pagopa.interop.probing.probingapi.client.EserviceClient;
@@ -30,17 +31,22 @@ import it.pagopa.interop.probing.probingapi.dtos.SearchEserviceContent;
 import it.pagopa.interop.probing.probingapi.dtos.SearchEserviceResponse;
 import it.pagopa.interop.probing.probingapi.dtos.SearchProducerNameResponse;
 import it.pagopa.interop.probing.probingapi.exception.EserviceNotFoundException;
+import it.pagopa.interop.probing.probingapi.mapping.dto.impl.SearchEserviceBEContent;
+import it.pagopa.interop.probing.probingapi.mapping.dto.impl.SearchEserviceBEResponse;
 import it.pagopa.interop.probing.probingapi.service.EserviceService;
 import it.pagopa.interop.probing.probingapi.service.impl.EserviceServiceImpl;
+import it.pagopa.interop.probing.probingapi.util.logging.Logger;
 
 @SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class EserviceServiceImplTest {
 
   @InjectMocks
+  @Autowired
   EserviceService service = new EserviceServiceImpl();
 
   @Mock
-  Logger logger;
+  private Logger logger;
   @Mock
   private EserviceClient eserviceClient;
 
@@ -53,6 +59,8 @@ class EserviceServiceImplTest {
   List<SearchProducerNameResponse> searchProducerNameResponseExpectedList;
 
   SearchEserviceResponse searchEserviceResponse;
+
+  SearchEserviceBEResponse searchEserviceBEResponse;
   private final UUID eserviceId = UUID.randomUUID();
   private final UUID versionId = UUID.randomUUID();
 
@@ -67,15 +75,24 @@ class EserviceServiceImplTest {
         .startTime(OffsetTime.of(8, 0, 0, 0, ZoneOffset.UTC))
         .endTime(OffsetTime.of(20, 0, 0, 0, ZoneOffset.UTC)).build();
 
-    SearchEserviceContent expectedEserviceViewDTO = SearchEserviceContent.builder()
+    SearchEserviceBEContent expectedEserviceViewDTO = SearchEserviceBEContent.builder()
+        .eserviceName("Eservice-Name").producerName("Eservice-Producer-Name").versionNumber(1)
+        .state(EserviceStateBE.INACTIVE).probingEnabled(true).build();
+
+    List<SearchEserviceBEContent> eservicesViewDTOExpectedList =
+        Arrays.asList(expectedEserviceViewDTO);
+    searchEserviceBEResponse =
+        SearchEserviceBEResponse.builder().content(eservicesViewDTOExpectedList).limit(2).offset(0)
+            .totalElements(Long.valueOf(eservicesViewDTOExpectedList.size())).build();
+
+
+    SearchEserviceContent expectedResponseDTO = SearchEserviceContent.builder()
         .eserviceName("Eservice-Name").producerName("Eservice-Producer-Name").versionNumber(1)
         .state(EserviceStateFE.OFFLINE).build();
 
-    List<SearchEserviceContent> eservicesViewDTOExpectedList =
-        Arrays.asList(expectedEserviceViewDTO);
-    searchEserviceResponse =
-        SearchEserviceResponse.builder().content(eservicesViewDTOExpectedList).limit(2).offset(0)
-            .totalElements(Long.valueOf(eservicesViewDTOExpectedList.size())).build();
+    List<SearchEserviceContent> responseDTOExpectedList = Arrays.asList(expectedResponseDTO);
+    searchEserviceResponse = SearchEserviceResponse.builder().content(responseDTOExpectedList)
+        .limit(2).offset(0).totalElements(Long.valueOf(responseDTOExpectedList.size())).build();
   }
 
   @Test
@@ -164,12 +181,12 @@ class EserviceServiceImplTest {
   @DisplayName("e-service frequency correctly updated with new state")
   void testSearchEservices_whenGivenCorrectEserviceIdAndVersionIdAndState_thenEserviceStateIsUpdated()
       throws EserviceNotFoundException {
-    searchEserviceResponse.setContent(new ArrayList<SearchEserviceContent>());
-    searchEserviceResponse.setTotalElements(0L);
+    searchEserviceBEResponse.setContent(new ArrayList<SearchEserviceBEContent>());
+    searchEserviceBEResponse.setTotalElements(0L);
     Mockito
         .when(eserviceClient.searchEservices(2, 0, "Eservice-Name", "Eservice-Producer-Name", 1,
             Arrays.asList(EserviceStateFE.OFFLINE)))
-        .thenReturn(ResponseEntity.ok(searchEserviceResponse));
+        .thenReturn(ResponseEntity.ok(searchEserviceBEResponse));
 
     SearchEserviceResponse searchEserviceResponseResult = service.searchEservices(2, 0,
         "Eservice-Name", "Eservice-Producer-Name", 1, Arrays.asList(EserviceStateFE.OFFLINE));
@@ -183,7 +200,7 @@ class EserviceServiceImplTest {
     Mockito
         .when(eserviceClient.searchEservices(2, 0, "Eservice-Name", "Eservice-Producer-Name", 1,
             Arrays.asList(EserviceStateFE.OFFLINE)))
-        .thenReturn(ResponseEntity.ok(searchEserviceResponse));
+        .thenReturn(ResponseEntity.ok(searchEserviceBEResponse));
 
     SearchEserviceResponse searchEserviceResponseResult = service.searchEservices(2, 0,
         "Eservice-Name", "Eservice-Producer-Name", 1, Arrays.asList(EserviceStateFE.OFFLINE));

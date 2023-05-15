@@ -13,15 +13,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import it.pagopa.interop.probing.probingapi.client.ProducerClient;
 import it.pagopa.interop.probing.probingapi.dtos.SearchProducerNameResponse;
-import it.pagopa.interop.probing.probingapi.service.EserviceService;
-import it.pagopa.interop.probing.probingapi.service.impl.EserviceServiceImpl;
+import it.pagopa.interop.probing.probingapi.service.ProducerService;
+import it.pagopa.interop.probing.probingapi.service.impl.ProducerServiceImpl;
 import it.pagopa.interop.probing.probingapi.util.logging.Logger;
 
 @SpringBootTest
 class ProducerServiceImplTest {
 
   @InjectMocks
-  EserviceService service = new EserviceServiceImpl();
+  ProducerService producerService = new ProducerServiceImpl();
 
   @Mock
   Logger logger;
@@ -46,7 +46,7 @@ class ProducerServiceImplTest {
         .thenReturn(ResponseEntity.ok(searchProducerNameResponseExpectedList));
 
     List<SearchProducerNameResponse> searchProducerNameResponseResponse =
-        service.getEservicesProducers(2, 0, "ProducerName-Test-1");
+        producerService.getEservicesProducers(2, 0, "ProducerName-Test-1");
 
     assertThat(searchProducerNameResponseResponse.toString()).contains("value");
   }
@@ -61,7 +61,7 @@ class ProducerServiceImplTest {
         .thenReturn(ResponseEntity.ok(searchProducerNameResponseExpectedList));
 
     List<SearchProducerNameResponse> searchProducerNameResponseResponse =
-        service.getEservicesProducers(2, 0, "ProducerName-Test-1");
+        producerService.getEservicesProducers(2, 0, "ProducerName-Test-1");
 
     assertThat(searchProducerNameResponseResponse).isEmpty();
   }
