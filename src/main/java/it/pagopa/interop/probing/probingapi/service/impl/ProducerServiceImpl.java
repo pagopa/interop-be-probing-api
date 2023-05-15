@@ -13,7 +13,7 @@ import it.pagopa.interop.probing.probingapi.util.logging.Logger;
 public class ProducerServiceImpl implements ProducerService {
 
   @Autowired
-  Logger logger;
+  private Logger logger;
   @Autowired
   private ProducerClient producerClient;
 
