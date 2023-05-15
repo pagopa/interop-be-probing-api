@@ -52,7 +52,7 @@ class EserviceControllerTest {
   @Value("${api.updateEserviceFrequency.url}")
   private String updateEserviceFrequencyUrl;
 
-  @Value("${api.eservice.basePath}")
+  @Value("${api.operations.eservice.basePath}")
   private String apiSearchEserviceUrl;
 
   @Autowired

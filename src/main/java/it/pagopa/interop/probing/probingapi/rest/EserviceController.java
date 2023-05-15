@@ -20,7 +20,7 @@ import it.pagopa.interop.probing.probingapi.service.EserviceService;
 public class EserviceController implements EservicesApi {
 
   @Autowired
-  EserviceService eserviceService;
+  private EserviceService eserviceService;
 
   @Override
   public ResponseEntity<Void> updateEserviceFrequency(UUID eserviceId, UUID versionId,

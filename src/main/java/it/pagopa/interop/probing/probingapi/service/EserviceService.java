@@ -9,7 +9,6 @@ import it.pagopa.interop.probing.probingapi.dtos.EserviceStateFE;
 import it.pagopa.interop.probing.probingapi.dtos.MainDataEserviceResponse;
 import it.pagopa.interop.probing.probingapi.dtos.ProbingDataEserviceResponse;
 import it.pagopa.interop.probing.probingapi.dtos.SearchEserviceResponse;
-import it.pagopa.interop.probing.probingapi.dtos.SearchProducerNameResponse;
 import it.pagopa.interop.probing.probingapi.exception.EserviceNotFoundException;
 
 public interface EserviceService {
@@ -58,17 +57,6 @@ public interface EserviceService {
    */
   public SearchEserviceResponse searchEservices(Integer limit, Integer offset, String eserviceName,
       String producerName, Integer versionNumber, List<EserviceStateFE> state);
-
-  /**
-   * Get the list of eservices producers.
-   *
-   * @param limit the limit
-   * @param offset the offset
-   * @param producerName the eservice producer name
-   * @return the eservices producers
-   */
-  List<SearchProducerNameResponse> getEservicesProducers(Integer limit, Integer offset,
-      String producerName);
 
   /**
    * Get the main data of the selected service.

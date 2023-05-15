@@ -15,16 +15,16 @@ import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingFrequencyRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingStateRequest;
 import it.pagopa.interop.probing.probingapi.dtos.EserviceStateFE;
 import it.pagopa.interop.probing.probingapi.dtos.MainDataEserviceResponse;
-import it.pagopa.interop.probing.probingapi.dtos.ProbingDataEserviceResponse;
-import it.pagopa.interop.probing.probingapi.dtos.SearchEserviceResponse;
 import it.pagopa.interop.probing.probingapi.exception.EserviceNotFoundException;
+import it.pagopa.interop.probing.probingapi.mapping.dto.impl.ProbingDataEserviceBEResponse;
+import it.pagopa.interop.probing.probingapi.mapping.dto.impl.SearchEserviceBEResponse;
 
 @FeignClient(name = "eserviceClient",
-    url = "${api.operations.baseUrl}" + "${api.eservice.basePath}")
+    url = "${api.operations.baseUrl}" + "${api.operations.eservice.basePath}")
 public interface EserviceClient {
 
   @GetMapping("/")
-  ResponseEntity<SearchEserviceResponse> searchEservices(
+  ResponseEntity<SearchEserviceBEResponse> searchEservices(
       @RequestParam(value = "limit", required = true) Integer limit,
       @RequestParam(value = "offset", required = true) Integer offset,
       @RequestParam(value = "eserviceName", required = false) String eserviceName,
@@ -55,6 +55,6 @@ public interface EserviceClient {
       @PathVariable("eserviceRecordId") Long eserviceRecordId) throws EserviceNotFoundException;
 
   @GetMapping("/probingData/{eserviceRecordId}")
-  ResponseEntity<ProbingDataEserviceResponse> getEserviceProbingData(
+  ResponseEntity<ProbingDataEserviceBEResponse> getEserviceProbingData(
       @PathVariable("eserviceRecordId") Long eserviceRecordId) throws EserviceNotFoundException;
 }
