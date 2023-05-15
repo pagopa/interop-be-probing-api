@@ -15,8 +15,8 @@ public class ProducerController implements ProducersApi {
   EserviceService eserviceService;
 
   @Override
-  public ResponseEntity<List<SearchProducerNameResponse>> getEservicesProducers(
-      String producerName) {
-    return ResponseEntity.ok(eserviceService.getEservicesProducers(producerName));
+  public ResponseEntity<List<SearchProducerNameResponse>> getEservicesProducers(Integer limit,
+      Integer offset, String producerName) {
+    return ResponseEntity.ok(eserviceService.getEservicesProducers(limit, offset, producerName));
   }
 }

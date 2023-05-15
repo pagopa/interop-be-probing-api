@@ -292,7 +292,6 @@ paths:
                 traceId: 'string'
                 errors: [{'code':'000-1234', 'detail':'The server is currently down for maintenance. Please try again later.'}]
                 
-                
    '/producers':
     get:
       summary: Retrive e-services producers
@@ -301,6 +300,21 @@ paths:
         - Read
       operationId: getEservicesProducers
       parameters:
+        - name: limit
+          in: query
+          required: true
+          description: the e-service's page limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+        - name: offset
+          in: query
+          required: true
+          description: the page's offset
+          schema:
+            type: integer
+            minimum: 0
         - name: producerName
           in: query
           required: false
