@@ -9,6 +9,7 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -27,10 +28,12 @@ import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingFrequencyRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingStateRequest;
 import it.pagopa.interop.probing.probingapi.dtos.EserviceStateBE;
 import it.pagopa.interop.probing.probingapi.dtos.EserviceStateFE;
+import it.pagopa.interop.probing.probingapi.dtos.MainDataEserviceResponse;
+import it.pagopa.interop.probing.probingapi.dtos.ProbingDataEserviceResponse;
 import it.pagopa.interop.probing.probingapi.dtos.SearchEserviceContent;
 import it.pagopa.interop.probing.probingapi.dtos.SearchEserviceResponse;
-import it.pagopa.interop.probing.probingapi.dtos.SearchProducerNameResponse;
 import it.pagopa.interop.probing.probingapi.exception.EserviceNotFoundException;
+import it.pagopa.interop.probing.probingapi.mapping.dto.impl.ProbingDataEserviceBEResponse;
 import it.pagopa.interop.probing.probingapi.mapping.dto.impl.SearchEserviceBEContent;
 import it.pagopa.interop.probing.probingapi.mapping.dto.impl.SearchEserviceBEResponse;
 import it.pagopa.interop.probing.probingapi.service.EserviceService;
@@ -43,26 +46,32 @@ class EserviceServiceImplTest {
 
   @InjectMocks
   @Autowired
-  EserviceService service = new EserviceServiceImpl();
+  private EserviceService service = new EserviceServiceImpl();
 
   @Mock
   private Logger logger;
   @Mock
   private EserviceClient eserviceClient;
 
-  ChangeEserviceStateRequest changeEserviceStateRequest;
+  private ChangeEserviceStateRequest changeEserviceStateRequest;
 
-  ChangeProbingStateRequest changeProbingStateRequest;
+  private ChangeProbingStateRequest changeProbingStateRequest;
 
-  ChangeProbingFrequencyRequest changeProbingFrequencyRequest;
+  private ChangeProbingFrequencyRequest changeProbingFrequencyRequest;
 
-  List<SearchProducerNameResponse> searchProducerNameResponseExpectedList;
+  private SearchEserviceResponse searchEserviceResponse;
 
-  SearchEserviceResponse searchEserviceResponse;
+  private SearchEserviceBEResponse searchEserviceBEResponse;
 
-  SearchEserviceBEResponse searchEserviceBEResponse;
+  private MainDataEserviceResponse mainDataEserviceResponse;
+
+  private ProbingDataEserviceResponse probingDataEserviceResponse;
+
+  private ProbingDataEserviceBEResponse probingDataEserviceBEResponse;
+
   private final UUID eserviceId = UUID.randomUUID();
   private final UUID versionId = UUID.randomUUID();
+  private final Long eservicesRecordId = 1L;
 
   @BeforeEach
   void setup() {
@@ -93,6 +102,15 @@ class EserviceServiceImplTest {
     List<SearchEserviceContent> responseDTOExpectedList = Arrays.asList(expectedResponseDTO);
     searchEserviceResponse = SearchEserviceResponse.builder().content(responseDTOExpectedList)
         .limit(2).offset(0).totalElements(Long.valueOf(responseDTOExpectedList.size())).build();
+
+    mainDataEserviceResponse = MainDataEserviceResponse.builder().eserviceName("service1")
+        .producerName("producer1").versionNumber(1).build();
+
+    probingDataEserviceResponse = ProbingDataEserviceResponse.builder().state(EserviceStateFE.N_D)
+        .probingEnabled(false).eserviceActive(false).build();
+
+    probingDataEserviceBEResponse = ProbingDataEserviceBEResponse.builder()
+        .state(EserviceStateBE.ACTIVE).probingEnabled(false).pollingFrequency(5).build();
   }
 
   @Test
@@ -208,6 +226,35 @@ class EserviceServiceImplTest {
     assertEquals(searchEserviceResponse.getContent().size(),
         searchEserviceResponseResult.getContent().size());
     assertTrue(searchEserviceResponseResult.getTotalElements() > 0);
+  }
+
+  @Test
+  @DisplayName("service returns MainDataEserviceResponse object with content not empty")
+  void testGetEserviceMainData_whenGivenValidRecordId_thenReturnsMainDataEserviceResponseWithRequiredFields()
+      throws EserviceNotFoundException {
+    Mockito.when(eserviceClient.getEserviceMainData(eservicesRecordId))
+        .thenReturn(ResponseEntity.ok(mainDataEserviceResponse));
+    MainDataEserviceResponse mainDataEserviceResponseResult =
+        service.getEserviceMainData(eservicesRecordId);
+
+    assertEquals(mainDataEserviceResponse.getEserviceName(),
+        mainDataEserviceResponseResult.getEserviceName());
+    assertTrue(Objects.nonNull(mainDataEserviceResponseResult.getEserviceName()));
+  }
+
+  @Test
+  @DisplayName("service returns ProbingDataEserviceResponse object with content not empty")
+  void testGetEserviceProbingData_whenGivenValidRecordId_thenReturnsProbingDataEserviceResponseWithRequiredFields()
+      throws EserviceNotFoundException {
+    Mockito.when(eserviceClient.getEserviceProbingData(eservicesRecordId))
+        .thenReturn(ResponseEntity.ok(probingDataEserviceBEResponse));
+    ProbingDataEserviceResponse probingDataEserviceResponseResult =
+        service.getEserviceProbingData(eservicesRecordId);
+
+    assertEquals(probingDataEserviceResponse.getState(),
+        probingDataEserviceResponseResult.getState());
+    assertTrue(Objects.nonNull(probingDataEserviceResponseResult.getState()));
+    assertTrue(Objects.nonNull(probingDataEserviceResponseResult.getEserviceActive()));
   }
 
 }
