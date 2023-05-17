@@ -2,6 +2,7 @@ package it.pagopa.interop.probing.probingapi.unit.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import java.time.OffsetTime;
@@ -34,6 +35,8 @@ import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingFrequencyRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingStateRequest;
 import it.pagopa.interop.probing.probingapi.dtos.EserviceStateBE;
 import it.pagopa.interop.probing.probingapi.dtos.EserviceStateFE;
+import it.pagopa.interop.probing.probingapi.dtos.MainDataEserviceResponse;
+import it.pagopa.interop.probing.probingapi.dtos.ProbingDataEserviceResponse;
 import it.pagopa.interop.probing.probingapi.dtos.SearchEserviceContent;
 import it.pagopa.interop.probing.probingapi.dtos.SearchEserviceResponse;
 import it.pagopa.interop.probing.probingapi.exception.EserviceNotFoundException;
@@ -55,6 +58,12 @@ class EserviceControllerTest {
   @Value("${api.operations.eservice.basePath}")
   private String apiSearchEserviceUrl;
 
+  @Value("${api.mainDataEservice.url}")
+  private String apiGetMainDataEserviceUrl;
+
+  @Value("${api.probingDataEservice.url}")
+  private String apiGetProbingDataEserviceUrl;
+
   @Autowired
   private MockMvc mockMvc;
 
@@ -69,8 +78,13 @@ class EserviceControllerTest {
 
   private SearchEserviceResponse expectedSearchEserviceResponse;
 
+  private MainDataEserviceResponse mainDataEserviceResponse;
+
+  private ProbingDataEserviceResponse probingDataEserviceResponse;
+
   private final UUID eServiceId = UUID.randomUUID();
   private final UUID versionId = UUID.randomUUID();
+  private final Long eservicesRecordId = 1L;
 
   @BeforeEach
   void setup() {
@@ -91,6 +105,12 @@ class EserviceControllerTest {
 
     List<SearchEserviceContent> eservices = Arrays.asList(content);
     expectedSearchEserviceResponse.setContent(eservices);
+
+    mainDataEserviceResponse = MainDataEserviceResponse.builder().eserviceName("service1")
+        .producerName("producer1").versionNumber(1).build();
+
+    probingDataEserviceResponse = ProbingDataEserviceResponse.builder().state(EserviceStateFE.N_D)
+        .probingEnabled(false).eserviceActive(false).build();
   }
 
   @Test
@@ -340,6 +360,54 @@ class EserviceControllerTest {
         .perform(get(apiSearchEserviceUrl).params(getMockRequestParamsUpdateEserviceState("2", null,
             "Eservice-Name", "1", "Eservice-Producer-Name", "ONLINE")))
         .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  @DisplayName("e-service main data cant be retrieved because e-service does not exist")
+  void testgetEserviceMainData_whenEserviceDoesNotExist_thenThrows404Exception() throws Exception {
+    RequestBuilder requestBuilder =
+        MockMvcRequestBuilders.get(String.format(apiGetMainDataEserviceUrl, eservicesRecordId));
+    Mockito.doThrow(EserviceNotFoundException.class).when(service)
+        .getEserviceMainData(eservicesRecordId);
+    mockMvc.perform(requestBuilder).andExpect(status().isNotFound());
+  }
+
+  @Test
+  @DisplayName("e-service main data are retrieved successfully")
+  void testgetEserviceMainData_whenEserviceEcist_thenMainDataAreReturned() throws Exception {
+    Mockito.doReturn(mainDataEserviceResponse).when(service).getEserviceMainData(eservicesRecordId);
+    MockHttpServletResponse response =
+        mockMvc.perform(get(String.format(apiGetMainDataEserviceUrl, eservicesRecordId)))
+            .andReturn().getResponse();
+
+    assertEquals(response.getStatus(), HttpStatus.OK.value());
+    assertTrue(response.getContentAsString().contains("eserviceName"));
+  }
+
+  @Test
+  @DisplayName("e-service probing data cant be retrieved because e-service does not exist")
+  void testgetEserviceProbingData_whenEserviceDoesNotExist_thenThrows404Exception()
+      throws Exception {
+    RequestBuilder requestBuilder =
+        MockMvcRequestBuilders.get(String.format(apiGetProbingDataEserviceUrl, eservicesRecordId));
+    Mockito.doThrow(EserviceNotFoundException.class).when(service)
+        .getEserviceProbingData(eservicesRecordId);
+    mockMvc.perform(requestBuilder).andExpect(status().isNotFound());
+  }
+
+  @Test
+  @DisplayName("e-service probing data are retrieved successfully")
+  void testgetEserviceProbingData_whenEserviceEcist_thenProbingDataAreReturned() throws Exception {
+    Mockito.doReturn(probingDataEserviceResponse).when(service)
+        .getEserviceProbingData(eservicesRecordId);
+    MockHttpServletResponse response =
+        mockMvc.perform(get(String.format(apiGetProbingDataEserviceUrl, eservicesRecordId)))
+            .andReturn().getResponse();
+
+    assertEquals(response.getStatus(), HttpStatus.OK.value());
+    assertTrue(response.getContentAsString().contains("probingEnabled"));
+    assertTrue(response.getContentAsString().contains("state"));
+    assertTrue(response.getContentAsString().contains("eserviceActive"));
   }
 
   private LinkedMultiValueMap<String, String> getMockRequestParamsUpdateEserviceState(String limit,
