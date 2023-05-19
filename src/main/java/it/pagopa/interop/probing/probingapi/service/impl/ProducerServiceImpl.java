@@ -27,10 +27,8 @@ public class ProducerServiceImpl implements ProducerService {
     SearchProducerNameBEResponse response =
         producerClient.getProducers(limit, offset, producerName).getBody();
 
-    return !CollectionUtils.isEmpty(response.getContent())
-        ? response.getContent().stream().map(name -> {
+    return response.getContent().stream().map(name -> {
           return SearchProducerNameResponse.builder().label(name).value(name).build();
-        }).toList()
-        : List.of();
+        }).toList();
   }
 }
