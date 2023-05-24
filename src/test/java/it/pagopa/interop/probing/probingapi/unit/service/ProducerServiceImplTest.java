@@ -64,8 +64,8 @@ class ProducerServiceImplTest {
   void testGetEservicesProducers_whenGivenValidProducerName_thenReturnsSearchProducerNameResponseListEmpty()
       throws Exception {
 
-    Mockito.when(producerClient.getProducers(2, 0, "ProducerName-Test-1"))
-        .thenReturn(ResponseEntity.ok(new SearchProducerNameBEResponse()));
+    Mockito.when(producerClient.getProducers(2, 0, "ProducerName-Test-1")).thenReturn(
+        ResponseEntity.ok(SearchProducerNameBEResponse.builder().content(List.of()).build()));
 
     List<SearchProducerNameResponse> searchProducerNameResponseResponse =
         producerService.getEservicesProducers(2, 0, "ProducerName-Test-1");
