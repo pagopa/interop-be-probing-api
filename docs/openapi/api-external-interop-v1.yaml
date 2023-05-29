@@ -549,6 +549,9 @@ components:
         producerName:
           title: Service producer name
           type: string
+        pollingFrequency:
+          title: the e-service's polling frequency
+          type: integer
          
           
     ProbingDataEserviceResponse:
