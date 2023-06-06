@@ -6,11 +6,11 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import com.amazonaws.xray.entities.Subsegment;
-import com.amazonaws.xray.spring.aop.AbstractXRayInterceptor;
+import com.amazonaws.xray.spring.aop.BaseAbstractXRayInterceptor;
 
 @Aspect
 @Component
-public class XRayInspector extends AbstractXRayInterceptor {
+public class XRayInspector extends BaseAbstractXRayInterceptor {
 
   @Override
   protected Map<String, Map<String, Object>> generateMetadata(
