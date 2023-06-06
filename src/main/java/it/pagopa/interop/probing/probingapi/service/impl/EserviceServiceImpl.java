@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import com.amazonaws.xray.spring.aop.XRayEnabled;
 import it.pagopa.interop.probing.probingapi.client.EserviceClient;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeEserviceStateRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingFrequencyRequest;
@@ -20,6 +21,7 @@ import it.pagopa.interop.probing.probingapi.service.EserviceService;
 import it.pagopa.interop.probing.probingapi.util.logging.Logger;
 
 @Service
+@XRayEnabled
 public class EserviceServiceImpl implements EserviceService {
 
   @Autowired
