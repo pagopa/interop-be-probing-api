@@ -5,7 +5,6 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import com.amazonaws.xray.spring.aop.XRayEnabled;
 import it.pagopa.interop.probing.probingapi.api.EservicesApi;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeEserviceStateRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingFrequencyRequest;
@@ -18,7 +17,6 @@ import it.pagopa.interop.probing.probingapi.exception.EserviceNotFoundException;
 import it.pagopa.interop.probing.probingapi.service.EserviceService;
 
 @RestController
-@XRayEnabled
 public class EserviceController implements EservicesApi {
 
   @Autowired

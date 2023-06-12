@@ -8,7 +8,7 @@
 			<onMatch>DENY</onMatch>
 		</filter>
 		<encoder>
-			<pattern>%d{YYYY-MM-dd HH:mm:ss:SSS} %(%-5level) [%(%logger{20})] - %X{AWS-XRAY-TRACE-ID}  %X{trace_id} - %msg %n</pattern>
+			<pattern>%d{YYYY-MM-dd HH:mm:ss:SSS} %(%-5level) [%(%logger{20})] - [%X{AWS-XRAY-TRACE-ID}] - %X{trace_id} - %msg %n</pattern>
 		</encoder>
 	</appender>
 
@@ -18,7 +18,7 @@
 			<level>ERROR</level>
 		</filter>
 		<encoder>
-			<pattern>%d{YYYY-MM-dd HH:mm:ss:SSS} %(%-5level) [%(%logger{20})] - [%X{AWS-XRAY-TRACE-ID}] - [%X{trace_id}] - %msg %n</pattern>
+			<pattern>%d{YYYY-MM-dd HH:mm:ss:SSS} %(%-5level) [%(%logger{20})] - [%X{AWS-XRAY-TRACE-ID}] -  [%X{trace_id}] - %msg %n</pattern>
 		</encoder>
 		<target>System.err</target>
 	</appender>
@@ -51,10 +51,7 @@
 	<logger name="com.fasterxml.jackson.core" level="WARN" />
 	<logger name="org.mapstruct" level="WARN" />
 	<logger name="org.flywaydb" level="WARN" />
-	<logger name="com.amazonaws" level="DEBUG" />
-	
-	<logger name="org.springframework.cloud" level="DEBUG" />
-	
+
 	<logger name="it.pagopa.interop.probing.probingapi" level="INFO" />
 
 	<root name="application" level="INFO">
