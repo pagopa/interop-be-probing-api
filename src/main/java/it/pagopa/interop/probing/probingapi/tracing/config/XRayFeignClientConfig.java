@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @ConditionalOnClass(ApacheHttpClient.class)
 @ConditionalOnMissingClass("com.netflix.loadbalancer.ILoadBalancer")
 @ConditionalOnProperty(value = "feign.httpclient.enabled", matchIfMissing = true)
-public class AWSXRayFeignClientConfig {
+public class XRayFeignClientConfig {
 
 	@Bean
 	public Client client(ApacheHttpClientFactory httpClientFactory,
