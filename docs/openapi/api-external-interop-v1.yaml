@@ -24,7 +24,7 @@ tags:
       Operations on probing settings
   - name: Status
     description: >-
-      Operations on probing settings
+      Operations about micro-service status
 
 paths:
    '/status':
