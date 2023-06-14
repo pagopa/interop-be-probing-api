@@ -14,7 +14,8 @@ public class XRayMDCConfig {
 
   @Before("execution(* it.pagopa.interop.probing.probingapi.rest..*(..))")
   public void beforeController(JoinPoint joinPoint) {
-    MDC.put(LoggingPlaceholders.TRACE_ID_XRAY_PLACEHOLDER, LoggingPlaceholders.TRACE_ID_PLACEHOLDER
-        + AWSXRay.getCurrentSegment().getTraceId().toString() + "]");
+    MDC.put(LoggingPlaceholders.TRACE_ID_XRAY_PLACEHOLDER,
+        LoggingPlaceholders.TRACE_ID_XRAY_MDC_PREFIX
+            + AWSXRay.getCurrentSegment().getTraceId().toString() + "]");
   }
 }
