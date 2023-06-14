@@ -19,18 +19,31 @@ tags:
   - name: EServices
     description: >-
       Operations on EServices registry
-  - name: Probing
+  - name: Producers
+    description: >-
+      Operations on probing settings
+  - name: Status
     description: >-
       Operations on probing settings
 
 paths:
+   '/status':
+    get:
+      tags:
+        - Status
+      operationId: getHealthStatus
+      description: Get the micro-service status
+      responses:
+        '204':
+          description: The micro-service is running
+
    '/eservices/{eserviceId}/versions/{versionId}/updateState':
     post:
       summary: Updates the state of an e-service.
       description: >-
         Updates the state of the e-service identified by its id and version id.
       tags:
-        - Write
+        - EServices
       operationId: updateEserviceState
       parameters:
         - name: eserviceId
@@ -92,7 +105,7 @@ paths:
       description: >-
         Activates or deactivates the probing polling process for the e-service identified by its id and version id
       tags:
-        - Write
+        - EServices
       operationId: updateEserviceProbingState
       parameters:
         - name: eserviceId
@@ -154,7 +167,7 @@ paths:
       description: >-
         Updates the frequency and the time interval of the polling process for the e-service identified by its id and version id
       tags:
-        - Write
+        - EServices
       operationId: updateEserviceFrequency
       parameters:
         - name: eserviceId
@@ -215,7 +228,7 @@ paths:
       summary: Retrive e-services by filters
       description:       Retrive e-services by filters
       tags:
-        - Read
+        - EServices
       operationId: searchEservices
       parameters:
         - name: limit
@@ -297,7 +310,7 @@ paths:
       summary: Retrive e-services producers
       description: Retrive e-services producers 
       tags:
-        - Read
+        - Producers
       operationId: getEservicesProducers
       parameters:
         - name: limit
@@ -359,7 +372,7 @@ paths:
       summary: Retrive e-service main data
       description: Retrive e-service main data 
       tags:
-        - Read
+        - EServices
       operationId: getEserviceMainData
       parameters:
         - name: eserviceRecordId
@@ -404,7 +417,7 @@ paths:
       summary: Retrive e-service probing data
       description: Retrive e-service probing data 
       tags:
-        - Read
+        - EServices
       operationId: getEserviceProbingData
       parameters:
         - name: eserviceRecordId
@@ -442,8 +455,7 @@ paths:
                 title: 'Internal Server Error'
                 detail: 'There is a problem processing the request on the server.'
                 traceId: 'string'
-                errors: [{'code':'000-1234', 'detail':'The server is currently down for maintenance. Please ry again later.'}]   
-                
+                errors: [{'code':'000-1234', 'detail':'The server is currently down for maintenance. Please ry again later.'}]
 
 components:
   schemas:
