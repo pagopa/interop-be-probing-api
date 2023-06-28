@@ -1,12 +1,12 @@
-name: "CI Prod"
+name: "CI Uat"
 
 on:
   push:
     branches:
       - 'main'
       - 'master'
-    tags:
-      - 'v*'
+    paths:
+      - 'rc*'
 
 jobs:
   build-and-push:
