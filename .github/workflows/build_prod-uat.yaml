@@ -1,4 +1,4 @@
-name: "CI Prod"
+name: "CI Production Ready"
 
 on:
   push:
@@ -7,10 +7,10 @@ on:
       - 'master'
     tags:
       - 'v*'
+      - 'rc*'
 
 jobs:
   build-and-push:
-    if: ${{ github.ref_type == 'tag' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
