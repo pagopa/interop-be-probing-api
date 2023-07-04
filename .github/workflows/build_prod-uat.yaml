@@ -1,4 +1,4 @@
-name: "CI Production Ready"
+name: "CI RCs - PROD"
 
 on:
   push:
