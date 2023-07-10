@@ -4,7 +4,7 @@ on:
   push:
     tags:
       - 'v*'
-      - 'rc*'
+      - '*-rc'
 
 jobs:
   build-and-push:
