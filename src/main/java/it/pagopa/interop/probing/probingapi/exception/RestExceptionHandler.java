@@ -1,10 +1,6 @@
 package it.pagopa.interop.probing.probingapi.exception;
 
-import it.pagopa.interop.probing.probingapi.dtos.Problem;
-import it.pagopa.interop.probing.probingapi.dtos.ProblemError;
-import it.pagopa.interop.probing.probingapi.util.constant.ErrorMessages;
-import it.pagopa.interop.probing.probingapi.util.logging.Logger;
-import it.pagopa.interop.probing.probingapi.util.logging.LoggingPlaceholders;
+import java.util.List;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -15,7 +11,11 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import java.util.List;
+import it.pagopa.interop.probing.probingapi.dtos.Problem;
+import it.pagopa.interop.probing.probingapi.dtos.ProblemError;
+import it.pagopa.interop.probing.probingapi.util.constant.ErrorMessages;
+import it.pagopa.interop.probing.probingapi.util.logging.Logger;
+import it.pagopa.interop.probing.probingapi.util.logging.LoggingPlaceholders;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -57,23 +57,17 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
   /**
    * Creates an instance of type {@link Problem} following the RFC 7807 standard
    *
-   * @param responseCode  The response error code
-   * @param titleMessage  The response title message
+   * @param responseCode The response error code
+   * @param titleMessage The response title message
    * @param detailMessage The response detail error message
    * @return A new instance of {@link Problem}
    */
   private Problem createProblem(HttpStatus responseCode, String titleMessage,
       String detailMessage) {
-    ProblemError errorDetails = ProblemError.builder()
-        .code(responseCode.toString())
-        .detail(detailMessage)
-        .build();
-    return Problem.builder()
-        .status(responseCode.value())
-        .title(titleMessage)
-        .detail(detailMessage)
-        .traceId(MDC.get(LoggingPlaceholders.TRACE_ID_PLACEHOLDER))
-        .errors(List.of(errorDetails))
-        .build();
+    ProblemError errorDetails =
+        ProblemError.builder().code(responseCode.toString()).detail(detailMessage).build();
+    return Problem.builder().status(responseCode.value()).title(titleMessage).detail(detailMessage)
+        .traceId(MDC.get(LoggingPlaceholders.TRACE_ID_XRAY_PLACEHOLDER))
+        .errors(List.of(errorDetails)).build();
   }
 }
