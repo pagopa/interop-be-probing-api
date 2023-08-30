@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -47,6 +48,22 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
    */
   @Override
   protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+      HttpHeaders headers, HttpStatus status, WebRequest request) {
+    log.logMessageException(ex);
+    Problem problemResponse =
+        createProblem(HttpStatus.BAD_REQUEST, ErrorMessages.BAD_REQUEST, ErrorMessages.BAD_REQUEST);
+    return ResponseEntity.status(status).body(problemResponse);
+  }
+
+  /**
+   * Manages the {@link MethodArgumentNotValidException} creating a new {@link ResponseEntity} and
+   * sending it to the client with error code 400 and information about the error
+   *
+   * @param ex The intercepted exception
+   * @return A new {@link ResponseEntity} with {@link Problem} body
+   */
+  @Override
+  protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
       HttpHeaders headers, HttpStatus status, WebRequest request) {
     log.logMessageException(ex);
     Problem problemResponse =
