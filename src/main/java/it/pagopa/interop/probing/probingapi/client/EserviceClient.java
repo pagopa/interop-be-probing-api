@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import feign.Response;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeEserviceStateRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingFrequencyRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingStateRequest;
@@ -33,19 +34,18 @@ public interface EserviceClient {
       @RequestParam(value = "state", required = false) List<EserviceStateFE> state);
 
   @PostMapping("/{eserviceId}/versions/{versionId}/updateFrequency")
-  ResponseEntity<Void> updateEserviceFrequency(@PathVariable("eserviceId") UUID eserviceId,
+  Response updateEserviceFrequency(@PathVariable("eserviceId") UUID eserviceId,
       @PathVariable("versionId") UUID versionId,
-      @Valid @RequestBody ChangeProbingFrequencyRequest changeProbingFrequencyRequest)
-      throws EserviceNotFoundException;
+      @Valid @RequestBody ChangeProbingFrequencyRequest changeProbingFrequencyRequest);
 
   @PostMapping("/{eserviceId}/versions/{versionId}/probing/updateState")
-  ResponseEntity<Void> updateEserviceProbingState(@PathVariable("eserviceId") UUID eserviceId,
+  Response updateEserviceProbingState(@PathVariable("eserviceId") UUID eserviceId,
       @PathVariable("versionId") UUID versionId,
       @RequestBody ChangeProbingStateRequest changeProbingStateRequest)
       throws EserviceNotFoundException;
 
   @PostMapping("/{eserviceId}/versions/{versionId}/updateState")
-  ResponseEntity<Void> updateEserviceState(@PathVariable("eserviceId") UUID eserviceId,
+  Response updateEserviceState(@PathVariable("eserviceId") UUID eserviceId,
       @PathVariable("versionId") UUID versionId,
       @RequestBody ChangeEserviceStateRequest changeEserviceStateRequest)
       throws EserviceNotFoundException;

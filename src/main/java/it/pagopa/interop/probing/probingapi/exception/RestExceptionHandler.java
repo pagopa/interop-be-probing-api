@@ -1,21 +1,21 @@
 package it.pagopa.interop.probing.probingapi.exception;
 
 import java.util.List;
-import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import com.amazonaws.xray.AWSXRay;
 import it.pagopa.interop.probing.probingapi.dtos.Problem;
 import it.pagopa.interop.probing.probingapi.dtos.ProblemError;
 import it.pagopa.interop.probing.probingapi.util.constant.ErrorMessages;
 import it.pagopa.interop.probing.probingapi.util.logging.Logger;
-import it.pagopa.interop.probing.probingapi.util.logging.LoggingPlaceholders;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -55,6 +55,22 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
   }
 
   /**
+   * Manages the {@link MethodArgumentNotValidException} creating a new {@link ResponseEntity} and
+   * sending it to the client with error code 400 and information about the error
+   *
+   * @param ex The intercepted exception
+   * @return A new {@link ResponseEntity} with {@link Problem} body
+   */
+  @Override
+  protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+      HttpHeaders headers, HttpStatus status, WebRequest request) {
+    log.logMessageException(ex);
+    Problem problemResponse =
+        createProblem(HttpStatus.BAD_REQUEST, ErrorMessages.BAD_REQUEST, ErrorMessages.BAD_REQUEST);
+    return ResponseEntity.status(status).body(problemResponse);
+  }
+
+  /**
    * Creates an instance of type {@link Problem} following the RFC 7807 standard
    *
    * @param responseCode The response error code
@@ -67,7 +83,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     ProblemError errorDetails =
         ProblemError.builder().code(responseCode.toString()).detail(detailMessage).build();
     return Problem.builder().status(responseCode.value()).title(titleMessage).detail(detailMessage)
-        .traceId(MDC.get(LoggingPlaceholders.TRACE_ID_XRAY_PLACEHOLDER))
-        .errors(List.of(errorDetails)).build();
+        .traceId(AWSXRay.getCurrentSegment().getTraceId().toString()).errors(List.of(errorDetails))
+        .build();
   }
 }
