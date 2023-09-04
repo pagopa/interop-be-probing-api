@@ -39,6 +39,7 @@ public interface EserviceService {
    * 
    * @param inputData the input data DTO containing the e-service id, version id, the new frequency
    *        and new time interval for polling
+   * @return
    * @throws EserviceNotFoundException if the e-service isn't found in the database
    */
   void updateEserviceFrequency(UUID eserviceId, UUID versionId,
@@ -55,7 +56,7 @@ public interface EserviceService {
    * @param state the e service state
    * @return the SearchEserviceResponse which contain eserviceList and pagination parameter
    */
-  public SearchEserviceResponse searchEservices(Integer limit, Integer offset, String eserviceName,
+  SearchEserviceResponse searchEservices(Integer limit, Integer offset, String eserviceName,
       String producerName, Integer versionNumber, List<EserviceStateFE> state);
 
   /**

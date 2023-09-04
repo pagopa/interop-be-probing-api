@@ -8,9 +8,11 @@ import java.time.OffsetTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,6 +24,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
+import feign.Request;
+import feign.Response;
 import it.pagopa.interop.probing.probingapi.client.EserviceClient;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeEserviceStateRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingFrequencyRequest;
@@ -118,8 +122,10 @@ class EserviceServiceImplTest {
   void testUpdateEserviceState_whenGivenCorrectEserviceIdAndVersionIdAndState_thenEserviceStateIsUpdated()
       throws EserviceNotFoundException {
     Mockito
-        .when(eserviceClient.updateEserviceState(eserviceId, versionId, changeEserviceStateRequest))
-        .thenReturn(ResponseEntity.ok(null));
+        .when(eserviceClient.updateEserviceState(eserviceId, versionId,
+            changeEserviceStateRequest))
+        .thenReturn(Response.builder().status(200).request(Request.create(Request.HttpMethod.POST,
+            "foo/foo/bar/v1/delete-data-user", new HashMap<>(), null, null, null)).build());
     service.updateEserviceState(eserviceId, versionId, changeEserviceStateRequest);
     verify(eserviceClient).updateEserviceState(eserviceId, versionId, changeEserviceStateRequest);
   }
@@ -144,9 +150,11 @@ class EserviceServiceImplTest {
   @DisplayName("e-service probing gets enabled")
   void testEserviceProbingState_whenGivenCorrectEserviceIdAndVersionId_thenEserviceProbingIsEnabled()
       throws EserviceNotFoundException {
-    Mockito.when(
-        eserviceClient.updateEserviceProbingState(eserviceId, versionId, changeProbingStateRequest))
-        .thenReturn(ResponseEntity.ok(null));
+    Mockito
+        .when(eserviceClient.updateEserviceProbingState(eserviceId, versionId,
+            changeProbingStateRequest))
+        .thenReturn(Response.builder().status(200).request(Request.create(Request.HttpMethod.POST,
+            "foo/foo/bar/v1/delete-data-user", new HashMap<>(), null, null, null)).build());
     service.updateEserviceProbingState(eserviceId, versionId, changeProbingStateRequest);
     verify(eserviceClient).updateEserviceProbingState(eserviceId, versionId,
         changeProbingStateRequest);
@@ -172,8 +180,11 @@ class EserviceServiceImplTest {
   @DisplayName("e-service frequency correctly updated with new state")
   void testUpdateEserviceFrequencyDto_whenGivenCorrectEserviceIdAndVersionIdAndState_thenEserviceStateIsUpdated()
       throws EserviceNotFoundException {
-    Mockito.when(eserviceClient.updateEserviceFrequency(eserviceId, versionId,
-        changeProbingFrequencyRequest)).thenReturn(ResponseEntity.ok(null));
+    Mockito
+        .when(eserviceClient.updateEserviceFrequency(eserviceId, versionId,
+            changeProbingFrequencyRequest))
+        .thenReturn(Response.builder().status(200).request(Request.create(Request.HttpMethod.POST,
+            "foo/foo/bar/v1/delete-data-user", new HashMap<>(), null, null, null)).build());
     service.updateEserviceFrequency(eserviceId, versionId, changeProbingFrequencyRequest);
     verify(eserviceClient).updateEserviceFrequency(eserviceId, versionId,
         changeProbingFrequencyRequest);
@@ -186,13 +197,16 @@ class EserviceServiceImplTest {
     UUID eserviceIdRandom = UUID.randomUUID();
     UUID versionIdRandom = UUID.randomUUID();
 
-    Mockito.doThrow(new EserviceNotFoundException("Eservice not found")).when(eserviceClient)
-        .updateEserviceFrequency(eserviceIdRandom, versionIdRandom, changeProbingFrequencyRequest);
+    Mockito
+        .when(eserviceClient.updateEserviceFrequency(eserviceId, versionId,
+            changeProbingFrequencyRequest))
+        .thenReturn(Response.builder().status(404).request(Request.create(Request.HttpMethod.POST,
+            "foo/foo/bar/v1/delete-data-user", new HashMap<>(), null, null, null)).build());
 
-    assertThrows(EserviceNotFoundException.class,
-        () -> service.updateEserviceFrequency(eserviceIdRandom, versionIdRandom,
-            changeProbingFrequencyRequest),
-        "e-service should not be found and an EserviceNotFoundException should be thrown");
+    Response response = eserviceClient.updateEserviceFrequency(eserviceId, versionId,
+        changeProbingFrequencyRequest);
+
+    assertEquals(HttpStatus.SC_NOT_FOUND, response.status());
   }
 
   @Test

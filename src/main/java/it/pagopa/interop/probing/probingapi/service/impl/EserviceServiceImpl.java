@@ -2,10 +2,12 @@ package it.pagopa.interop.probing.probingapi.service.impl;
 
 import java.util.List;
 import java.util.UUID;
+import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import com.amazonaws.xray.spring.aop.XRayEnabled;
+import feign.Response;
 import it.pagopa.interop.probing.probingapi.client.EserviceClient;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeEserviceStateRequest;
 import it.pagopa.interop.probing.probingapi.dtos.ChangeProbingFrequencyRequest;
@@ -35,27 +37,33 @@ public class EserviceServiceImpl implements EserviceService {
   @Override
   public void updateEserviceState(UUID eserviceId, UUID versionId,
       ChangeEserviceStateRequest changeEserviceStateRequest) throws EserviceNotFoundException {
-    eserviceClient.updateEserviceState(eserviceId, versionId, changeEserviceStateRequest);
+    Response response =
+        eserviceClient.updateEserviceState(eserviceId, versionId, changeEserviceStateRequest);
     logger.logMessageEserviceStateUpdated(eserviceId, versionId,
         changeEserviceStateRequest.geteServiceState());
+    checkStatusNotFound(response);
   }
 
   @Override
   public void updateEserviceProbingState(UUID eserviceId, UUID versionId,
       ChangeProbingStateRequest changeProbingStateRequest) throws EserviceNotFoundException {
-    eserviceClient.updateEserviceProbingState(eserviceId, versionId, changeProbingStateRequest);
+    Response response =
+        eserviceClient.updateEserviceProbingState(eserviceId, versionId, changeProbingStateRequest);
     logger.logMessageEserviceProbingStateUpdated(eserviceId, versionId,
         changeProbingStateRequest.getProbingEnabled());
+    checkStatusNotFound(response);
   }
 
   @Override
   public void updateEserviceFrequency(UUID eserviceId, UUID versionId,
       ChangeProbingFrequencyRequest changeProbingFrequencyRequest)
       throws EserviceNotFoundException {
-    eserviceClient.updateEserviceFrequency(eserviceId, versionId, changeProbingFrequencyRequest);
+    Response response = eserviceClient.updateEserviceFrequency(eserviceId, versionId,
+        changeProbingFrequencyRequest);
     logger.logMessageEservicePollingConfigUpdated(eserviceId, versionId,
         changeProbingFrequencyRequest.getStartTime(), changeProbingFrequencyRequest.getEndTime(),
         changeProbingFrequencyRequest.getFrequency());
+    checkStatusNotFound(response);
   }
 
   @Override
@@ -85,5 +93,11 @@ public class EserviceServiceImpl implements EserviceService {
     logger.logMessageGetEserviceProbingData(eserviceRecordId);
     return mapper.toProbingDataEserviceResponse(
         eserviceClient.getEserviceProbingData(eserviceRecordId).getBody());
+  }
+
+  private void checkStatusNotFound(Response response) throws EserviceNotFoundException {
+    if (response.status() == HttpStatus.SC_NOT_FOUND) {
+      throw new EserviceNotFoundException();
+    }
   }
 }
