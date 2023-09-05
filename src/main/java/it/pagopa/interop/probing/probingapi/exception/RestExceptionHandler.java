@@ -1,6 +1,7 @@
 package it.pagopa.interop.probing.probingapi.exception;
 
 import java.util.List;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import it.pagopa.interop.probing.probingapi.dtos.Problem;
 import it.pagopa.interop.probing.probingapi.dtos.ProblemError;
 import it.pagopa.interop.probing.probingapi.util.constant.ErrorMessages;
 import it.pagopa.interop.probing.probingapi.util.logging.Logger;
+import it.pagopa.interop.probing.probingapi.util.logging.LoggingPlaceholders;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -32,7 +34,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
    */
   @ExceptionHandler(EserviceNotFoundException.class)
   protected ResponseEntity<Problem> handleEserviceNotFoundException(EserviceNotFoundException ex) {
-    log.logMessageException(ex);
+    handleException(ex);
     Problem problemResponse = createProblem(HttpStatus.NOT_FOUND, ErrorMessages.ELEMENT_NOT_FOUND,
         ErrorMessages.ELEMENT_NOT_FOUND);
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problemResponse);
@@ -48,7 +50,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
   @Override
   protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
       HttpHeaders headers, HttpStatus status, WebRequest request) {
-    log.logMessageException(ex);
+    handleException(ex);
     Problem problemResponse =
         createProblem(HttpStatus.BAD_REQUEST, ErrorMessages.BAD_REQUEST, ErrorMessages.BAD_REQUEST);
     return ResponseEntity.status(status).body(problemResponse);
@@ -64,7 +66,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
   @Override
   protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
       HttpHeaders headers, HttpStatus status, WebRequest request) {
-    log.logMessageException(ex);
+    handleException(ex);
     Problem problemResponse =
         createProblem(HttpStatus.BAD_REQUEST, ErrorMessages.BAD_REQUEST, ErrorMessages.BAD_REQUEST);
     return ResponseEntity.status(status).body(problemResponse);
@@ -85,5 +87,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     return Problem.builder().status(responseCode.value()).title(titleMessage).detail(detailMessage)
         .traceId(AWSXRay.getCurrentSegment().getTraceId().toString()).errors(List.of(errorDetails))
         .build();
+  }
+
+  private void handleException(Exception ex) {
+    MDC.put(LoggingPlaceholders.TRACE_ID_XRAY_PLACEHOLDER,
+        LoggingPlaceholders.TRACE_ID_XRAY_MDC_PREFIX
+            + AWSXRay.getCurrentSegment().getTraceId().toString() + "]");
+    log.logMessageException(ex);
   }
 }
