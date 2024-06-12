@@ -1,1 +1,2 @@
-PDND Interoperabilità: Backend probing
+## Deprecated
+Replaced by [new implementation](https://github.com/pagopa/interop-probing-core)
